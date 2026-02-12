@@ -1,0 +1,53 @@
+import 'package:flutter/material.dart';
+import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
+import 'package:hrms_yb/shared/utils/theme_extension.dart';
+import 'package:provider/provider.dart';
+
+class CommonButton extends StatelessWidget {
+  final String title;
+  final VoidCallback onTap;
+  final double height;
+  final double borderRadius;
+  final bool isLoading;
+
+  const CommonButton({
+    super.key,
+    required this.title,
+    required this.onTap,
+    this.height = 50,
+    this.borderRadius = 12,
+    this.isLoading = false,
+  });
+
+  @override
+  Widget build(BuildContext context) {
+    final isDark = context.watch<AppThemeProvider>().isDarkMode;
+    return Material(
+      color: isDark ? AppThemeScreen.primaryDarkColor : AppThemeScreen.primaryColor,
+      shadowColor: Colors.white,
+      borderRadius: BorderRadius.circular(8),
+      child: InkWell(
+        borderRadius: BorderRadius.circular(8),
+        splashColor: isDark
+            ? AppThemeScreen.primaryColor.withValues(alpha: 0.05)
+            : AppThemeScreen.primaryDarkColor.withValues(alpha: 0.05),
+        onTap: isLoading ? null : onTap,
+        child: Container(
+          width: double.infinity,
+          height: 50,
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          child: Center(
+            child: isLoading
+                ? const SizedBox(
+                    height: 22,
+                    width: 22,
+                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                  )
+                : Text(title, style: context.textStyle.titleMedium?.copyWith(color: Colors.white)),
+          ),
+        ),
+      ),
+    );
+  }
+}
