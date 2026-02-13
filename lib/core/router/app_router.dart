@@ -5,11 +5,11 @@ import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employee_attendace_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/employee_home_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employee_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employees_pay_slip_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employees_profile_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr_dashboard_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');

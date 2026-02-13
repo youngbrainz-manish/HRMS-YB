@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_screen.dart';
-import 'package:hrms_yb/shared/utils/theme_extension.dart';
+import 'package:hrms_yb/shared/utils/app_extensions.dart';
 
 class CommonTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -36,8 +36,8 @@ class CommonTextField extends StatelessWidget {
       decoration: InputDecoration(
         labelText: labelText,
         hintText: hintText,
-        hintStyle: context.textStyle.bodyLarge?.copyWith(color: Colors.grey),
-        labelStyle: context.textStyle.bodyLarge?.copyWith(color: AppThemeScreen.primaryColor),
+        hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
+        labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppThemeScreen.primaryColor),
         prefixIcon: prefixIcon,
         suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
         border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

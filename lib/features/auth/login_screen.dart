@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
+import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/features/auth/login_provider.dart';
-import 'package:hrms_yb/shared/utils/theme_extension.dart';
+import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:provider/provider.dart';
@@ -38,7 +39,9 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   Widget _buildBody({required BuildContext context, required LoginProvider provider}) {
+    bool isDarkMode = context.watch<AppThemeProvider>().isDarkMode;
     return Container(
+      color: isDarkMode ? AppThemeScreen.appScreenDark : AppThemeScreen.appScreenLight,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -49,7 +52,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Align(
                 alignment: Alignment.topRight,
                 child: IconButton(
-                  icon: Icon(context.watch<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode),
+                  icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
                   onPressed: () {
                     context.read<AppThemeProvider>().toggleTheme();
                   },
@@ -58,18 +61,15 @@ class _LoginScreenState extends State<LoginScreen> {
 
               Container(
                 padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  color: context.watch<AppThemeProvider>().isDarkMode ? Colors.black : Colors.white,
-                ),
+                decoration: BoxDecoration(shape: BoxShape.circle, color: isDarkMode ? Colors.black : Colors.white),
                 child: Image.asset("assets/images/transparant_logo.png", height: 120, width: 120),
               ),
               SizedBox(height: 8),
+              Text("HRMS YB", style: AppTextStyle().headingTextStyle(context: context, fontSize: 36)),
               Text(
-                "HRMS YB",
-                style: context.textStyle.displaySmall?.copyWith(fontSize: 36, fontWeight: FontWeight.w500),
+                "Sign in to continue",
+                style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.greyColor),
               ),
-              Text("Sign in to continue", style: context.textStyle.bodyLarge),
               SizedBox(height: 32),
               Card(
                 child: Container(
@@ -135,10 +135,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Forgot your PIN?",
-                          style: context.textStyle.titleMedium?.copyWith(
-                            color: Colors.indigo,
-                            fontWeight: FontWeight.bold,
-                          ),
+                          style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.textButtonColor),
                         ),
                       ),
                     ],

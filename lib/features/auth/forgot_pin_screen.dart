@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/shared/utils/theme_extension.dart';
+import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:provider/provider.dart';
@@ -72,9 +72,9 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
                     child: Image.asset("assets/images/transparant_logo.png", height: 120, width: 120),
                   ),
                   SizedBox(height: 20),
-                  Text("Recover Access", style: context.textStyle.displaySmall),
+                  Text("Recover Access", style: context.textTheme.displaySmall),
                   SizedBox(height: 8),
-                  Text("Enter your details to recover your PIN", style: context.textStyle.bodyMedium),
+                  Text("Enter your details to recover your PIN", style: context.textTheme.bodyMedium),
                   SizedBox(height: 36),
                   Card(
                     child: Container(

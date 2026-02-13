@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/shared/utils/theme_extension.dart';
+import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
 class CommonButton extends StatelessWidget {
@@ -10,6 +10,9 @@ class CommonButton extends StatelessWidget {
   final double height;
   final double borderRadius;
   final bool isLoading;
+  final Color? color;
+  final Color? borderColor;
+  final TextStyle? style;
 
   const CommonButton({
     super.key,
@@ -18,13 +21,16 @@ class CommonButton extends StatelessWidget {
     this.height = 50,
     this.borderRadius = 12,
     this.isLoading = false,
+    this.color,
+    this.borderColor,
+    this.style,
   });
 
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<AppThemeProvider>().isDarkMode;
     return Material(
-      color: isDark ? AppThemeScreen.primaryDarkColor : AppThemeScreen.primaryColor,
+      color: color ?? (isDark ? AppThemeScreen.primaryDarkColor : AppThemeScreen.primaryColor),
       shadowColor: Colors.white,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(
@@ -36,6 +42,10 @@ class CommonButton extends StatelessWidget {
         child: Container(
           width: double.infinity,
           height: 50,
+          decoration: BoxDecoration(
+            border: Border.all(color: borderColor ?? Colors.transparent, width: 2),
+            borderRadius: BorderRadius.circular(8),
+          ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Center(
             child: isLoading
@@ -44,7 +54,10 @@ class CommonButton extends StatelessWidget {
                     width: 22,
                     child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                   )
-                : Text(title, style: context.textStyle.titleMedium?.copyWith(color: Colors.white)),
+                : Text(
+                    title,
+                    style: style ?? AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+                  ),
           ),
         ),
       ),

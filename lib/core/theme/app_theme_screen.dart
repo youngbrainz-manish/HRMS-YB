@@ -12,9 +12,25 @@ class AppThemeScreen {
   static const Color borderGrey = Color(0xFFE0E0E0);
 
   static const Color primaryDarkColor = Color(0xFF313131);
-  static const Color successColor = Color(0xFF2E7D32);
+  static const Color successPrimary = Color(0xFF2E7D32);
+  static const Color successSecondary = Color(0xFFC6F6D2);
   static const Color warningColor = Color(0xFFF9A825);
   static const Color errorColor = Color(0xFFC62828);
+
+  static const Color primaryPurpleColor = Color(0xFF8C22F1);
+  static const Color secondaryPurpleColor = Color(0xFFF1E8FD);
+  static Color appScreenDark = Colors.black45;
+  static const Color appScreenLight = Colors.white30;
+
+  static const Color primaryLightTextColor = Color(0xFF1F1F1F);
+  static const Color secondaryLightTextColor = Color(0xFF1F1F1F);
+
+  static const Color primaryDarkTextColor = Color(0xFFF4F4F4);
+  static const Color secondaryDarkTextColor = Color(0xFFF4F4F4);
+  static const Color whiteColor = Colors.white;
+  static const Color blackColor = Colors.black;
+  static const Color greyColor = Colors.grey;
+  static const Color textButtonColor = Colors.indigo;
 
   // ==============================
   // 🌞 LIGHT THEME
@@ -22,10 +38,9 @@ class AppThemeScreen {
   static final ThemeData lightTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.light,
-
+    iconTheme: IconThemeData(color: darkGrey),
     colorScheme: const ColorScheme.light(primary: primaryColor, secondary: darkGrey, error: errorColor),
 
-    // scaffoldBackgroundColor: Color.fromARGB(255, 253, 202, 202),
     scaffoldBackgroundColor: lightGrey,
 
     appBarTheme: const AppBarTheme(
@@ -70,12 +85,25 @@ class AppThemeScreen {
     ),
 
     textTheme: const TextTheme(
-      displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold, color: primaryDarkColor),
-      titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w700, color: primaryDarkColor),
-      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600, color: primaryDarkColor),
-      bodyLarge: TextStyle(fontSize: 16, color: primaryDarkColor),
-      bodyMedium: TextStyle(fontSize: 14, color: primaryDarkColor),
-      bodySmall: TextStyle(fontSize: 12, color: primaryDarkColor),
+      displayLarge: TextStyle(color: primaryLightTextColor, fontSize: 28),
+      displayMedium: TextStyle(color: primaryLightTextColor, fontSize: 26),
+      displaySmall: TextStyle(color: primaryLightTextColor, fontSize: 24),
+
+      headlineLarge: TextStyle(color: primaryLightTextColor, fontSize: 22),
+      headlineMedium: TextStyle(color: primaryLightTextColor, fontSize: 20),
+      headlineSmall: TextStyle(color: primaryLightTextColor, fontSize: 18),
+
+      titleLarge: TextStyle(color: primaryLightTextColor, fontSize: 18),
+      titleMedium: TextStyle(color: primaryLightTextColor, fontSize: 17),
+      titleSmall: TextStyle(color: primaryLightTextColor, fontSize: 16),
+
+      bodyLarge: TextStyle(color: primaryLightTextColor, fontSize: 17),
+      bodyMedium: TextStyle(color: primaryLightTextColor, fontSize: 15),
+      bodySmall: TextStyle(color: primaryLightTextColor, fontSize: 14),
+
+      labelLarge: TextStyle(color: darkGrey, fontSize: 16),
+      labelMedium: TextStyle(color: darkGrey, fontSize: 14),
+      labelSmall: TextStyle(color: darkGrey, fontSize: 12),
     ),
   );
 
@@ -85,7 +113,7 @@ class AppThemeScreen {
   static final ThemeData darkTheme = ThemeData(
     useMaterial3: true,
     brightness: Brightness.dark,
-
+    iconTheme: IconThemeData(color: lightGrey),
     colorScheme: const ColorScheme.dark(primary: primaryColor, secondary: Colors.white, error: errorColor),
 
     scaffoldBackgroundColor: darkGrey,
@@ -115,12 +143,25 @@ class AppThemeScreen {
     ),
 
     textTheme: TextTheme(
-      displayLarge: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-      titleLarge: TextStyle(fontSize: 22, fontWeight: FontWeight.w700),
-      titleMedium: TextStyle(fontSize: 18, fontWeight: FontWeight.w600),
-      bodyLarge: TextStyle(fontSize: 16),
-      bodyMedium: TextStyle(fontSize: 14),
-      bodySmall: TextStyle(fontSize: 12, color: Colors.grey),
+      displayLarge: TextStyle(color: primaryDarkTextColor, fontSize: 28),
+      displayMedium: TextStyle(color: primaryDarkTextColor, fontSize: 26),
+      displaySmall: TextStyle(color: primaryDarkTextColor, fontSize: 24),
+
+      headlineLarge: TextStyle(color: primaryDarkTextColor, fontSize: 22),
+      headlineMedium: TextStyle(color: primaryDarkTextColor, fontSize: 20),
+      headlineSmall: TextStyle(color: primaryDarkTextColor, fontSize: 18),
+
+      titleLarge: TextStyle(color: primaryDarkTextColor, fontSize: 18),
+      titleMedium: TextStyle(color: primaryDarkTextColor, fontSize: 17),
+      titleSmall: TextStyle(color: primaryDarkTextColor, fontSize: 16),
+
+      bodyLarge: TextStyle(color: primaryDarkTextColor, fontSize: 17),
+      bodyMedium: TextStyle(color: primaryDarkTextColor, fontSize: 15),
+      bodySmall: TextStyle(color: primaryDarkTextColor, fontSize: 14),
+
+      labelLarge: TextStyle(color: primaryDarkTextColor, fontSize: 16),
+      labelMedium: TextStyle(color: primaryDarkTextColor, fontSize: 14),
+      labelSmall: TextStyle(color: primaryDarkTextColor, fontSize: 12),
     ),
   );
 }
