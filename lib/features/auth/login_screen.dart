@@ -4,6 +4,7 @@ import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/features/auth/login_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
@@ -89,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: AppSize().verticalWidgetSpacing),
                       CommonTextField(
                         controller: provider.pinController,
                         hintText: "Enter your password",
@@ -121,7 +122,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                       ),
-                      SizedBox(height: 24),
+                      SizedBox(height: AppSize().verticalWidgetSpacing),
                       GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());

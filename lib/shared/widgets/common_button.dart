@@ -30,7 +30,7 @@ class CommonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.watch<AppThemeProvider>().isDarkMode;
     return Material(
-      color: color ?? (isDark ? AppThemeScreen.primaryDarkColor : AppThemeScreen.primaryColor),
+      color: color ?? (isDark ? AppThemeScreen.dartButtonColor : AppThemeScreen.lightButtonColor),
       shadowColor: Colors.white,
       borderRadius: BorderRadius.circular(8),
       child: InkWell(

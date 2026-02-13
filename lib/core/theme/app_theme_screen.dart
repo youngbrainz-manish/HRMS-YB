@@ -32,6 +32,14 @@ class AppThemeScreen {
   static const Color greyColor = Colors.grey;
   static const Color textButtonColor = Colors.indigo;
 
+  static const Color presentColor = successSecondary;
+  static const Color absentColor = Colors.red;
+  static const Color holidayColor = Colors.blue;
+  static const Color leaveColor = warningColor;
+
+  static const Color lightButtonColor = primaryColor;
+  static const Color dartButtonColor = Color.fromARGB(255, 91, 31, 32);
+
   // ==============================
   // 🌞 LIGHT THEME
   // ==============================
@@ -105,6 +113,9 @@ class AppThemeScreen {
       labelMedium: TextStyle(color: darkGrey, fontSize: 14),
       labelSmall: TextStyle(color: darkGrey, fontSize: 12),
     ),
+
+    // bottomNavigationBarTheme: BottomNavigationBarThemeData(backgroundColor: primaryColor),
+    navigationBarTheme: NavigationBarThemeData(backgroundColor: primaryColor),
   );
 
   // ==============================
@@ -163,5 +174,6 @@ class AppThemeScreen {
       labelMedium: TextStyle(color: primaryDarkTextColor, fontSize: 14),
       labelSmall: TextStyle(color: primaryDarkTextColor, fontSize: 12),
     ),
+    navigationBarTheme: NavigationBarThemeData(backgroundColor: primaryDarkColor),
   );
 }

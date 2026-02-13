@@ -22,29 +22,9 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
       child: Consumer<EmployeeDashboardProvider>(
         builder: (context, employeeDashboardProvider, child) {
           return Scaffold(
+            appBar: _buildAppBar(context),
             body: SafeArea(
-              child: Column(
-                children: [
-                  // Container(
-                  //   padding: EdgeInsets.only(left: 16, top: 0, right: 16, bottom: 6),
-                  //   height: 65,
-                  //   width: MediaQuery.of(context).size.height,
-                  //   decoration: BoxDecoration(
-                  //     color: context.watch<AppThemeProvider>().isDarkMode
-                  //         ? AppThemeScreen.darkGrey
-                  //         : AppThemeScreen.lightGrey,
-                  //     border: Border(bottom: BorderSide(color: AppThemeScreen.borderGrey)),
-                  //   ),
-                  //   child: ListTile(
-                  //     contentPadding: EdgeInsets.all(0),
-                  //     title: Text("Patel Manish Kumar", style: context.textStyle.titleMedium),
-                  //     subtitle: Text("Employee Id - EMP0003", style: context.textStyle.bodySmall),
-                  //     trailing: Icon(Icons.notifications_none_sharp, size: 28),
-                  //   ),
-                  // ),
-                  Expanded(child: widget.widget),
-                ],
-              ),
+              child: Column(children: [Expanded(child: widget.widget)]),
             ),
             bottomNavigationBar: AppBottomNavBar(
               isDarkMode: context.watch<AppThemeProvider>().isDarkMode,
@@ -57,7 +37,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
                     ? AppTextStyle().subTitleTextStyle(
                         context: context,
                         color: states.contains(WidgetState.selected)
-                            ? AppThemeScreen.primaryColor
+                            ? AppThemeScreen.whiteColor
                             : AppThemeScreen.darkGrey,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
                         fontSize: 13,
@@ -66,9 +46,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
                         context: context,
                         color: states.contains(WidgetState.selected)
                             ? AppThemeScreen.primaryColor
-                            : context.watch<AppThemeProvider>().isDarkMode
-                            ? AppThemeScreen.lightGrey
-                            : AppThemeScreen.darkGrey,
+                            : AppThemeScreen.secondaryDarkTextColor,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
                         fontSize: 12,
                       ),
@@ -77,6 +55,66 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
           );
         },
       ),
+    );
+  }
+
+  AppBar _buildAppBar(BuildContext context) {
+    return AppBar(
+      leading: Container(
+        padding: EdgeInsets.all(2),
+        margin: EdgeInsets.only(bottom: 4, left: 4),
+        decoration: BoxDecoration(
+          shape: BoxShape.circle,
+          color: context.read<AppThemeProvider>().isDarkMode ? AppThemeScreen.blackColor : AppThemeScreen.whiteColor,
+        ),
+        child: Image.asset("assets/images/transparant_logo.png"),
+      ),
+      centerTitle: false,
+      title: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        children: [
+          Text(
+            "Patel Manish Kumar",
+            style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+          ),
+          Text("Employee Id - EMP0003", style: AppTextStyle().lableTextStyle(context: context, fontSize: 11)),
+        ],
+      ),
+      actions: [
+        GestureDetector(
+          onTap: () {
+            context.read<AppThemeProvider>().toggleTheme();
+          },
+          child: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.read<AppThemeProvider>().isDarkMode
+                  ? AppThemeScreen.blackColor
+                  : AppThemeScreen.whiteColor,
+            ),
+            child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 24),
+          ),
+        ),
+        SizedBox(width: 8),
+        GestureDetector(
+          onTap: () {
+            context.read<AppThemeProvider>().toggleTheme();
+          },
+          child: Container(
+            padding: EdgeInsets.all(8),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.read<AppThemeProvider>().isDarkMode
+                  ? AppThemeScreen.blackColor
+                  : AppThemeScreen.whiteColor,
+            ),
+            child: Icon(Icons.notifications_none_sharp, size: 24),
+          ),
+        ),
+        SizedBox(width: 8),
+      ],
     );
   }
 }

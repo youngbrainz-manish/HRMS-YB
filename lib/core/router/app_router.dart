@@ -4,7 +4,7 @@ import 'package:hrms_yb/features/auth/forgot_pin_screen.dart';
 import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/employee_attendace_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employee_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employees_pay_slip_screen.dart';
