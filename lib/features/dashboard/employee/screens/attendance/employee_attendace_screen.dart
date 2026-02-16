@@ -140,9 +140,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             textColor: AppThemeScreen.successPrimary,
             title: "Punch In",
             isEnabled: false,
-            onTap: () {
-              print("Punch In");
-            },
+            onTap: () {},
           ),
         ),
         const SizedBox(width: 16),
@@ -152,9 +150,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             textColor: AppThemeScreen.whiteColor,
             title: "Punch Out",
             isEnabled: true,
-            onTap: () {
-              print("Break Out");
-            },
+            onTap: () {},
           ),
         ),
       ],
@@ -253,9 +249,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             textColor: AppThemeScreen.successPrimary,
             title: "Break In",
             isEnabled: true,
-            onTap: () {
-              print("Break In");
-            },
+            onTap: () {},
           ),
         ),
         const SizedBox(width: 16),
@@ -265,9 +259,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             textColor: AppThemeScreen.whiteColor,
             title: "Break Out",
             isEnabled: false,
-            onTap: () {
-              print("Break Out");
-            },
+            onTap: () {},
           ),
         ),
       ],

@@ -6,9 +6,10 @@ import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/employee_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employees_pay_slip_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/employees_profile_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -26,6 +27,8 @@ class AppRouter {
   static const employeesPaySlipScreenRoute = '/employees-PaySlip-screen';
   static const employeesProfileScreenRoute = '/employees-Profile-screen';
 
+  static const leaveFormScreenRoute = '/leave-form-screen';
+
   static const leaveRoute = '/leave';
   static const attendanceRoute = '/attendance';
 
@@ -41,6 +44,7 @@ class AppRouter {
       ),
       GoRoute(path: forgotPinRoute, builder: (context, state) => const ForgotPinScreen()),
       GoRoute(path: hrDashboardRoute, builder: (context, state) => const HrDashboardScreen()),
+      GoRoute(path: leaveFormScreenRoute, builder: (context, state) => const LeaveFormScreen()),
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (BuildContext context, GoRouterState state, Widget? child) {

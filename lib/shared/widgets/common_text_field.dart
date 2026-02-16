@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/shared/utils/app_extensions.dart';
+import 'package:hrms_yb/shared/utils/app_text_style.dart';
 
 class CommonTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -12,6 +13,8 @@ class CommonTextField extends StatelessWidget {
   final TextInputType keyboardType;
   final String? Function(String?)? validator;
   final VoidCallback? onSuffixTap;
+  final void Function()? onTap;
+  final bool? isEnable;
 
   const CommonTextField({
     super.key,
@@ -24,32 +27,42 @@ class CommonTextField extends StatelessWidget {
     this.keyboardType = TextInputType.text,
     this.validator,
     this.onSuffixTap,
+    this.onTap,
+    this.isEnable = true,
   });
 
   @override
   Widget build(BuildContext context) {
-    return TextFormField(
-      controller: controller,
-      obscureText: obscureText,
-      keyboardType: keyboardType,
-      validator: validator,
-      decoration: InputDecoration(
-        labelText: labelText,
-        hintText: hintText,
-        hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
-        labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppThemeScreen.primaryColor),
-        prefixIcon: prefixIcon,
-        suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
-        border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-        enabledBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: BorderSide(color: Colors.grey.shade400),
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        color: Colors.transparent,
+        child: TextFormField(
+          style: AppTextStyle().subTitleTextStyle(context: context),
+          enabled: isEnable,
+          controller: controller,
+          obscureText: obscureText,
+          keyboardType: keyboardType,
+          validator: validator,
+          decoration: InputDecoration(
+            labelText: labelText,
+            hintText: hintText,
+            hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
+            labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppThemeScreen.primaryColor),
+            prefixIcon: prefixIcon,
+            suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+            enabledBorder: OutlineInputBorder(
+              borderRadius: BorderRadius.circular(12),
+              borderSide: BorderSide(color: Colors.grey.shade400),
+            ),
+            focusedBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppThemeScreen.primaryColor),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+          ),
         ),
-        focusedBorder: OutlineInputBorder(
-          borderRadius: BorderRadius.circular(12),
-          borderSide: const BorderSide(color: Colors.blue),
-        ),
-        contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       ),
     );
   }

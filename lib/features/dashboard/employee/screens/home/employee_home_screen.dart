@@ -60,9 +60,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                                 icon: Icon(Icons.touch_app_outlined, size: 38, color: AppThemeScreen.errorColor),
                                 isDarkMode: isDarkMode,
                                 progress: 0.82,
-                                onTap: () {
-                                  print("Punch Clicked");
-                                },
+                                onTap: () {},
                               ),
                             ),
                             SizedBox(height: 16),

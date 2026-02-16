@@ -62,7 +62,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
     return AppBar(
       leading: Container(
         padding: EdgeInsets.all(2),
-        margin: EdgeInsets.only(bottom: 4, left: 4),
+        margin: EdgeInsets.only(bottom: 8, left: 8),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
           color: context.read<AppThemeProvider>().isDarkMode ? AppThemeScreen.blackColor : AppThemeScreen.whiteColor,
@@ -78,7 +78,10 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
             "Patel Manish Kumar",
             style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
           ),
-          Text("Employee Id - EMP0003", style: AppTextStyle().lableTextStyle(context: context, fontSize: 11)),
+          Text(
+            "Employee Id - EMP0003",
+            style: AppTextStyle().lableTextStyle(context: context, color: AppThemeScreen.whiteColor),
+          ),
         ],
       ),
       actions: [
@@ -87,14 +90,14 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
             context.read<AppThemeProvider>().toggleTheme();
           },
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: context.read<AppThemeProvider>().isDarkMode
                   ? AppThemeScreen.blackColor
                   : AppThemeScreen.whiteColor,
             ),
-            child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 24),
+            child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 21),
           ),
         ),
         SizedBox(width: 8),
@@ -103,14 +106,14 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
             context.read<AppThemeProvider>().toggleTheme();
           },
           child: Container(
-            padding: EdgeInsets.all(8),
+            padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               color: context.read<AppThemeProvider>().isDarkMode
                   ? AppThemeScreen.blackColor
                   : AppThemeScreen.whiteColor,
             ),
-            child: Icon(Icons.notifications_none_sharp, size: 24),
+            child: Icon(Icons.notifications_none_sharp, size: 20),
           ),
         ),
         SizedBox(width: 8),

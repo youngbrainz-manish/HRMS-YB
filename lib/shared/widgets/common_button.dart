@@ -13,6 +13,9 @@ class CommonButton extends StatelessWidget {
   final Color? color;
   final Color? borderColor;
   final TextStyle? style;
+  final Widget? icon;
+  final Color? titleColor;
+  final double? fontSize;
 
   const CommonButton({
     super.key,
@@ -24,6 +27,9 @@ class CommonButton extends StatelessWidget {
     this.color,
     this.borderColor,
     this.style,
+    this.icon,
+    this.titleColor,
+    this.fontSize,
   });
 
   @override
@@ -32,9 +38,9 @@ class CommonButton extends StatelessWidget {
     return Material(
       color: color ?? (isDark ? AppThemeScreen.dartButtonColor : AppThemeScreen.lightButtonColor),
       shadowColor: Colors.white,
-      borderRadius: BorderRadius.circular(8),
+      borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
-        borderRadius: BorderRadius.circular(8),
+        borderRadius: BorderRadius.circular(borderRadius),
         splashColor: isDark
             ? AppThemeScreen.primaryColor.withValues(alpha: 0.05)
             : AppThemeScreen.primaryDarkColor.withValues(alpha: 0.05),
@@ -43,8 +49,8 @@ class CommonButton extends StatelessWidget {
           width: double.infinity,
           height: 50,
           decoration: BoxDecoration(
-            border: Border.all(color: borderColor ?? Colors.transparent, width: 2),
-            borderRadius: BorderRadius.circular(8),
+            border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
+            borderRadius: BorderRadius.circular(borderRadius),
           ),
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           child: Center(
@@ -54,9 +60,21 @@ class CommonButton extends StatelessWidget {
                     width: 22,
                     child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                   )
-                : Text(
-                    title,
-                    style: style ?? AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+                : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      icon ?? SizedBox(width: 0),
+                      Text(
+                        title,
+                        style:
+                            style ??
+                            AppTextStyle().titleTextStyle(
+                              context: context,
+                              color: titleColor ?? AppThemeScreen.whiteColor,
+                              fontSize: fontSize,
+                            ),
+                      ),
+                    ],
                   ),
           ),
         ),

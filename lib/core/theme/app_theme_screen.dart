@@ -40,6 +40,8 @@ class AppThemeScreen {
   static const Color lightButtonColor = primaryColor;
   static const Color dartButtonColor = Color.fromARGB(255, 91, 31, 32);
 
+  static Color? transparantColor = Colors.transparent;
+
   // ==============================
   // 🌞 LIGHT THEME
   // ==============================
@@ -57,7 +59,7 @@ class AppThemeScreen {
       elevation: 0,
       centerTitle: true,
       iconTheme: IconThemeData(color: darkGrey),
-      titleTextStyle: TextStyle(color: lightGrey, fontSize: 24, fontWeight: FontWeight.w600),
+      titleTextStyle: TextStyle(color: lightGrey, fontSize: 20, fontWeight: FontWeight.w600),
     ),
 
     cardTheme: CardThemeData(
