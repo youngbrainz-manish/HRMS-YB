@@ -252,7 +252,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             onTap: () {},
           ),
         ),
-        const SizedBox(width: 16),
+        SizedBox(height: AppSize().verticalWidgetSpacing),
         Expanded(
           child: AppActionCard(
             bgColor: isDarkMode ? AppThemeScreen.errorColor : AppThemeScreen.absentColor,
@@ -262,6 +262,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             onTap: () {},
           ),
         ),
+        SizedBox(height: AppSize().verticalWidgetSpacing),
       ],
     );
   }

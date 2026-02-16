@@ -45,7 +45,6 @@ class LeaveFormProvider extends ChangeNotifier {
 
   void pickFile() async {
     XFile? file = await picker.pickImage(source: ImageSource.gallery);
-    print("object route => ${file}");
     if (file != null) {
       pickedFile.add(File(file.path));
     }

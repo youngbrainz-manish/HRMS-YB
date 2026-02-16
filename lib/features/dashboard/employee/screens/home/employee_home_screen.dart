@@ -48,6 +48,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                     _welcomeCardWidget(isDarkMode, context),
                     SizedBox(height: AppSize().verticalWidgetSpacing),
                     Card(
+                      margin: EdgeInsets.all(0),
                       child: Padding(
                         padding: const EdgeInsets.all(16),
                         child: Column(
@@ -107,7 +108,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                     _latestPaySlipWidget(context),
                     SizedBox(height: AppSize().verticalWidgetSpacing),
                     _latestNotificationWidget(context, provider),
-                    SizedBox(height: 8),
+                    SizedBox(height: AppSize().verticalWidgetSpacing),
                   ],
                 ),
               ),
@@ -223,6 +224,7 @@ class EmployeeHomeScreen extends StatelessWidget {
       children: [
         Expanded(
           child: Card(
+            margin: EdgeInsets.all(0),
             child: Container(
               height: 90,
               margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -244,8 +246,10 @@ class EmployeeHomeScreen extends StatelessWidget {
             ),
           ),
         ),
+        SizedBox(width: 12),
         Expanded(
           child: Card(
+            margin: EdgeInsets.all(0),
             child: Container(
               height: 90,
               margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),

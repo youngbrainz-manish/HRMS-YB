@@ -63,7 +63,7 @@ class CommonButton extends StatelessWidget {
                 : Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      icon ?? SizedBox(width: 0),
+                      if (icon != null) ...[icon!, SizedBox(width: 12)],
                       Text(
                         title,
                         style:

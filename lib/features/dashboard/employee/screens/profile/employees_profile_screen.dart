@@ -1,0 +1,182 @@
+import 'package:flutter/material.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
+import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_profile_provider.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
+import 'package:provider/provider.dart';
+
+class EmployeesProfileScreen extends StatefulWidget {
+  const EmployeesProfileScreen({super.key});
+
+  @override
+  State<EmployeesProfileScreen> createState() => _EmployeesProfileScreenState();
+}
+
+class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
+  @override
+  Widget build(BuildContext context) {
+    return ChangeNotifierProvider(
+      create: (_) => EmployeesProfileProvider(context: context),
+      child: Consumer<EmployeesProfileProvider>(
+        builder: (context, provider, child) {
+          return Scaffold(
+            body: SafeArea(child: _buildBody(provider: provider)),
+            floatingActionButton: 1 == 1
+                ? SizedBox()
+                : FloatingActionButton.small(
+                    onPressed: () {},
+                    backgroundColor: context.watch<AppThemeProvider>().isDarkMode
+                        ? AppThemeScreen.primaryColor
+                        : AppThemeScreen.primaryColor,
+                    child: Icon(Icons.edit),
+                  ),
+          );
+        },
+      ),
+    );
+  }
+
+  Widget _buildBody({required EmployeesProfileProvider provider}) {
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      height: MediaQuery.of(context).size.height,
+      width: MediaQuery.of(context).size.width,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            _buildProfileCard(provider: provider),
+
+            SizedBox(height: AppSize().verticalWidgetSpacing),
+
+            /// PERSONAL DETAILS
+            SectionCard(
+              title: "Personal Details",
+              children: [
+                InfoTile(
+                  icon: Icons.person_outline,
+                  bgColor: Colors.blue.shade50,
+                  iconColor: Colors.blue,
+                  title: "Full Name",
+                  value: provider.employee.name,
+                ),
+                InfoTile(
+                  icon: Icons.call_outlined,
+                  bgColor: Colors.green.shade50,
+                  iconColor: Colors.green,
+                  title: "Mobile",
+                  value: provider.employee.mobile,
+                ),
+                InfoTile(
+                  icon: Icons.email_outlined,
+                  bgColor: Colors.purple.shade50,
+                  iconColor: Colors.purple,
+                  title: "Email",
+                  value: provider.employee.email,
+                ),
+              ],
+            ),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
+
+            /// EMPLOYMENT DETAILS
+            SectionCard(
+              title: "Employment Details",
+              children: [
+                InfoTile(
+                  icon: Icons.apartment_outlined,
+                  bgColor: Colors.orange.shade50,
+                  iconColor: Colors.orange,
+                  title: "Department",
+                  value: provider.employee.department,
+                ),
+                InfoTile(
+                  icon: Icons.work_outline,
+                  bgColor: Colors.pink.shade50,
+                  iconColor: Colors.pink,
+                  title: "Designation",
+                  value: provider.employee.designation,
+                ),
+                InfoTile(
+                  icon: Icons.calendar_today_outlined,
+                  bgColor: Colors.cyan.shade50,
+                  iconColor: Colors.cyan,
+                  title: "Joining Date",
+                  value: provider.employee.joiningDate,
+                ),
+                InfoTile(
+                  icon: Icons.badge_outlined,
+                  bgColor: Colors.indigo.shade50,
+                  iconColor: Colors.indigo,
+                  title: "Employee Type",
+                  value: provider.employee.employeeType,
+                ),
+              ],
+            ),
+
+            SizedBox(height: AppSize().verticalWidgetSpacing),
+
+            /// UPDATE PIN
+            Card(
+              margin: EdgeInsets.all(0),
+              child: ListTile(
+                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                leading: const Icon(Icons.key_outlined),
+                title: const Text("Update Access PIN"),
+                onTap: () {},
+              ),
+            ),
+
+            SizedBox(height: AppSize().verticalWidgetSpacing),
+
+            /// LOGOUT
+            Card(
+              margin: EdgeInsets.all(0),
+              child: ListTile(
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  side: BorderSide(color: Colors.red.shade200),
+                ),
+                leading: const Icon(Icons.logout, color: Colors.red),
+                title: const Text("Logout", style: TextStyle(color: Colors.red)),
+                onTap: () {},
+              ),
+            ),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
+          ],
+        ),
+      ),
+    );
+  }
+
+  _buildProfileCard({required EmployeesProfileProvider provider}) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(vertical: 30),
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(16),
+        gradient: LinearGradient(
+          colors: context.watch<AppThemeProvider>().isDarkMode
+              ? [AppThemeScreen.dartButtonColor.withValues(alpha: 0.6), AppThemeScreen.dartButtonColor]
+              : [AppThemeScreen.primaryColor.withValues(alpha: 0.6), AppThemeScreen.primaryColor],
+        ),
+      ),
+      child: Column(
+        children: [
+          CircleAvatar(
+            radius: 45,
+            backgroundColor: Colors.white.withValues(alpha: .2),
+            child: const Icon(Icons.person_outline, size: 45, color: Colors.white),
+          ),
+          const SizedBox(height: 14),
+          Text(
+            provider.employee.name,
+            style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),
+          ),
+          const SizedBox(height: 4),
+          Text(provider.employee.employeeId, style: const TextStyle(color: Colors.white70, fontSize: 18)),
+        ],
+      ),
+    );
+  }
+}

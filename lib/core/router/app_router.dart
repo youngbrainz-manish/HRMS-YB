@@ -7,8 +7,8 @@ import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/employees_pay_slip_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/employees_profile_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/pay_slip/employees_pay_slip_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_profile_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
 import 'package:provider/provider.dart';

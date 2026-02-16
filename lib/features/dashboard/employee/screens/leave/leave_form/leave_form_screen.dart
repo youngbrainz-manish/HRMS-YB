@@ -5,6 +5,7 @@ import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/app_multiline_textfield.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
@@ -39,7 +40,6 @@ class LeaveFormScreen extends StatelessWidget {
 
   Widget _buildBody({required LeaveFormProvider provider}) {
     bool isDarkMode = provider.context.watch<AppThemeProvider>().isDarkMode;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.all(16),
       child: Card(
@@ -96,28 +96,40 @@ class LeaveFormScreen extends StatelessWidget {
               Row(
                 children: [
                   Expanded(
-                    child: CommonTextField(
-                      labelText: "From Date *",
-                      controller: provider.fromDate,
-                      hintText: "dd/mm/yyyy",
-                      isEnable: false,
-                      onTap: () async {
-                        FocusScope.of(provider.context).requestFocus(FocusNode());
-                        await provider.pickDate(provider.fromDate);
-                      },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("From Date *", style: AppTextStyle().titleTextStyle(context: provider.context)),
+                        SizedBox(height: 4),
+                        CommonTextField(
+                          controller: provider.fromDate,
+                          hintText: "dd/mm/yyyy",
+                          isEnable: false,
+                          onTap: () async {
+                            FocusScope.of(provider.context).requestFocus(FocusNode());
+                            await provider.pickDate(provider.fromDate);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(width: AppSize().verticalWidgetSpacing),
                   Expanded(
-                    child: CommonTextField(
-                      labelText: "To Date *",
-                      controller: provider.toDate,
-                      hintText: "dd/mm/yyyy",
-                      isEnable: false,
-                      onTap: () async {
-                        FocusScope.of(provider.context).requestFocus(FocusNode());
-                        await provider.pickDate(provider.toDate);
-                      },
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text("To Date *", style: AppTextStyle().titleTextStyle(context: provider.context)),
+                        SizedBox(height: 4),
+                        CommonTextField(
+                          controller: provider.toDate,
+                          hintText: "dd/mm/yyyy",
+                          isEnable: false,
+                          onTap: () async {
+                            FocusScope.of(provider.context).requestFocus(FocusNode());
+                            await provider.pickDate(provider.toDate);
+                          },
+                        ),
+                      ],
                     ),
                   ),
                 ],
@@ -125,8 +137,9 @@ class LeaveFormScreen extends StatelessWidget {
               SizedBox(height: AppSize().verticalWidgetSpacing),
 
               /// Reason
-              // Text("Reason *", style: AppTextStyle().titleTextStyle(context: provider.context)),
-              // const SizedBox(height: 4),
+              Text("Reason *", style: AppTextStyle().titleTextStyle(context: provider.context)),
+              const SizedBox(height: 4),
+              AppMultilineTextField(controller: provider.reason, hint: "Write your reason here..."),
               // CommonTextField(controller: provider.reason, hintText: "Enter reason for leave"),
               SizedBox(height: AppSize().verticalWidgetSpacing),
 

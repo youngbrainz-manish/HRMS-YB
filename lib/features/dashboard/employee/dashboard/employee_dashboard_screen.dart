@@ -101,20 +101,13 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
           ),
         ),
         SizedBox(width: 8),
-        GestureDetector(
-          onTap: () {
-            context.read<AppThemeProvider>().toggleTheme();
-          },
-          child: Container(
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.read<AppThemeProvider>().isDarkMode
-                  ? AppThemeScreen.blackColor
-                  : AppThemeScreen.whiteColor,
-            ),
-            child: Icon(Icons.notifications_none_sharp, size: 20),
+        Container(
+          padding: EdgeInsets.all(6),
+          decoration: BoxDecoration(
+            shape: BoxShape.circle,
+            color: context.read<AppThemeProvider>().isDarkMode ? AppThemeScreen.blackColor : AppThemeScreen.whiteColor,
           ),
+          child: Icon(Icons.notifications_none_sharp, size: 20),
         ),
         SizedBox(width: 8),
       ],
