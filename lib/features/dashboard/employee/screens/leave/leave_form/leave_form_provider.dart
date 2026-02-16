@@ -1,7 +1,6 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:image_picker/image_picker.dart';
 
 class LeaveFormProvider extends ChangeNotifier {
@@ -17,7 +16,7 @@ class LeaveFormProvider extends ChangeNotifier {
 
   Future<void> pickDate(TextEditingController controller) async {
     final date = await showDatePicker(
-      barrierColor: AppThemeScreen.borderGrey.withValues(alpha: 0.3),
+      barrierColor: AppColors.borderGrey.withValues(alpha: 0.3),
       context: context,
       firstDate: DateTime(2020),
       lastDate: DateTime(2100),

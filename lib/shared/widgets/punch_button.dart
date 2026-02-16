@@ -1,6 +1,6 @@
 import 'dart:math';
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 
 class PunchButton extends StatelessWidget {
@@ -31,7 +31,7 @@ class PunchButton extends StatelessWidget {
       onTap: onTap,
       child: Container(
         decoration: BoxDecoration(
-          color: (isDarkMode ?? false) ? AppThemeScreen.blackColor : AppThemeScreen.greyColor.withValues(alpha: 0.2),
+          color: (isDarkMode ?? false) ? AppColors.blackColor : AppColors.greyColor.withValues(alpha: 0.2),
           shape: BoxShape.circle,
         ),
         height: size,
@@ -60,7 +60,7 @@ class PunchButton extends StatelessWidget {
                   SizedBox(height: 16),
                   Text(
                     title,
-                    style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.blackColor),
+                    style: AppTextStyle().titleTextStyle(context: context, color: AppColors.blackColor),
                   ),
                   SizedBox(height: 8),
                   Text(
@@ -99,7 +99,7 @@ class _ProgressPainter extends CustomPainter {
     /// Progress arc
     final progressPaint = Paint()
       // ..color = const Color(0xffE89B1B)
-      ..color = AppThemeScreen.primaryColor
+      ..color = AppColors.primaryColor
       ..style = PaintingStyle.stroke
       ..strokeWidth = 4
       ..strokeCap = StrokeCap.round;

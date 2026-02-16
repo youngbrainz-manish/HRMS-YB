@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_history_model.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_model.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -17,9 +17,7 @@ class AttendanceHistoryTile extends StatelessWidget {
     final dateText = DateFormat('MMM d, yyyy').format(model.date);
 
     return Card(
-      color: isDarkMode
-          ? AppThemeScreen.darkGrey.withValues(alpha: 0.5)
-          : AppThemeScreen.lightGrey.withValues(alpha: 0.5),
+      color: isDarkMode ? AppColors.darkGrey.withValues(alpha: 0.5) : AppColors.lightGrey.withValues(alpha: 0.5),
       child: Container(
         height: 80,
         padding: const EdgeInsets.all(8.0),
@@ -61,7 +59,7 @@ class AttendanceHistoryTile extends StatelessWidget {
             // if (!(isLastItem == true)) ...[
             //   Padding(
             //     padding: const EdgeInsets.symmetric(vertical: 4),
-            //     child: Divider(color: AppThemeScreen.borderGrey),
+            //     child: Divider(color: AppColors.borderGrey),
             //   ),
             // ],
           ],
@@ -82,26 +80,26 @@ class AttendanceHistoryTile extends StatelessWidget {
 
     switch (status) {
       case AttendanceStatus.present:
-        bg = AppThemeScreen.presentColor;
-        text = AppThemeScreen.successPrimary;
+        bg = AppColors.presentColor;
+        text = AppColors.successPrimary;
         label = "P";
         break;
 
       case AttendanceStatus.holiday:
-        bg = AppThemeScreen.holidayColor.withValues(alpha: 0.5);
-        text = AppThemeScreen.holidayColor;
+        bg = AppColors.holidayColor.withValues(alpha: 0.5);
+        text = AppColors.holidayColor;
         label = "H";
         break;
 
       case AttendanceStatus.absent:
-        bg = AppThemeScreen.absentColor.withValues(alpha: 0.5);
-        text = AppThemeScreen.absentColor;
+        bg = AppColors.absentColor.withValues(alpha: 0.5);
+        text = AppColors.absentColor;
         label = "A";
         break;
 
       case AttendanceStatus.leave:
-        bg = AppThemeScreen.leaveColor.withValues(alpha: 0.5);
-        text = AppThemeScreen.leaveColor;
+        bg = AppColors.leaveColor.withValues(alpha: 0.5);
+        text = AppColors.leaveColor;
         label = "L";
         break;
     }

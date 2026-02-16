@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:provider/provider.dart';
@@ -52,17 +52,17 @@ class PayslipScreen extends StatelessWidget {
                 children: [
                   Expanded(
                     child: CommonButton(
-                      borderColor: AppThemeScreen.primaryColor,
-                      color: AppThemeScreen.transparantColor,
+                      borderColor: AppColors.primaryColor,
+                      color: AppColors.transparantColor,
                       title: "Download",
                       titleColor: context.watch<AppThemeProvider>().isDarkMode
-                          ? AppThemeScreen.whiteColor
-                          : AppThemeScreen.blackColor,
+                          ? AppColors.whiteColor
+                          : AppColors.blackColor,
                       icon: Icon(
                         Icons.download,
                         color: context.watch<AppThemeProvider>().isDarkMode
-                            ? AppThemeScreen.whiteColor
-                            : AppThemeScreen.blackColor,
+                            ? AppColors.whiteColor
+                            : AppColors.blackColor,
                       ),
                       onTap: () {},
                     ),
@@ -70,7 +70,7 @@ class PayslipScreen extends StatelessWidget {
                   SizedBox(width: 12),
                   Expanded(
                     child: CommonButton(
-                      icon: Icon(Icons.share, color: AppThemeScreen.whiteColor),
+                      icon: Icon(Icons.share, color: AppColors.whiteColor),
                       title: "Share",
                       onTap: () {},
                     ),
@@ -94,8 +94,8 @@ class PayslipScreen extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: context.watch<AppThemeProvider>().isDarkMode
-              ? [AppThemeScreen.dartButtonColor, AppThemeScreen.dartButtonColor.withValues(alpha: 0.5)]
-              : [AppThemeScreen.primaryColor, AppThemeScreen.primaryColor.withValues(alpha: 0.5)],
+              ? [AppColors.dartButtonColor, AppColors.dartButtonColor.withValues(alpha: 0.5)]
+              : [AppColors.primaryColor, AppColors.primaryColor.withValues(alpha: 0.5)],
         ),
         borderRadius: BorderRadius.circular(24),
       ),
@@ -104,17 +104,17 @@ class PayslipScreen extends StatelessWidget {
         children: [
           Text(
             "Payslip for",
-            style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+            style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
           ),
           const SizedBox(height: 8),
           Text(
             data.month,
-            style: AppTextStyle().titleTextStyle(context: context, fontSize: 24, color: AppThemeScreen.whiteColor),
+            style: AppTextStyle().titleTextStyle(context: context, fontSize: 24, color: AppColors.whiteColor),
           ),
           const SizedBox(height: 8),
           Text(
             data.employeeName,
-            style: AppTextStyle().lableTextStyle(context: context, color: AppThemeScreen.whiteColor),
+            style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
           ),
         ],
       ),
@@ -184,9 +184,7 @@ class PayslipScreen extends StatelessWidget {
       width: double.infinity,
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        color: context.watch<AppThemeProvider>().isDarkMode
-            ? AppThemeScreen.successSecondary
-            : AppThemeScreen.successPrimary,
+        color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.successSecondary : AppColors.successPrimary,
         borderRadius: BorderRadius.circular(16),
       ),
       child: Column(
@@ -196,9 +194,7 @@ class PayslipScreen extends StatelessWidget {
             "Net Pay",
             style: AppTextStyle().titleTextStyle(
               context: context,
-              color: context.watch<AppThemeProvider>().isDarkMode
-                  ? AppThemeScreen.blackColor
-                  : AppThemeScreen.whiteColor,
+              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
             ),
           ),
           const SizedBox(height: 8),
@@ -207,15 +203,13 @@ class PayslipScreen extends StatelessWidget {
             style: AppTextStyle().titleTextStyle(
               context: context,
               fontSize: 24,
-              color: context.watch<AppThemeProvider>().isDarkMode
-                  ? AppThemeScreen.blackColor
-                  : AppThemeScreen.whiteColor,
+              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
             ),
           ),
           const SizedBox(height: 8),
           Text(
             "Amount credited to your account",
-            style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.greyColor),
+            style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
           ),
         ],
       ),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/app_bottom_nav_bar.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -36,17 +36,15 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
                 (states) => states.contains(WidgetState.selected)
                     ? AppTextStyle().subTitleTextStyle(
                         context: context,
-                        color: states.contains(WidgetState.selected)
-                            ? AppThemeScreen.whiteColor
-                            : AppThemeScreen.darkGrey,
+                        color: states.contains(WidgetState.selected) ? AppColors.whiteColor : AppColors.darkGrey,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
                         fontSize: 13,
                       )
                     : AppTextStyle().subTitleTextStyle(
                         context: context,
                         color: states.contains(WidgetState.selected)
-                            ? AppThemeScreen.primaryColor
-                            : AppThemeScreen.secondaryDarkTextColor,
+                            ? AppColors.primaryColor
+                            : AppColors.secondaryDarkTextColor,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
                         fontSize: 12,
                       ),
@@ -65,7 +63,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
         margin: EdgeInsets.only(bottom: 8, left: 8),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: context.read<AppThemeProvider>().isDarkMode ? AppThemeScreen.blackColor : AppThemeScreen.whiteColor,
+          color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
         ),
         child: Image.asset("assets/images/transparant_logo.png"),
       ),
@@ -76,11 +74,11 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
         children: [
           Text(
             "Patel Manish Kumar",
-            style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+            style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
           ),
           Text(
             "Employee Id - EMP0003",
-            style: AppTextStyle().lableTextStyle(context: context, color: AppThemeScreen.whiteColor),
+            style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
           ),
         ],
       ),
@@ -93,9 +91,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: context.read<AppThemeProvider>().isDarkMode
-                  ? AppThemeScreen.blackColor
-                  : AppThemeScreen.whiteColor,
+              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
             ),
             child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 21),
           ),
@@ -105,7 +101,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
           padding: EdgeInsets.all(6),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: context.read<AppThemeProvider>().isDarkMode ? AppThemeScreen.blackColor : AppThemeScreen.whiteColor,
+            color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
           ),
           child: Icon(Icons.notifications_none_sharp, size: 20),
         ),

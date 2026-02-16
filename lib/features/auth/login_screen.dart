@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/features/auth/login_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:provider/provider.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -42,7 +42,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildBody({required BuildContext context, required LoginProvider provider}) {
     bool isDarkMode = context.watch<AppThemeProvider>().isDarkMode;
     return Container(
-      color: isDarkMode ? AppThemeScreen.appScreenDark : AppThemeScreen.appScreenLight,
+      color: isDarkMode ? AppColors.appScreenDark : AppColors.appScreenLight,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -69,7 +69,7 @@ class _LoginScreenState extends State<LoginScreen> {
               Text("HRMS YB", style: AppTextStyle().headingTextStyle(context: context, fontSize: 36)),
               Text(
                 "Sign in to continue",
-                style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.greyColor),
+                style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
               ),
               SizedBox(height: 32),
               Card(
@@ -136,7 +136,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Forgot your PIN?",
-                          style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.textButtonColor),
+                          style: AppTextStyle().titleTextStyle(context: context, color: AppColors.textButtonColor),
                         ),
                       ),
                     ],

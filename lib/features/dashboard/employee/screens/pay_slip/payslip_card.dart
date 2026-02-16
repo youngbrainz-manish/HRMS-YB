@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 
 class PayslipCard extends StatelessWidget {
@@ -19,7 +19,7 @@ class PayslipCard extends StatelessWidget {
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: AppThemeScreen.borderGrey),
+          border: Border.all(color: AppColors.borderGrey),
         ),
         child: Row(
           children: [
@@ -28,10 +28,10 @@ class PayslipCard extends StatelessWidget {
               height: 56,
               width: 56,
               decoration: BoxDecoration(
-                color: AppThemeScreen.holidayColor.withValues(alpha: 0.2),
+                color: AppColors.holidayColor.withValues(alpha: 0.2),
                 borderRadius: BorderRadius.circular(16),
               ),
-              child: const Icon(Icons.description_outlined, color: AppThemeScreen.holidayColor, size: 28),
+              child: const Icon(Icons.description_outlined, color: AppColors.holidayColor, size: 28),
             ),
 
             const SizedBox(width: 16),
@@ -54,7 +54,7 @@ class PayslipCard extends StatelessWidget {
               children: [
                 Text(
                   netAmount,
-                  style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.successPrimary),
+                  style: AppTextStyle().titleTextStyle(context: context, color: AppColors.successPrimary),
                 ),
                 const SizedBox(height: 4),
                 Text("Net Pay", style: AppTextStyle().lableTextStyle(context: context)),

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_profile_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
@@ -28,8 +28,8 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                 : FloatingActionButton.small(
                     onPressed: () {},
                     backgroundColor: context.watch<AppThemeProvider>().isDarkMode
-                        ? AppThemeScreen.primaryColor
-                        : AppThemeScreen.primaryColor,
+                        ? AppColors.primaryColor
+                        : AppColors.primaryColor,
                     child: Icon(Icons.edit),
                   ),
           );
@@ -157,8 +157,8 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
           colors: context.watch<AppThemeProvider>().isDarkMode
-              ? [AppThemeScreen.dartButtonColor.withValues(alpha: 0.6), AppThemeScreen.dartButtonColor]
-              : [AppThemeScreen.primaryColor.withValues(alpha: 0.6), AppThemeScreen.primaryColor],
+              ? [AppColors.dartButtonColor.withValues(alpha: 0.6), AppColors.dartButtonColor]
+              : [AppColors.primaryColor.withValues(alpha: 0.6), AppColors.primaryColor],
         ),
       ),
       child: Column(

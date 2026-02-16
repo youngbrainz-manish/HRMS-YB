@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -60,11 +60,11 @@ class LeaveFormScreen extends StatelessWidget {
                     borderRadius: BorderRadius.circular(12),
                   ),
                   enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppThemeScreen.borderGrey, width: 1),
+                    borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppThemeScreen.primaryColor),
+                    borderSide: BorderSide(color: AppColors.primaryColor),
                     borderRadius: BorderRadius.circular(12),
                   ),
                 ),
@@ -73,7 +73,7 @@ class LeaveFormScreen extends StatelessWidget {
                   "Select leave type",
                   style: AppTextStyle().subTitleTextStyle(
                     context: provider.context,
-                    color: AppThemeScreen.greyColor,
+                    color: AppColors.greyColor,
                     fontSize: 16,
                   ),
                 ),
@@ -150,19 +150,16 @@ class LeaveFormScreen extends StatelessWidget {
               CommonButton(
                 icon: Padding(
                   padding: const EdgeInsets.only(right: 4),
-                  child: Icon(
-                    Icons.attach_file_rounded,
-                    color: isDarkMode ? AppThemeScreen.lightGrey : AppThemeScreen.darkGrey,
-                  ),
+                  child: Icon(Icons.attach_file_rounded, color: isDarkMode ? AppColors.lightGrey : AppColors.darkGrey),
                 ),
                 title: "Upload Document",
                 onTap: () async {
                   provider.pickFile();
                 },
-                borderColor: AppThemeScreen.greyColor,
+                borderColor: AppColors.greyColor,
                 borderRadius: 12,
-                color: AppThemeScreen.transparantColor,
-                titleColor: isDarkMode ? AppThemeScreen.lightGrey : AppThemeScreen.darkGrey,
+                color: AppColors.transparantColor,
+                titleColor: isDarkMode ? AppColors.lightGrey : AppColors.darkGrey,
                 fontSize: 14,
               ),
               Visibility(

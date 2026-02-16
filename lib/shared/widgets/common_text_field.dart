@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 
@@ -48,7 +48,7 @@ class CommonTextField extends StatelessWidget {
             labelText: labelText,
             hintText: hintText,
             hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
-            labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppThemeScreen.primaryColor),
+            labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor),
             prefixIcon: prefixIcon,
             suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
@@ -57,7 +57,7 @@ class CommonTextField extends StatelessWidget {
               borderSide: BorderSide(color: Colors.grey.shade400),
             ),
             focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppThemeScreen.primaryColor),
+              borderSide: BorderSide(color: AppColors.primaryColor),
               borderRadius: BorderRadius.circular(12),
             ),
             contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),

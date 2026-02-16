@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 
 class CommonWidget {
   Widget buildSvgImage({required String path, required Color color, double? height, double? width}) {
@@ -18,7 +18,7 @@ class CommonWidget {
       child: Container(
         padding: const EdgeInsets.all(8.0),
         child: CircleAvatar(
-          backgroundColor: AppThemeScreen.lightGrey.withValues(alpha: 0.3),
+          backgroundColor: AppColors.lightGrey.withValues(alpha: 0.3),
           child: Icon(Icons.arrow_back_ios_new_rounded, size: 24),
         ),
       ),

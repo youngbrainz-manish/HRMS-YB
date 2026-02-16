@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_calendar.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_history_model.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_history_tile.dart';
@@ -104,7 +104,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
           children: [
             CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
-              color: isDarkMode ? AppThemeScreen.whiteColor : AppThemeScreen.textButtonColor,
+              color: isDarkMode ? AppColors.whiteColor : AppColors.textButtonColor,
               height: 24,
             ),
             SizedBox(height: 8),
@@ -136,8 +136,8 @@ class EmployeeAttendaceScreen extends StatelessWidget {
       children: [
         Expanded(
           child: AppActionCard(
-            bgColor: AppThemeScreen.successSecondary,
-            textColor: AppThemeScreen.successPrimary,
+            bgColor: AppColors.successSecondary,
+            textColor: AppColors.successPrimary,
             title: "Punch In",
             isEnabled: false,
             onTap: () {},
@@ -146,8 +146,8 @@ class EmployeeAttendaceScreen extends StatelessWidget {
         const SizedBox(width: 16),
         Expanded(
           child: AppActionCard(
-            bgColor: isDarkMode ? AppThemeScreen.dartButtonColor : AppThemeScreen.lightButtonColor,
-            textColor: AppThemeScreen.whiteColor,
+            bgColor: isDarkMode ? AppColors.dartButtonColor : AppColors.lightButtonColor,
+            textColor: AppColors.whiteColor,
             title: "Punch Out",
             isEnabled: true,
             onTap: () {},
@@ -159,7 +159,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
 
   Widget _sessionDurationWidget(bool isDarkMode, BuildContext context, EmployeeAttendanceProvider provider) {
     return Card(
-      color: isDarkMode ? AppThemeScreen.primaryDarkColor : AppThemeScreen.primaryColor,
+      color: isDarkMode ? AppColors.primaryDarkColor : AppColors.primaryColor,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         width: double.infinity,
@@ -168,7 +168,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
           children: [
             Text(
               "Session Duration",
-              style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+              style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             SizedBox(height: 16),
             StreamBuilder<DateTime>(
@@ -188,11 +188,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
 
                 return Text(
                   formatted,
-                  style: AppTextStyle().titleTextStyle(
-                    context: context,
-                    fontSize: 28,
-                    color: AppThemeScreen.whiteColor,
-                  ),
+                  style: AppTextStyle().titleTextStyle(context: context, fontSize: 28, color: AppColors.whiteColor),
                 );
               },
             ),
@@ -245,8 +241,8 @@ class EmployeeAttendaceScreen extends StatelessWidget {
       children: [
         Expanded(
           child: AppActionCard(
-            bgColor: AppThemeScreen.successSecondary,
-            textColor: AppThemeScreen.successPrimary,
+            bgColor: AppColors.successSecondary,
+            textColor: AppColors.successPrimary,
             title: "Break In",
             isEnabled: true,
             onTap: () {},
@@ -255,8 +251,8 @@ class EmployeeAttendaceScreen extends StatelessWidget {
         SizedBox(height: AppSize().verticalWidgetSpacing),
         Expanded(
           child: AppActionCard(
-            bgColor: isDarkMode ? AppThemeScreen.errorColor : AppThemeScreen.absentColor,
-            textColor: AppThemeScreen.whiteColor,
+            bgColor: isDarkMode ? AppColors.errorColor : AppColors.absentColor,
+            textColor: AppColors.whiteColor,
             title: "Break Out",
             isEnabled: false,
             onTap: () {},

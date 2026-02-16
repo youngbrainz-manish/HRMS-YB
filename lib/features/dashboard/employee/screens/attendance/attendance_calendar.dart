@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/attendance_model.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:intl/intl.dart';
@@ -126,13 +126,13 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
             crossAxisAlignment: CrossAxisAlignment.center,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              dayInfoWidget(context: context, color: AppThemeScreen.presentColor, title: "Present"),
+              dayInfoWidget(context: context, color: AppColors.presentColor, title: "Present"),
               SizedBox(width: 16),
-              dayInfoWidget(context: context, color: AppThemeScreen.absentColor, title: "Absent"),
+              dayInfoWidget(context: context, color: AppColors.absentColor, title: "Absent"),
               SizedBox(width: 16),
-              dayInfoWidget(context: context, color: AppThemeScreen.holidayColor, title: "Holiday"),
+              dayInfoWidget(context: context, color: AppColors.holidayColor, title: "Holiday"),
               SizedBox(width: 16),
-              dayInfoWidget(context: context, color: AppThemeScreen.leaveColor, title: "Leave"),
+              dayInfoWidget(context: context, color: AppColors.leaveColor, title: "Leave"),
             ],
           ),
         ],
@@ -153,7 +153,7 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
         ),
         Text(
           title,
-          style: AppTextStyle().lableTextStyle(context: context, color: AppThemeScreen.greyColor),
+          style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),
         ),
       ],
     );
@@ -166,9 +166,9 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     required bool isDarkMode,
   }) {
     Color? bgColor = isDarkMode
-        ? AppThemeScreen.darkGrey.withValues(alpha: 0.5)
-        : AppThemeScreen.borderGrey.withValues(alpha: 0.8);
-    Color? textColor = AppThemeScreen.greyColor;
+        ? AppColors.darkGrey.withValues(alpha: 0.5)
+        : AppColors.borderGrey.withValues(alpha: 0.8);
+    Color? textColor = AppColors.greyColor;
 
     if (!isActiveDate) {
       bgColor = null;
@@ -176,20 +176,20 @@ class _AttendanceCalendarState extends State<AttendanceCalendar> {
     } else if (status != null && isActiveDate) {
       switch (status) {
         case AttendanceStatus.present:
-          bgColor = AppThemeScreen.presentColor;
-          textColor = AppThemeScreen.successPrimary;
+          bgColor = AppColors.presentColor;
+          textColor = AppColors.successPrimary;
           break;
         case AttendanceStatus.absent:
-          bgColor = AppThemeScreen.absentColor.withValues(alpha: 0.4);
-          textColor = AppThemeScreen.absentColor;
+          bgColor = AppColors.absentColor.withValues(alpha: 0.4);
+          textColor = AppColors.absentColor;
           break;
         case AttendanceStatus.holiday:
-          bgColor = AppThemeScreen.holidayColor.withValues(alpha: 0.2);
-          textColor = AppThemeScreen.holidayColor;
+          bgColor = AppColors.holidayColor.withValues(alpha: 0.2);
+          textColor = AppColors.holidayColor;
           break;
         case AttendanceStatus.leave:
-          bgColor = AppThemeScreen.leaveColor.withValues(alpha: 0.3);
-          textColor = AppThemeScreen.leaveColor;
+          bgColor = AppColors.leaveColor.withValues(alpha: 0.3);
+          textColor = AppColors.leaveColor;
           break;
       }
     }

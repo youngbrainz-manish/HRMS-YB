@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_provider.dart';
 import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
@@ -34,7 +34,7 @@ class EmployeeHomeScreen extends StatelessWidget {
     return Container(
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
-      color: isDarkMode ? AppThemeScreen.appScreenDark : AppThemeScreen.appScreenLight,
+      color: isDarkMode ? AppColors.appScreenDark : AppColors.appScreenLight,
       child: Column(
         children: [
           Expanded(
@@ -57,8 +57,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                               child: PunchButton(
                                 title: "09:00 AM",
                                 lable: "PUNCH OUT",
-                                titleColor: AppThemeScreen.errorColor,
-                                icon: Icon(Icons.touch_app_outlined, size: 38, color: AppThemeScreen.errorColor),
+                                titleColor: AppColors.errorColor,
+                                icon: Icon(Icons.touch_app_outlined, size: 38, color: AppColors.errorColor),
                                 isDarkMode: isDarkMode,
                                 progress: 0.82,
                                 onTap: () {},
@@ -72,10 +72,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                                   child: CommonButton(
                                     title: "You are currently punch in",
                                     onTap: () {},
-                                    color: AppThemeScreen.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
-                                    borderColor: AppThemeScreen.successSecondary.withValues(
-                                      alpha: isDarkMode ? 0.2 : 0.3,
-                                    ),
+                                    color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
+                                    borderColor: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
                                     style: AppTextStyle().subTitleTextStyle(context: context),
                                   ),
                                 ),
@@ -85,8 +83,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                                   child: CommonButton(
                                     title: "View",
                                     onTap: () {},
-                                    color: AppThemeScreen.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.8),
-                                    borderColor: AppThemeScreen.successPrimary.withValues(alpha: 0.3),
+                                    color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.8),
+                                    borderColor: AppColors.successPrimary.withValues(alpha: 0.3),
                                     style: AppTextStyle().subTitleTextStyle(context: context),
                                   ),
                                 ),
@@ -126,7 +124,7 @@ class EmployeeHomeScreen extends StatelessWidget {
       height: 60,
       width: MediaQuery.of(context).size.height,
       decoration: BoxDecoration(
-        color: isDarkMode ? AppThemeScreen.darkGrey : AppThemeScreen.lightGrey,
+        color: isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
         boxShadow: [
           BoxShadow(
             color: isDarkMode ? Colors.white38 : Colors.black38,
@@ -149,7 +147,7 @@ class EmployeeHomeScreen extends StatelessWidget {
   Widget _welcomeCardWidget(bool isDarkMode, BuildContext context) {
     return Card(
       margin: EdgeInsets.all(0),
-      color: isDarkMode ? AppThemeScreen.darkGrey : AppThemeScreen.primaryColor,
+      color: isDarkMode ? AppColors.darkGrey : AppColors.primaryColor,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         width: double.infinity,
@@ -158,15 +156,15 @@ class EmployeeHomeScreen extends StatelessWidget {
           children: [
             Text(
               "Welcome back,",
-              style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
               "Amit Kumar",
-              style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+              style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
               "EMP003",
-              style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.whiteColor),
+              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
           ],
         ),
@@ -192,7 +190,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                   path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
                   height: 20,
                   width: 20,
-                  color: isDarkMode ? AppThemeScreen.lightGrey : AppThemeScreen.darkGrey,
+                  color: isDarkMode ? AppColors.lightGrey : AppColors.darkGrey,
                 ),
               ],
             ),
@@ -208,8 +206,8 @@ class EmployeeHomeScreen extends StatelessWidget {
             CommonButton(
               title: "You are currently clocked in",
               onTap: () {},
-              color: AppThemeScreen.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
-              borderColor: AppThemeScreen.successSecondary,
+              color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
+              borderColor: AppColors.successSecondary,
               style: AppTextStyle().subTitleTextStyle(context: context),
             ),
             SizedBox(height: 4),
@@ -234,10 +232,10 @@ class EmployeeHomeScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
-                      color: AppThemeScreen.successSecondary.withValues(alpha: 0.8),
+                      color: AppColors.successSecondary.withValues(alpha: 0.8),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(Icons.login_outlined, size: 28, color: AppThemeScreen.successPrimary),
+                    child: Icon(Icons.login_outlined, size: 28, color: AppColors.successPrimary),
                   ),
                   SizedBox(height: 16),
                   Text("Punch In/Out", style: AppTextStyle().subTitleTextStyle(context: context)),
@@ -259,13 +257,13 @@ class EmployeeHomeScreen extends StatelessWidget {
                   Container(
                     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                     decoration: BoxDecoration(
-                      color: AppThemeScreen.secondaryPurpleColor,
+                      color: AppColors.secondaryPurpleColor,
                       borderRadius: BorderRadius.circular(12),
                     ),
                     child: CommonWidget().buildSvgImage(
                       path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
                       height: 28,
-                      color: AppThemeScreen.primaryPurpleColor,
+                      color: AppColors.primaryPurpleColor,
                     ),
                   ),
                   SizedBox(height: 16),
@@ -305,7 +303,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 return Container(
                   padding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
                   decoration: BoxDecoration(
-                    color: AppThemeScreen.borderGrey.withValues(alpha: 0.3),
+                    color: AppColors.borderGrey.withValues(alpha: 0.3),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -314,7 +312,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                     children: [
                       Text(
                         leaveData['name'],
-                        style: AppTextStyle().subTitleTextStyle(context: context, color: AppThemeScreen.greyColor),
+                        style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
                       ),
                       SizedBox(height: 2),
                       Text("${leaveData['days']} days", style: AppTextStyle().titleTextStyle(context: context)),
@@ -327,8 +325,8 @@ class EmployeeHomeScreen extends StatelessWidget {
             CommonButton(
               title: "1 leave request pending approval",
               onTap: () {},
-              color: AppThemeScreen.warningColor.withValues(alpha: isDarkMode ? 0.1 : 0.2),
-              borderColor: AppThemeScreen.warningColor,
+              color: AppColors.warningColor.withValues(alpha: isDarkMode ? 0.1 : 0.2),
+              borderColor: AppColors.warningColor,
               style: AppTextStyle().subTitleTextStyle(context: context),
             ),
             SizedBox(height: 8),
@@ -353,7 +351,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 Spacer(),
                 CommonWidget().buildSvgImage(
                   path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
-                  color: AppThemeScreen.textButtonColor,
+                  color: AppColors.textButtonColor,
                   height: 24,
                 ),
               ],
@@ -374,7 +372,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                   "View Details ->",
                   style: AppTextStyle().titleTextStyle(
                     context: context,
-                    color: AppThemeScreen.textButtonColor,
+                    color: AppColors.textButtonColor,
                     fontSize: 15,
                   ),
                 ),
@@ -401,7 +399,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 Spacer(),
                 Text(
                   "View All",
-                  style: AppTextStyle().titleTextStyle(context: context, color: AppThemeScreen.textButtonColor),
+                  style: AppTextStyle().titleTextStyle(context: context, color: AppColors.textButtonColor),
                 ),
               ],
             ),

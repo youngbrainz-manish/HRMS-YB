@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 
 class AppBottomNavBar extends StatelessWidget {
   final int currentIndex;
@@ -19,7 +19,7 @@ class AppBottomNavBar extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
-        // color: AppThemeScreen.primaryColor,
+        // color: AppColors.primaryColor,
         boxShadow: [
           BoxShadow(
             color: isDarkMode ? Colors.white38 : Colors.black38,
@@ -33,7 +33,7 @@ class AppBottomNavBar extends StatelessWidget {
         selectedIndex: currentIndex,
         onDestinationSelected: onTap,
         height: 75,
-        indicatorColor: isDarkMode ? AppThemeScreen.primaryColor : AppThemeScreen.darkGrey,
+        indicatorColor: isDarkMode ? AppColors.primaryColor : AppColors.darkGrey,
         labelBehavior: NavigationDestinationLabelBehavior.alwaysShow,
         labelTextStyle: labelTextStyle,
         destinations: [
@@ -42,13 +42,13 @@ class AppBottomNavBar extends StatelessWidget {
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.secondaryDarkTextColor.withValues(alpha: 0.6),
+              color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.whiteColor,
+              color: AppColors.whiteColor,
             ),
             label: "Home",
           ),
@@ -57,13 +57,13 @@ class AppBottomNavBar extends StatelessWidget {
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.secondaryDarkTextColor.withValues(alpha: 0.6),
+              color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.whiteColor,
+              color: AppColors.whiteColor,
             ),
             label: "Attendance",
           ),
@@ -72,13 +72,13 @@ class AppBottomNavBar extends StatelessWidget {
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 28,
               width: 28,
-              color: AppThemeScreen.secondaryDarkTextColor.withValues(alpha: 0.6),
+              color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 28,
               width: 28,
-              color: AppThemeScreen.whiteColor,
+              color: AppColors.whiteColor,
             ),
             label: "Leave",
           ),
@@ -87,13 +87,13 @@ class AppBottomNavBar extends StatelessWidget {
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.secondaryDarkTextColor.withValues(alpha: 0.6),
+              color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
               height: 25,
               width: 25,
-              color: AppThemeScreen.whiteColor,
+              color: AppColors.whiteColor,
             ),
             label: "Payslip",
           ),
@@ -102,13 +102,13 @@ class AppBottomNavBar extends StatelessWidget {
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
               height: 22,
               width: 22,
-              color: AppThemeScreen.secondaryDarkTextColor.withValues(alpha: 0.6),
+              color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
               height: 22,
               width: 22,
-              color: AppThemeScreen.whiteColor,
+              color: AppColors.whiteColor,
             ),
             label: "Profile",
           ),

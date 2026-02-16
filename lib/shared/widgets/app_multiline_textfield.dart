@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 
 class AppMultilineTextField extends StatelessWidget {
@@ -33,7 +33,7 @@ class AppMultilineTextField extends StatelessWidget {
       textInputAction: TextInputAction.newline,
 
       decoration: InputDecoration(
-        hintStyle: AppTextStyle().lableTextStyle(context: context, fontSize: 16, color: AppThemeScreen.greyColor),
+        hintStyle: AppTextStyle().lableTextStyle(context: context, fontSize: 16, color: AppColors.greyColor),
         labelText: label,
         hintText: hint,
         alignLabelWithHint: true,
@@ -44,12 +44,12 @@ class AppMultilineTextField extends StatelessWidget {
 
         enabledBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: AppThemeScreen.borderGrey),
+          borderSide: BorderSide(color: AppColors.borderGrey),
         ),
 
         focusedBorder: OutlineInputBorder(
           borderRadius: BorderRadius.circular(16),
-          borderSide: BorderSide(color: AppThemeScreen.primaryColor, width: 1.5),
+          borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
         ),
       ),
 

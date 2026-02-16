@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
@@ -36,14 +36,14 @@ class CommonButton extends StatelessWidget {
   Widget build(BuildContext context) {
     final isDark = context.watch<AppThemeProvider>().isDarkMode;
     return Material(
-      color: color ?? (isDark ? AppThemeScreen.dartButtonColor : AppThemeScreen.lightButtonColor),
+      color: color ?? (isDark ? AppColors.dartButtonColor : AppColors.lightButtonColor),
       shadowColor: Colors.white,
       borderRadius: BorderRadius.circular(borderRadius),
       child: InkWell(
         borderRadius: BorderRadius.circular(borderRadius),
         splashColor: isDark
-            ? AppThemeScreen.primaryColor.withValues(alpha: 0.05)
-            : AppThemeScreen.primaryDarkColor.withValues(alpha: 0.05),
+            ? AppColors.primaryColor.withValues(alpha: 0.05)
+            : AppColors.primaryDarkColor.withValues(alpha: 0.05),
         onTap: isLoading ? null : onTap,
         child: Container(
           width: double.infinity,
@@ -70,7 +70,7 @@ class CommonButton extends StatelessWidget {
                             style ??
                             AppTextStyle().titleTextStyle(
                               context: context,
-                              color: titleColor ?? AppThemeScreen.whiteColor,
+                              color: titleColor ?? AppColors.whiteColor,
                               fontSize: fontSize,
                             ),
                       ),

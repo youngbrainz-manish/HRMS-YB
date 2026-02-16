@@ -1,28 +1,7 @@
-// import 'package:flutter/material.dart';
-
-// class EmployeeLeaveScreen extends StatelessWidget {
-//   const EmployeeLeaveScreen({super.key});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Scaffold(
-//       body: SafeArea(child: _buildBody(context: context)),
-//     );
-//   }
-
-//   Widget _buildBody({required BuildContext context}) {
-//     return SizedBox(
-//       height: MediaQuery.of(context).size.height,
-//       width: MediaQuery.of(context).size.width,
-//       child: Center(child: Text("Leave Screen")),
-//     );
-//   }
-// }
-
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -108,7 +87,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
       decoration: BoxDecoration(
-        color: AppThemeScreen.primaryColor.withValues(alpha: 0.2),
+        color: AppColors.primaryColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
@@ -120,7 +99,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
           SizedBox(height: 6),
           Text(
             "days left",
-            style: AppTextStyle().lableTextStyle(context: context, color: AppThemeScreen.greyColor),
+            style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),
           ),
         ],
       ),
@@ -152,7 +131,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   width: double.infinity,
                   decoration: BoxDecoration(
-                    border: Border.all(color: AppThemeScreen.borderGrey),
+                    border: Border.all(color: AppColors.borderGrey),
                     borderRadius: BorderRadius.circular(8),
                   ),
                   child: Column(
@@ -166,7 +145,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
                           Container(
                             padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
                             decoration: BoxDecoration(
-                              color: AppThemeScreen.leaveColor.withValues(alpha: 0.5),
+                              color: AppColors.leaveColor.withValues(alpha: 0.5),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Text(
@@ -185,7 +164,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
                         padding: EdgeInsets.all(8),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppThemeScreen.greyColor.withValues(alpha: 0.3),
+                          color: AppColors.greyColor.withValues(alpha: 0.3),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
