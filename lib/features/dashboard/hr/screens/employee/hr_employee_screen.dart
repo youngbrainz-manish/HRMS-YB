@@ -72,7 +72,12 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
         const SizedBox(height: 16),
 
         ...provider.employees.map((e) {
-          return EmployeeCard(employee: e);
+          return GestureDetector(
+            onTap: () async {
+              await GoRouter.of(context).push(AppRouter.employeeDetailsScreenRoute);
+            },
+            child: EmployeeCard(employee: e),
+          );
         }),
       ],
     );

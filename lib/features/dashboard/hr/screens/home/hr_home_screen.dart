@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
-import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
