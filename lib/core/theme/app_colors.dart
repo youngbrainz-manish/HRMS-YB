@@ -10,7 +10,8 @@ class AppColors {
   static const Color borderGrey = Color(0xFFE0E0E0);
 
   static const Color primaryDarkColor = Color(0xFF313131);
-  static const Color successPrimary = Color(0xFF2E7D32);
+  // static const Color successPrimary = Color(0xFF2E7D32);
+  static const Color successPrimary = Colors.green;
   static const Color successSecondary = Color(0xFFC6F6D2);
   static const Color warningColor = Color(0xFFF9A825);
   static const Color errorColor = Color(0xFFC62828);

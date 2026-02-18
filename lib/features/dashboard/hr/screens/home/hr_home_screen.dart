@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
@@ -71,6 +72,12 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
                   onTap: () async {
                     if (i == 0) {
                       await GoRouter.of(context).push(AppRouter.addEmployeeScreenRoute);
+                    } else if (i == 1) {
+                      context.read<HrDashboardProvider>().onItemTapped(3);
+                    } else if (i == 2) {
+                      context.read<HrDashboardProvider>().onItemTapped(2);
+                    } else if (i == 3) {
+                      context.read<HrDashboardProvider>().onItemTapped(4);
                     }
                   },
                   child: _QuickActionCard(action: provider.quickActions[i]),
@@ -102,14 +109,14 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      color: AppColors.whiteColor.withValues(alpha: 0.1),
+      // color: AppColors.whiteColor.withValues(alpha: 0.1),
       margin: EdgeInsets.all(0),
       child: Container(
         padding: const EdgeInsets.all(16),
-        // decoration: BoxDecoration(
-        //   borderRadius: BorderRadius.circular(16),
-        //   gradient: LinearGradient(colors: stat.gradient),
-        // ),
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(12),
+          gradient: LinearGradient(colors: stat.gradient),
+        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

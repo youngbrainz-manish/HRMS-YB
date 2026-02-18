@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -21,6 +23,12 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
           return Scaffold(
             body: SafeArea(
               child: _buildBody(context: context, provider: provider),
+            ),
+            floatingActionButton: FloatingActionButton(
+              onPressed: () async {
+                await GoRouter.of(context).push(AppRouter.addEmployeeScreenRoute);
+              },
+              child: Icon(Icons.add),
             ),
           );
         },

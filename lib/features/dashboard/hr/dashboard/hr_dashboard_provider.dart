@@ -5,7 +5,7 @@ import 'package:hrms_yb/core/router/app_router.dart';
 class HrDashboardProvider extends ChangeNotifier {
   final BuildContext context;
   int currentIndex = 0;
-  List<String> titleNames = ["Home", "Employee", "Attendance", "Leave", "Patroll"];
+  List<String> titleNames = ["Home", "Employee", "Attendance", "Leave", "Payroll"];
 
   HrDashboardProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {});
