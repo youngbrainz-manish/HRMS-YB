@@ -14,12 +14,15 @@ import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_pr
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/attendance/audit/audit_log_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/attendance/correction/attendance_correction_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/add_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/details/employee_details_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/hr_payroll_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -49,6 +52,10 @@ class AppRouter {
   static const hrPayrollScreenRoute = '/hrPayrollScreen';
   static const addEmployeeScreenRoute = '/addEmployeeScreen';
   static const employeeDetailsScreenRoute = '/employeeDetailsScreen';
+  static const aCorrectionScreenRoute = '/attendanceCorrectionScreen';
+  static const attendanceAuditLogScreenRoute = '/auditLogScreen';
+  static const attendanceCorrectionScreenRoute = '/attendanceCorrectionScreen';
+  static const replyLeaveScreenRoute = '/replyLeaveScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -64,6 +71,9 @@ class AppRouter {
       GoRoute(path: leaveFormScreenRoute, builder: (context, state) => const LeaveFormScreen()),
       GoRoute(path: addEmployeeScreenRoute, builder: (context, state) => const AddEmployeeScreen()),
       GoRoute(path: employeeDetailsScreenRoute, builder: (context, state) => const EmployeeDetailsScreen()),
+      GoRoute(path: attendanceCorrectionScreenRoute, builder: (context, state) => const AttendanceCorrectionScreen()),
+      GoRoute(path: attendanceAuditLogScreenRoute, builder: (context, state) => const AuditLogScreen()),
+      GoRoute(path: replyLeaveScreenRoute, builder: (context, state) => const ReplyLeaveScreen()),
 
       ((AppGlobals().userModel.role == UserRole.employee))
           ? ShellRoute(

@@ -1,7 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
@@ -25,15 +28,17 @@ class HrLeaveScreen extends StatelessWidget {
   }
 
   Widget _buildBody({required BuildContext context, required HrLeaveProvider provider}) {
-    return SizedBox(
+    return Container(
+      padding: EdgeInsets.symmetric(horizontal: 16),
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
+          SizedBox(height: AppSize().verticalWidgetSpacing),
           _tabBar(provider: provider, context: context),
+          SizedBox(height: AppSize().verticalWidgetSpacing),
           Expanded(
             child: ListView.builder(
-              padding: const EdgeInsets.all(16),
               itemCount: provider.dummyLeaves.length,
               itemBuilder: (_, i) => LeaveApprovalCard(leave: provider.dummyLeaves[i]),
             ),
@@ -45,7 +50,7 @@ class HrLeaveScreen extends StatelessWidget {
 
   Widget _tabBar({required HrLeaveProvider provider, required BuildContext context}) {
     return Card(
-      margin: EdgeInsets.only(left: 16, right: 16, top: 16),
+      margin: EdgeInsets.all(0),
       child: Container(
         padding: const EdgeInsets.only(left: 4, top: 6, right: 4, bottom: 6),
         child: Row(
@@ -66,7 +71,7 @@ class HrLeaveScreen extends StatelessWidget {
                         ? (context.watch<AppThemeProvider>().isDarkMode
                               ? AppColors.dartButtonColor
                               : AppColors.primaryColor)
-                        : AppColors.greyColor.withValues(alpha: 0.3),
+                        : AppColors.hintColor,
                     borderRadius: BorderRadius.circular(6),
                   ),
                   child: Center(
@@ -98,7 +103,7 @@ class LeaveApprovalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: const EdgeInsets.only(bottom: 16),
+      margin: EdgeInsets.only(bottom: AppSize().verticalWidgetSpacing),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -117,7 +122,7 @@ class LeaveApprovalCard extends StatelessWidget {
                     Text(leave.department, style: AppTextStyle().lableTextStyle(context: context)),
                   ],
                 ),
-                _statusChip(),
+                _statusChip(context: context, leave: leave),
               ],
             ),
 
@@ -125,11 +130,8 @@ class LeaveApprovalCard extends StatelessWidget {
 
             /// DETAILS BOX
             Container(
-              padding: const EdgeInsets.all(14),
-              decoration: BoxDecoration(
-                color: AppColors.greyColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(14),
-              ),
+              padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),
+              decoration: BoxDecoration(color: AppColors.hintColor, borderRadius: BorderRadius.circular(14)),
               child: Column(
                 children: [
                   _row(context: context, title: "Leave Type", value: leave.leaveType),
@@ -152,9 +154,12 @@ class LeaveApprovalCard extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text("Reason:", style: AppTextStyle().titleTextStyle(context: context)),
+                  Text(
+                    "Reason:",
+                    style: AppTextStyle().titleTextStyle(context: context, color: AppColors.holidayColor),
+                  ),
                   const SizedBox(height: 4),
-                  Text(leave.reason, style: AppTextStyle().subTitleTextStyle(context: context)),
+                  Text(leave.reason, style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 15)),
                 ],
               ),
             ),
@@ -162,20 +167,83 @@ class LeaveApprovalCard extends StatelessWidget {
             const SizedBox(height: 16),
 
             /// BUTTONS
-            Row(
-              children: [
-                _actionButton(context: context, text: "Approve", color: AppColors.successPrimary, icon: Icons.check),
-                const SizedBox(width: 8),
-                _actionButton(context: context, text: "Reject", color: AppColors.errorColor, icon: Icons.close),
-                const SizedBox(width: 8),
-                _actionButton(
-                  context: context,
-                  text: "Info",
-                  color: AppColors.warningColor,
-                  icon: Icons.chat_bubble_outline,
-                ),
-              ],
-            ),
+            (leave.status.toLowerCase().contains("rejected") || leave.status.toLowerCase().contains("approved"))
+                ? Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(14),
+                    decoration: BoxDecoration(
+                      color: AppColors.successPrimary.withValues(alpha: 0.12),
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Hr Notes:",
+                          style: AppTextStyle().titleTextStyle(context: context, color: AppColors.successPrimary),
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          leave.hrNotes ?? "",
+                          style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 15),
+                        ),
+                      ],
+                    ),
+                  )
+                : Row(
+                    children: [
+                      _actionButton(
+                        context: context,
+                        text: "Approve",
+                        color: AppColors.successPrimary,
+                        icon: Icons.check,
+                        onTap: () {
+                          GoRouter.of(context).push(
+                            AppRouter.replyLeaveScreenRoute,
+                            extra: {
+                              "title": "Approve Leave",
+                              "buttonTitle": "Approve Leave",
+                              "color": AppColors.successPrimary,
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      _actionButton(
+                        context: context,
+                        text: "Reject",
+                        color: AppColors.errorColor,
+                        icon: Icons.close,
+                        onTap: () {
+                          GoRouter.of(context).push(
+                            AppRouter.replyLeaveScreenRoute,
+                            extra: {
+                              "title": "Reject Leave",
+                              "buttonTitle": "Reject Leave",
+                              "color": AppColors.errorColor,
+                            },
+                          );
+                        },
+                      ),
+                      const SizedBox(width: 8),
+                      _actionButton(
+                        context: context,
+                        text: "Info",
+                        color: AppColors.warningColor,
+                        icon: Icons.chat_bubble_outline,
+                        onTap: () {
+                          GoRouter.of(context).push(
+                            AppRouter.replyLeaveScreenRoute,
+                            extra: {
+                              "title": "Need Info",
+                              "buttonTitle": "Request Info",
+                              "color": AppColors.warningColor,
+                            },
+                          );
+                        },
+                      ),
+                    ],
+                  ),
 
             const SizedBox(height: 16),
 
@@ -199,14 +267,18 @@ class LeaveApprovalCard extends StatelessWidget {
     );
   }
 
-  Widget _statusChip() {
+  Widget _statusChip({required BuildContext context, required LeaveRequest leave}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 6),
       decoration: BoxDecoration(
-        color: AppColors.warningColor.withValues(alpha: 0.25),
+        color: leave.status.toLowerCase().contains("approved")
+            ? AppColors.successSecondary.withValues(alpha: 0.5)
+            : leave.status.toLowerCase().contains("pending")
+            ? AppColors.warningColor.withValues(alpha: 0.25)
+            : AppColors.errorColor.withValues(alpha: 0.2),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: const Text("Pending", style: TextStyle(color: AppColors.errorColor)),
+      child: Text(leave.status, style: AppTextStyle().lableTextStyle(context: context)),
     );
   }
 
@@ -215,21 +287,31 @@ class LeaveApprovalCard extends StatelessWidget {
     required String text,
     required Color color,
     required IconData icon,
+    void Function()? onTap,
   }) {
     return Expanded(
-      child: Container(
-        height: 44,
-        decoration: BoxDecoration(color: color, borderRadius: BorderRadius.circular(12)),
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Icon(icon, color: AppColors.whiteColor, size: 18),
-            const SizedBox(width: 6),
-            Text(
-              text,
-              style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 15),
+      child: GestureDetector(
+        onTap: onTap,
+        child: Card(
+          elevation: 5,
+          shadowColor: color,
+          margin: EdgeInsets.all(0),
+          child: Container(
+            height: 44,
+            decoration: BoxDecoration(
+              color: color.withValues(alpha: 0.3),
+              borderRadius: BorderRadius.circular(12),
+              border: Border.all(color: color),
             ),
-          ],
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Icon(icon, size: 18),
+                const SizedBox(width: 6),
+                Text(text, style: AppTextStyle().titleTextStyle(context: context, fontSize: 15)),
+              ],
+            ),
+          ),
         ),
       ),
     );

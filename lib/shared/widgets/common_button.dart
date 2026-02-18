@@ -35,47 +35,53 @@ class CommonButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isDark = context.watch<AppThemeProvider>().isDarkMode;
-    return Material(
-      color: color ?? (isDark ? AppColors.dartButtonColor : AppColors.lightButtonColor),
-      shadowColor: Colors.white,
-      borderRadius: BorderRadius.circular(borderRadius),
-      child: InkWell(
+    return Card(
+      margin: EdgeInsets.all(0),
+
+      elevation: 5,
+      shadowColor: context.read<AppThemeProvider>().isDarkMode ? AppColors.dartButtonColor : AppColors.primaryColor,
+      child: Material(
+        color: color ?? (isDark ? AppColors.dartButtonColor : AppColors.lightButtonColor),
+        shadowColor: Colors.white,
         borderRadius: BorderRadius.circular(borderRadius),
-        splashColor: isDark
-            ? AppColors.primaryColor.withValues(alpha: 0.05)
-            : AppColors.primaryDarkColor.withValues(alpha: 0.05),
-        onTap: isLoading ? null : onTap,
-        child: Container(
-          width: double.infinity,
-          height: 50,
-          decoration: BoxDecoration(
-            border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
-            borderRadius: BorderRadius.circular(borderRadius),
-          ),
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          child: Center(
-            child: isLoading
-                ? const SizedBox(
-                    height: 22,
-                    width: 22,
-                    child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                  )
-                : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      if (icon != null) ...[icon!, SizedBox(width: 12)],
-                      Text(
-                        title,
-                        style:
-                            style ??
-                            AppTextStyle().titleTextStyle(
-                              context: context,
-                              color: titleColor ?? AppColors.whiteColor,
-                              fontSize: fontSize,
-                            ),
-                      ),
-                    ],
-                  ),
+        child: InkWell(
+          borderRadius: BorderRadius.circular(borderRadius),
+          splashColor: isDark
+              ? AppColors.primaryColor.withValues(alpha: 0.05)
+              : AppColors.primaryDarkColor.withValues(alpha: 0.05),
+          onTap: isLoading ? null : onTap,
+          child: Container(
+            width: double.infinity,
+            height: 50,
+            decoration: BoxDecoration(
+              border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
+              borderRadius: BorderRadius.circular(borderRadius),
+            ),
+            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            child: Center(
+              child: isLoading
+                  ? const SizedBox(
+                      height: 22,
+                      width: 22,
+                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
+                    )
+                  : Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        if (icon != null) ...[icon!, SizedBox(width: 12)],
+                        Text(
+                          title,
+                          style:
+                              style ??
+                              AppTextStyle().titleTextStyle(
+                                context: context,
+                                color: titleColor ?? AppColors.whiteColor,
+                                fontSize: fontSize,
+                              ),
+                        ),
+                      ],
+                    ),
+            ),
           ),
         ),
       ),

@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
@@ -34,7 +37,7 @@ class HrAttendanceScreen extends StatelessWidget {
         children: [
           /// Select Date
           _dateSelector(provider: provider),
-          const SizedBox(height: 16),
+          SizedBox(height: AppSize().verticalWidgetSpacing),
 
           /// Status Cards
           Row(
@@ -47,7 +50,7 @@ class HrAttendanceScreen extends StatelessWidget {
             ],
           ),
 
-          const SizedBox(height: 16),
+          SizedBox(height: AppSize().verticalWidgetSpacing),
 
           /// Buttons
           Row(
@@ -56,7 +59,9 @@ class HrAttendanceScreen extends StatelessWidget {
                 child: CommonButton(
                   icon: Icon(Icons.edit, color: AppColors.whiteColor),
                   title: "Mark Correction",
-                  onTap: () {},
+                  onTap: () async {
+                    await GoRouter.of(context).push(AppRouter.attendanceCorrectionScreenRoute);
+                  },
                 ),
               ),
               const SizedBox(width: 12),
@@ -65,14 +70,16 @@ class HrAttendanceScreen extends StatelessWidget {
                   icon: Icon(Icons.more_time_sharp),
                   title: "Audit Log",
                   style: AppTextStyle().subTitleTextStyle(context: context),
-                  onTap: () {},
+                  onTap: () async {
+                    await GoRouter.of(context).push(AppRouter.attendanceAuditLogScreenRoute);
+                  },
                   color: AppColors.transparantColor,
                   borderColor: AppColors.primaryColor,
                 ),
               ),
             ],
           ),
-          const SizedBox(height: 26),
+          SizedBox(height: AppSize().verticalWidgetSpacing),
 
           /// List
           Card(
@@ -132,7 +139,7 @@ class AttendanceCard extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: AppColors.borderGrey),
+        border: Border.all(color: AppColors.greyColor.withValues(alpha: 0.3)),
       ),
       child: Column(
         children: [
@@ -205,18 +212,21 @@ class StatusCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(vertical: 16),
-      decoration: BoxDecoration(color: color.withValues(alpha: .15), borderRadius: BorderRadius.circular(12)),
-      child: Column(
-        children: [
-          Text(count, style: AppTextStyle().titleTextStyle(context: context)),
-          const SizedBox(height: 4),
-          Text(
-            title,
-            style: AppTextStyle().lableTextStyle(context: context, color: color),
-          ),
-        ],
+    return Card(
+      margin: EdgeInsets.all(0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(vertical: 16),
+        decoration: BoxDecoration(color: color.withValues(alpha: .15), borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          children: [
+            Text(count, style: AppTextStyle().titleTextStyle(context: context)),
+            const SizedBox(height: 4),
+            Text(
+              title,
+              style: AppTextStyle().lableTextStyle(context: context, color: color),
+            ),
+          ],
+        ),
       ),
     );
   }

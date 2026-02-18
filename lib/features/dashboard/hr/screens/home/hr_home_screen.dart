@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
@@ -52,7 +53,7 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
               ),
               itemBuilder: (_, i) => _StatCard(stat: provider.stats[i]),
             ),
-            const SizedBox(height: 16),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
 
             /// ===== QUICK ACTIONS =====
             _SectionCard(
@@ -84,7 +85,7 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
               ),
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
 
             /// ===== RECENT ACTIVITIES =====
             _SectionCard(
@@ -92,7 +93,7 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
               child: Column(children: provider.activities.map((e) => _ActivityTile(activity: e)).toList()),
             ),
 
-            const SizedBox(height: 16),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
           ],
         ),
       ),
@@ -151,7 +152,7 @@ class _SectionCard extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            const SizedBox(height: 16),
+            SizedBox(height: AppSize().verticalWidgetSpacing),
             child,
           ],
         ),

@@ -40,4 +40,6 @@ class AppColors {
   static const Color dartButtonColor = Color.fromARGB(255, 91, 31, 32);
 
   static const Color transparantColor = Colors.transparent;
+
+  static Color hintColor = greyColor.withValues(alpha: 0.2);
 }

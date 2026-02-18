@@ -103,7 +103,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
             shape: BoxShape.circle,
             color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
           ),
-          child: Icon(Icons.notifications_none_sharp, size: 20),
+          child: Icon(Icons.person, size: 20),
         ),
         SizedBox(width: 8),
       ],

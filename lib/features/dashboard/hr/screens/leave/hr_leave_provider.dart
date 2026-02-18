@@ -17,6 +17,7 @@ class HrLeaveProvider extends ChangeNotifier {
       reason: "Family function",
       appliedDate: "Dec 18",
       status: "Pending",
+      hrNotes: "Personal work",
     ),
     LeaveRequest(
       employeeName: "Anjali Verma",
@@ -26,7 +27,19 @@ class HrLeaveProvider extends ChangeNotifier {
       days: "2 days",
       reason: "Personal work",
       appliedDate: "Dec 19",
-      status: "Pending",
+      status: "Rejected",
+      hrNotes: "Year-end critical period, please reschedule",
+    ),
+    LeaveRequest(
+      employeeName: "Manish Patel",
+      department: "Mobile",
+      leaveType: "Casual Leave",
+      dates: "Dec 26 - Dec 27",
+      days: "2 days",
+      reason: "Personal work",
+      appliedDate: "Dec 19",
+      status: "Approved",
+      hrNotes: "Approved",
     ),
   ];
 
@@ -54,6 +67,7 @@ class LeaveRequest {
   final String reason;
   final String appliedDate;
   final String status;
+  final String? hrNotes;
 
   LeaveRequest({
     required this.employeeName,
@@ -64,5 +78,6 @@ class LeaveRequest {
     required this.reason,
     required this.appliedDate,
     required this.status,
+    this.hrNotes,
   });
 }

@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
@@ -43,7 +44,7 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
         /// SEARCH
         _searchField(provider: provider),
 
-        const SizedBox(height: 16),
+        SizedBox(height: AppSize().verticalWidgetSpacing),
 
         /// FILTER TOGGLE
         GestureDetector(
@@ -65,11 +66,11 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
 
         if (provider.showFilters) ...[const SizedBox(height: 16), _filterCard(provider: provider)],
 
-        const SizedBox(height: 16),
+        SizedBox(height: AppSize().verticalWidgetSpacing),
 
         Text("${provider.employees.length} employees found", style: AppTextStyle().lableTextStyle(context: context)),
 
-        const SizedBox(height: 16),
+        SizedBox(height: AppSize().verticalWidgetSpacing),
 
         ...provider.employees.map((e) {
           return GestureDetector(

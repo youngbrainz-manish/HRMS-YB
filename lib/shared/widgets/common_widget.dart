@@ -19,7 +19,7 @@ class CommonWidget {
         padding: const EdgeInsets.all(8.0),
         child: CircleAvatar(
           backgroundColor: AppColors.lightGrey.withValues(alpha: 0.3),
-          child: Icon(Icons.arrow_back_ios_new_rounded, size: 24),
+          child: Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: AppColors.whiteColor),
         ),
       ),
     );
