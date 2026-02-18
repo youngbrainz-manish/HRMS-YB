@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/constants/app_globals.dart';
+import 'package:hrms_yb/core/enums/user_role.dart';
 import 'package:hrms_yb/features/auth/forgot_pin_screen.dart';
 import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
@@ -14,6 +15,7 @@ import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/lea
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/employee/add_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
@@ -22,6 +24,7 @@ import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
 final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
   static const loginScreenRoute = '/login';
@@ -43,6 +46,7 @@ class AppRouter {
   static const hrAttendanceScreenRoute = '/hrAttendanceScreen';
   static const hrLeaveScreenRoute = '/hrLeaveScreen';
   static const hrPayrollScreenRoute = '/hrPayrollScreen';
+  static const addEmployeeScreenRoute = '/addEmployeeScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -56,8 +60,9 @@ class AppRouter {
       ),
       GoRoute(path: forgotPinRoute, builder: (context, state) => const ForgotPinScreen()),
       GoRoute(path: leaveFormScreenRoute, builder: (context, state) => const LeaveFormScreen()),
+      GoRoute(path: addEmployeeScreenRoute, builder: (context, state) => const AddEmployeeScreen()),
 
-      (!AppGlobals().userModel.isHr)
+      ((AppGlobals().userModel.role == UserRole.employee))
           ? ShellRoute(
               navigatorKey: _shellNavigatorKey,
               builder: (BuildContext context, GoRouterState state, Widget? child) {
@@ -106,7 +111,7 @@ class AppRouter {
               ],
             )
           : ShellRoute(
-              navigatorKey: _shellNavigatorKey,
+              navigatorKey: _shellNavigatorKey1,
               builder: (BuildContext context, GoRouterState state, Widget? child) {
                 return ChangeNotifierProvider<HrDashboardProvider>(
                   create: (_) => HrDashboardProvider(context: context),

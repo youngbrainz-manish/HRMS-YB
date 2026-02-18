@@ -111,7 +111,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         title: "Login",
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          var data = await provider.login(email: "userhr@gamil.com", password: "1234");
+                          var data = await provider.login(
+                            email: provider.emailController.text.trim(),
+                            password: provider.pinController.text.trim(),
+                          );
                           if (data == true) {
                             if (provider.user?.isHr == true) {
                               if (provider.user != null) {

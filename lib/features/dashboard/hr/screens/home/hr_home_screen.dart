@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -65,7 +67,14 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
                   crossAxisSpacing: 14,
                   childAspectRatio: 2.5,
                 ),
-                itemBuilder: (_, i) => _QuickActionCard(action: provider.quickActions[i]),
+                itemBuilder: (_, i) => GestureDetector(
+                  onTap: () async {
+                    if (i == 0) {
+                      await GoRouter.of(context).push(AppRouter.addEmployeeScreenRoute);
+                    }
+                  },
+                  child: _QuickActionCard(action: provider.quickActions[i]),
+                ),
               ),
             ),
 

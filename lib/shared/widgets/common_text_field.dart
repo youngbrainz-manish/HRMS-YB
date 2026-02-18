@@ -15,6 +15,7 @@ class CommonTextField extends StatelessWidget {
   final VoidCallback? onSuffixTap;
   final void Function()? onTap;
   final bool? isEnable;
+  final String? headingText;
 
   const CommonTextField({
     super.key,
@@ -29,41 +30,49 @@ class CommonTextField extends StatelessWidget {
     this.onSuffixTap,
     this.onTap,
     this.isEnable = true,
+    this.headingText,
   });
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: onTap,
-      child: Container(
-        color: Colors.transparent,
-        child: TextFormField(
-          style: AppTextStyle().subTitleTextStyle(context: context),
-          enabled: isEnable,
-          controller: controller,
-          obscureText: obscureText,
-          keyboardType: keyboardType,
-          validator: validator,
-          decoration: InputDecoration(
-            labelText: labelText,
-            hintText: hintText,
-            hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
-            labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor),
-            prefixIcon: prefixIcon,
-            suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: Colors.grey.shade400),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        if (headingText != null) ...[Text(headingText!), SizedBox(height: 4)],
+        GestureDetector(
+          onTap: onTap,
+          child: Container(
+            color: Colors.transparent,
+            child: TextFormField(
+              style: AppTextStyle().subTitleTextStyle(context: context),
+              enabled: isEnable,
+              controller: controller,
+              obscureText: obscureText,
+              keyboardType: keyboardType,
+              validator: validator,
+              decoration: InputDecoration(
+                labelText: labelText,
+                hintText: hintText,
+                hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor),
+                prefixIcon: prefixIcon,
+                suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
+                enabledBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: Colors.grey.shade400),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.primaryColor),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              ),
             ),
-            focusedBorder: OutlineInputBorder(
-              borderSide: BorderSide(color: AppColors.primaryColor),
-              borderRadius: BorderRadius.circular(12),
-            ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
           ),
         ),
-      ),
+      ],
     );
   }
 }

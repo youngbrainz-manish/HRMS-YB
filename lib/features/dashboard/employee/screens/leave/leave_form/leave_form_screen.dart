@@ -99,9 +99,8 @@ class LeaveFormScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("From Date *", style: AppTextStyle().titleTextStyle(context: provider.context)),
-                        SizedBox(height: 4),
                         CommonTextField(
+                          headingText: "From Date *",
                           controller: provider.fromDate,
                           hintText: "dd/mm/yyyy",
                           isEnable: false,
@@ -118,9 +117,8 @@ class LeaveFormScreen extends StatelessWidget {
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text("To Date *", style: AppTextStyle().titleTextStyle(context: provider.context)),
-                        SizedBox(height: 4),
                         CommonTextField(
+                          headingText: "To Date *",
                           controller: provider.toDate,
                           hintText: "dd/mm/yyyy",
                           isEnable: false,
