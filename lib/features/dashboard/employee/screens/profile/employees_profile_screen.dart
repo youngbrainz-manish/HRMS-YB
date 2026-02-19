@@ -5,6 +5,7 @@ import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_pr
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
+import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:provider/provider.dart';
 
 class EmployeesProfileScreen extends StatefulWidget {
@@ -117,30 +118,27 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
             SizedBox(height: AppSize().verticalWidgetSpacing),
 
             /// UPDATE PIN
-            Card(
-              margin: EdgeInsets.all(0),
-              child: ListTile(
-                shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-                leading: const Icon(Icons.key_outlined),
-                title: const Text("Update Access PIN"),
-                onTap: () {},
+            CommonButton(
+              icon: Icon(
+                Icons.key_outlined,
+                color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.whiteColor : AppColors.blackColor,
               ),
+              title: "Update Access PIN",
+              onTap: () {},
+              mainAxisAlignment: MainAxisAlignment.start,
+              color: AppColors.transparantColor,
+              borderColor: AppColors.primaryColor,
+              titleColor: context.watch<AppThemeProvider>().isDarkMode ? AppColors.whiteColor : AppColors.blackColor,
             ),
 
             SizedBox(height: AppSize().verticalWidgetSpacing),
 
             /// LOGOUT
-            Card(
-              margin: EdgeInsets.all(0),
-              child: ListTile(
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  side: BorderSide(color: Colors.red.shade200),
-                ),
-                leading: const Icon(Icons.logout, color: Colors.red),
-                title: const Text("Logout", style: TextStyle(color: Colors.red)),
-                onTap: () {},
-              ),
+            CommonButton(
+              icon: Icon(Icons.logout, color: AppColors.whiteColor),
+              title: "Logout",
+              onTap: () {},
+              mainAxisAlignment: MainAxisAlignment.start,
             ),
             SizedBox(height: AppSize().verticalWidgetSpacing),
           ],
@@ -152,7 +150,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
   _buildProfileCard({required EmployeesProfileProvider provider}) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 30),
+      padding: const EdgeInsets.symmetric(vertical: 16),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(16),
         gradient: LinearGradient(
@@ -168,13 +166,13 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
             backgroundColor: Colors.white.withValues(alpha: .2),
             child: const Icon(Icons.person_outline, size: 45, color: Colors.white),
           ),
-          const SizedBox(height: 14),
+          const SizedBox(height: 12),
           Text(
             provider.employee.name,
-            style: const TextStyle(color: Colors.white, fontSize: 22, fontWeight: FontWeight.w600),
+            style: const TextStyle(color: Colors.white, fontSize: 20, fontWeight: FontWeight.w600),
           ),
           const SizedBox(height: 4),
-          Text(provider.employee.employeeId, style: const TextStyle(color: Colors.white70, fontSize: 18)),
+          Text(provider.employee.employeeId, style: const TextStyle(color: Colors.white70, fontSize: 16)),
         ],
       ),
     );

@@ -16,6 +16,7 @@ class CommonButton extends StatelessWidget {
   final Widget? icon;
   final Color? titleColor;
   final double? fontSize;
+  final MainAxisAlignment mainAxisAlignment;
 
   const CommonButton({
     super.key,
@@ -30,6 +31,7 @@ class CommonButton extends StatelessWidget {
     this.icon,
     this.titleColor,
     this.fontSize = 14,
+    this.mainAxisAlignment = MainAxisAlignment.center,
   });
 
   @override
@@ -65,7 +67,7 @@ class CommonButton extends StatelessWidget {
                       child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
                     )
                   : Row(
-                      mainAxisAlignment: MainAxisAlignment.center,
+                      mainAxisAlignment: mainAxisAlignment,
                       children: [
                         if (icon != null) ...[icon!, SizedBox(width: 12)],
                         Text(

@@ -6,7 +6,7 @@ import 'package:image_picker/image_picker.dart';
 class LeaveFormProvider extends ChangeNotifier {
   final BuildContext context;
 
-  String? leaveType;
+  String leaveType = "Select leave type";
   final fromDate = TextEditingController();
   final toDate = TextEditingController();
   final reason = TextEditingController();

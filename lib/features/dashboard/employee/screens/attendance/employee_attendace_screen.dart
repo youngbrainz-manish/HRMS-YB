@@ -45,7 +45,6 @@ class EmployeeAttendaceScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 8),
                     _dateTimeWidget(isDarkMode: isDarkMode),
                     SizedBox(height: AppSize().verticalWidgetSpacing),
                     _punchInPunchOutWidget(isDarkMode, context),
@@ -53,6 +52,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
                     _breakInbreakOutWidget(isDarkMode, context),
                     SizedBox(height: AppSize().verticalWidgetSpacing),
                     Card(
+                      margin: EdgeInsets.all(0),
                       child: Padding(
                         padding: EdgeInsets.symmetric(horizontal: 16, vertical: 16),
                         child: SizedBox(
@@ -97,6 +97,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
 
   Widget _dateTimeWidget({required bool isDarkMode}) {
     return Card(
+      margin: EdgeInsets.all(0),
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
         width: double.infinity,
@@ -159,6 +160,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
 
   Widget _sessionDurationWidget(bool isDarkMode, BuildContext context, EmployeeAttendanceProvider provider) {
     return Card(
+      margin: EdgeInsets.all(0),
       color: isDarkMode ? AppColors.primaryDarkColor : AppColors.primaryColor,
       child: Container(
         padding: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
@@ -200,6 +202,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
 
   Widget _attendanceCalenderWidget(EmployeeAttendanceProvider provider, bool isDarkMode) {
     return Card(
+      margin: EdgeInsets.all(0),
       child: AttendanceCalendar(attendanceList: provider.dummyAttendance, isDarkMode: isDarkMode),
     );
   }
@@ -210,6 +213,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
     required bool isDarkMode,
   }) {
     return Card(
+      margin: EdgeInsets.all(0),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
         child: Column(
@@ -248,7 +252,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             onTap: () {},
           ),
         ),
-        SizedBox(height: AppSize().verticalWidgetSpacing),
+        SizedBox(width: AppSize().verticalWidgetSpacing),
         Expanded(
           child: AppActionCard(
             bgColor: isDarkMode ? AppColors.errorColor : AppColors.absentColor,

@@ -20,23 +20,26 @@ class AppActionCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: isEnabled ? onTap : null,
-      child: AnimatedContainer(
-        duration: const Duration(milliseconds: 250),
-        height: 60,
-        alignment: Alignment.center,
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(14),
-          color: isEnabled ? bgColor : Colors.grey.shade300,
-          boxShadow: [
-            BoxShadow(color: Colors.black.withValues(alpha: .15), blurRadius: 10, offset: const Offset(0, 4)),
-          ],
-        ),
-        child: Text(
-          title,
-          style: TextStyle(
-            fontSize: 18,
-            fontWeight: FontWeight.w600,
-            color: isEnabled ? textColor : Colors.grey.shade500,
+      child: Card(
+        margin: EdgeInsets.all(0),
+        child: AnimatedContainer(
+          duration: const Duration(milliseconds: 250),
+          height: 55,
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: isEnabled ? bgColor : Colors.grey.shade300,
+            // boxShadow: [
+            //   BoxShadow(color: Colors.black.withValues(alpha: .15), blurRadius: 10, offset: const Offset(0, 4)),
+            // ],
+          ),
+          child: Text(
+            title,
+            style: TextStyle(
+              fontSize: 18,
+              fontWeight: FontWeight.w600,
+              color: isEnabled ? textColor : Colors.grey.shade500,
+            ),
           ),
         ),
       ),

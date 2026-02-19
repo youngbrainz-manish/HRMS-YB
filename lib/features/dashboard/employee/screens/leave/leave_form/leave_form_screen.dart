@@ -5,6 +5,7 @@ import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/app_filter_dropdown.dart';
 import 'package:hrms_yb/shared/widgets/app_multiline_textfield.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
@@ -53,40 +54,12 @@ class LeaveFormScreen extends StatelessWidget {
               Text("Leave Type *", style: AppTextStyle().titleTextStyle(context: provider.context)),
               const SizedBox(height: 4),
 
-              DropdownButtonFormField<String>(
-                decoration: InputDecoration(
-                  border: OutlineInputBorder(
-                    // borderSide: BorderSide(color: Colors.red),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  enabledBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  focusedBorder: OutlineInputBorder(
-                    borderSide: BorderSide(color: AppColors.primaryColor),
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                ),
-                initialValue: provider.leaveType,
-                hint: Text(
-                  "Select leave type",
-                  style: AppTextStyle().subTitleTextStyle(
-                    context: provider.context,
-                    color: AppColors.greyColor,
-                    fontSize: 16,
-                  ),
-                ),
-                items: ["Casual", "Sick", "Earned"]
-                    .map(
-                      (e) => DropdownMenuItem(
-                        value: e,
-                        child: Text(e, style: AppTextStyle().subTitleTextStyle(context: provider.context)),
-                      ),
-                    )
-                    .toList(),
-                onChanged: (v) {
-                  provider.leaveType = v;
+              AppFilterDropdown(
+                label: "Department",
+                value: "Select Leave",
+                options: ["Select Leave", "Casual", "Sick", "Earned"],
+                onChanged: (value) {
+                  provider.leaveType = value;
                   provider.updateState();
                 },
               ),

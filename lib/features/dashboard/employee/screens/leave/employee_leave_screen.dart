@@ -94,9 +94,9 @@ class EmployeeLeaveScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Text(title, style: AppTextStyle().subTitleTextStyle(context: context)),
-          SizedBox(height: 6),
+          Spacer(),
           Text(days, style: AppTextStyle().titleTextStyle(context: context, fontSize: 20)),
-          SizedBox(height: 6),
+          Spacer(),
           Text(
             "days left",
             style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),

@@ -15,7 +15,7 @@ class PunchButton extends StatelessWidget {
 
   const PunchButton({
     super.key,
-    this.size = 160,
+    this.size = 140,
     this.progress = 0.75,
     this.onTap,
     this.isDarkMode,

@@ -16,53 +16,50 @@ class AttendanceHistoryTile extends StatelessWidget {
   Widget build(BuildContext context) {
     final dateText = DateFormat('MMM d, yyyy').format(model.date);
 
-    return Card(
-      color: isDarkMode ? AppColors.darkGrey.withValues(alpha: 0.5) : AppColors.lightGrey.withValues(alpha: 0.5),
-      child: Container(
-        height: 80,
-        padding: const EdgeInsets.all(8.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                /// LEFT CONTENT
-                Expanded(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
+    return Padding(
+      padding: EdgeInsets.only(bottom: 12),
+      child: Card(
+        margin: EdgeInsets.all(0),
+        child: Container(
+          height: 80,
+          padding: const EdgeInsets.all(8.0),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  /// LEFT CONTENT
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(dateText, style: AppTextStyle().subTitleTextStyle(context: context)),
+                        const SizedBox(height: 4),
+                        Text(
+                          "In: ${_formatTime(model.checkIn)}   "
+                          "Out: ${_formatTime(model.checkOut)}",
+                          style: TextStyle(fontSize: 15, color: Colors.grey.shade700),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  /// RIGHT SIDE
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.end,
                     children: [
-                      Text(dateText, style: AppTextStyle().subTitleTextStyle(context: context)),
-                      const SizedBox(height: 4),
-                      Text(
-                        "In: ${_formatTime(model.checkIn)}   "
-                        "Out: ${_formatTime(model.checkOut)}",
-                        style: TextStyle(fontSize: 15, color: Colors.grey.shade700),
-                      ),
+                      _statusBadge(model.status),
+                      if (model.workedHours != null) ...[
+                        SizedBox(height: 6),
+                        Text("${model.workedHours} hrs", style: AppTextStyle().lableTextStyle(context: context)),
+                      ],
                     ],
                   ),
-                ),
-
-                /// RIGHT SIDE
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.end,
-                  children: [
-                    _statusBadge(model.status),
-                    if (model.workedHours != null) ...[
-                      SizedBox(height: 6),
-                      Text("${model.workedHours} hrs", style: AppTextStyle().lableTextStyle(context: context)),
-                    ],
-                  ],
-                ),
-              ],
-            ),
-            // if (!(isLastItem == true)) ...[
-            //   Padding(
-            //     padding: const EdgeInsets.symmetric(vertical: 4),
-            //     child: Divider(color: AppColors.borderGrey),
-            //   ),
-            // ],
-          ],
+                ],
+              ),
+            ],
+          ),
         ),
       ),
     );

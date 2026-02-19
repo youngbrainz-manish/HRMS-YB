@@ -44,7 +44,6 @@ class EmployeeHomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    SizedBox(height: 8),
                     _welcomeCardWidget(isDarkMode, context),
                     SizedBox(height: AppSize().verticalWidgetSpacing),
                     Card(
@@ -224,8 +223,8 @@ class EmployeeHomeScreen extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.all(0),
             child: Container(
-              height: 90,
-              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              height: 80,
+              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -235,9 +234,9 @@ class EmployeeHomeScreen extends StatelessWidget {
                       color: AppColors.successSecondary.withValues(alpha: 0.8),
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Icon(Icons.login_outlined, size: 28, color: AppColors.successPrimary),
+                    child: Icon(Icons.login_outlined, size: 26, color: AppColors.successPrimary),
                   ),
-                  SizedBox(height: 16),
+                  SizedBox(height: 8),
                   Text("Punch In/Out", style: AppTextStyle().subTitleTextStyle(context: context)),
                 ],
               ),
@@ -249,8 +248,8 @@ class EmployeeHomeScreen extends StatelessWidget {
           child: Card(
             margin: EdgeInsets.all(0),
             child: Container(
-              height: 90,
-              margin: EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+              height: 80,
+              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
@@ -262,11 +261,12 @@ class EmployeeHomeScreen extends StatelessWidget {
                     ),
                     child: CommonWidget().buildSvgImage(
                       path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
-                      height: 28,
+                      height: 26,
                       color: AppColors.primaryPurpleColor,
                     ),
                   ),
-                  SizedBox(height: 16),
+                  // SizedBox(height: 8),
+                  Spacer(),
                   Text("Apply Leave", style: AppTextStyle().subTitleTextStyle(context: context)),
                 ],
               ),
@@ -294,29 +294,31 @@ class EmployeeHomeScreen extends StatelessWidget {
               itemCount: provider.leaveDetailsList.length,
               gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                 crossAxisCount: 2,
-                mainAxisSpacing: 16,
-                crossAxisSpacing: 16,
+                mainAxisSpacing: 8,
+                crossAxisSpacing: 8,
                 childAspectRatio: 2.2,
               ),
               itemBuilder: (context, index) {
                 Map<String, dynamic> leaveData = provider.leaveDetailsList[index];
-                return Container(
-                  padding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
-                  decoration: BoxDecoration(
-                    color: AppColors.borderGrey.withValues(alpha: 0.3),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Text(
-                        leaveData['name'],
-                        style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
-                      ),
-                      SizedBox(height: 2),
-                      Text("${leaveData['days']} days", style: AppTextStyle().titleTextStyle(context: context)),
-                    ],
+                return Card(
+                  child: Container(
+                    padding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
+                    decoration: BoxDecoration(
+                      color: AppColors.borderGrey.withValues(alpha: 0.3),
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          leaveData['name'],
+                          style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
+                        ),
+                        SizedBox(height: 2),
+                        Text("${leaveData['days']} days", style: AppTextStyle().titleTextStyle(context: context)),
+                      ],
+                    ),
                   ),
                 );
               },

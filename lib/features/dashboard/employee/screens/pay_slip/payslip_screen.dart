@@ -209,7 +209,10 @@ class PayslipScreen extends StatelessWidget {
           const SizedBox(height: 8),
           Text(
             "Amount credited to your account",
-            style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
+            style: AppTextStyle().subTitleTextStyle(
+              context: context,
+              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.borderGrey,
+            ),
           ),
         ],
       ),
