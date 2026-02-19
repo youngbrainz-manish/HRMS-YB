@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms_yb/core/constants/app_globals.dart';
-import 'package:hrms_yb/core/enums/user_role.dart';
 import 'package:hrms_yb/features/auth/forgot_pin_screen.dart';
 import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
@@ -87,100 +85,99 @@ class AppRouter {
       GoRoute(path: hrProfileScreenRoute, builder: (context, state) => const HrProfileScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
 
-      ((AppGlobals().userModel.role == UserRole.employee))
-          ? ShellRoute(
-              navigatorKey: _shellNavigatorKey,
-              builder: (BuildContext context, GoRouterState state, Widget? child) {
-                return ChangeNotifierProvider<EmployeeDashboardProvider>(
-                  create: (_) => EmployeeDashboardProvider(context: context),
-                  child: EmployeeDashboardScreen(widget: child ?? EmployeeHomeScreen()),
-                );
-              },
-              routes: [
-                GoRoute(
-                  name: 'Employee Home Screen',
-                  path: employeeshomeScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return EmployeeHomeScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Employee Attendance Screen',
-                  path: employeesAttendaceScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return EmployeeAttendaceScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Employee Leave Screen',
-                  path: employeesLeaveScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return EmployeeLeaveScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Employee PaySlip Screen',
-                  path: employeesPaySlipScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return EmployeesPaySlipScreen();
-                  },
-                ),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey,
+        builder: (BuildContext context, GoRouterState state, Widget? child) {
+          return ChangeNotifierProvider<EmployeeDashboardProvider>(
+            create: (_) => EmployeeDashboardProvider(context: context),
+            child: EmployeeDashboardScreen(widget: child ?? EmployeeHomeScreen()),
+          );
+        },
+        routes: [
+          GoRoute(
+            name: 'Employee Home Screen',
+            path: employeeshomeScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return EmployeeHomeScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Employee Attendance Screen',
+            path: employeesAttendaceScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return EmployeeAttendaceScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Employee Leave Screen',
+            path: employeesLeaveScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return EmployeeLeaveScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Employee PaySlip Screen',
+            path: employeesPaySlipScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return EmployeesPaySlipScreen();
+            },
+          ),
 
-                GoRoute(
-                  name: 'Employees Profile Screen',
-                  path: employeesProfileScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return const EmployeesProfileScreen();
-                  },
-                ),
-              ],
-            )
-          : ShellRoute(
-              navigatorKey: _shellNavigatorKey1,
-              builder: (BuildContext context, GoRouterState state, Widget? child) {
-                return ChangeNotifierProvider<HrDashboardProvider>(
-                  create: (_) => HrDashboardProvider(context: context),
-                  child: HrDashboardScreen(widget: child ?? HrHomeScreen()),
-                );
-              },
-              routes: [
-                GoRoute(
-                  name: 'Hr Home Screen',
-                  path: hrDashboardRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return HrHomeScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Hr Employee Screen',
-                  path: hrEmployeeScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return const HrEmployeeScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Hr Attendance Screen',
-                  path: hrAttendanceScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return HrAttendanceScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Hr Leave Screen',
-                  path: hrLeaveScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return HrLeaveScreen();
-                  },
-                ),
-                GoRoute(
-                  name: 'Hr Payroll Screen',
-                  path: hrPayrollScreenRoute,
-                  builder: (BuildContext context, GoRouterState state) {
-                    return HrPayrollScreen();
-                  },
-                ),
-              ],
-            ),
+          GoRoute(
+            name: 'Employees Profile Screen',
+            path: employeesProfileScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return const EmployeesProfileScreen();
+            },
+          ),
+        ],
+      ),
+      ShellRoute(
+        navigatorKey: _shellNavigatorKey1,
+        builder: (BuildContext context, GoRouterState state, Widget? child) {
+          return ChangeNotifierProvider<HrDashboardProvider>(
+            create: (_) => HrDashboardProvider(context: context),
+            child: HrDashboardScreen(widget: child ?? HrHomeScreen()),
+          );
+        },
+        routes: [
+          GoRoute(
+            name: 'Hr Home Screen',
+            path: hrDashboardRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrHomeScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Hr Employee Screen',
+            path: hrEmployeeScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return const HrEmployeeScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Hr Attendance Screen',
+            path: hrAttendanceScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrAttendanceScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Hr Leave Screen',
+            path: hrLeaveScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrLeaveScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Hr Payroll Screen',
+            path: hrPayrollScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrPayrollScreen();
+            },
+          ),
+        ],
+      ),
     ],
   );
 

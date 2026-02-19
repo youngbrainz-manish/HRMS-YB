@@ -13,7 +13,7 @@ class LoginProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isLoggedIn => _user != null;
 
-  TextEditingController emailController = TextEditingController(text: "user_hr@gamil.com");
+  TextEditingController emailController = TextEditingController(text: "user_employee@gamil.com");
   TextEditingController pinController = TextEditingController(text: "1234");
 
   LoginProvider({required this.context}) {

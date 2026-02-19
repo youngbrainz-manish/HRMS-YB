@@ -121,13 +121,13 @@ class _LoginScreenState extends State<LoginScreen> {
                                 AppGlobals().userModel = provider.user!;
                               }
                               // ignore: use_build_context_synchronously
-                              context.go(AppRouter.hrDashboardRoute);
+                              GoRouter.of(context).go(AppRouter.hrDashboardRoute);
                             } else {
                               if (provider.user != null) {
                                 AppGlobals().userModel = provider.user!;
                               }
                               // ignore: use_build_context_synchronously
-                              context.go(AppRouter.employeeshomeScreenRoute);
+                              GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute);
                             }
                           }
                         },
