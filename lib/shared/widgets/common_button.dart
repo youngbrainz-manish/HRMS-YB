@@ -21,7 +21,7 @@ class CommonButton extends StatelessWidget {
     super.key,
     required this.title,
     required this.onTap,
-    this.height = 50,
+    this.height = 46,
     this.borderRadius = 12,
     this.isLoading = false,
     this.color,
@@ -29,7 +29,7 @@ class CommonButton extends StatelessWidget {
     this.style,
     this.icon,
     this.titleColor,
-    this.fontSize,
+    this.fontSize = 14,
   });
 
   @override
@@ -37,7 +37,6 @@ class CommonButton extends StatelessWidget {
     final isDark = context.watch<AppThemeProvider>().isDarkMode;
     return Card(
       margin: EdgeInsets.all(0),
-
       elevation: 5,
       shadowColor: context.read<AppThemeProvider>().isDarkMode ? AppColors.dartButtonColor : AppColors.primaryColor,
       child: Material(
@@ -52,7 +51,7 @@ class CommonButton extends StatelessWidget {
           onTap: isLoading ? null : onTap,
           child: Container(
             width: double.infinity,
-            height: 50,
+            height: height,
             decoration: BoxDecoration(
               border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
               borderRadius: BorderRadius.circular(borderRadius),

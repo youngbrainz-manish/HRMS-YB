@@ -69,7 +69,7 @@ class HrAttendanceScreen extends StatelessWidget {
                 child: CommonButton(
                   icon: Icon(Icons.more_time_sharp),
                   title: "Audit Log",
-                  style: AppTextStyle().subTitleTextStyle(context: context),
+                  style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 14),
                   onTap: () async {
                     await GoRouter.of(context).push(AppRouter.attendanceAuditLogScreenRoute);
                   },

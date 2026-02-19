@@ -16,10 +16,10 @@ class CommonWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(8.0),
+        padding: const EdgeInsets.all(10.0),
         child: CircleAvatar(
           backgroundColor: AppColors.lightGrey.withValues(alpha: 0.3),
-          child: Icon(Icons.arrow_back_ios_new_rounded, size: 24, color: AppColors.whiteColor),
+          child: Icon(Icons.arrow_back_ios_new_rounded, size: 22, color: AppColors.whiteColor),
         ),
       ),
     );

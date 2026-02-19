@@ -23,6 +23,7 @@ import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_scree
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/payroll/advance/edit_advance_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/hr_payroll_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -56,6 +57,7 @@ class AppRouter {
   static const attendanceAuditLogScreenRoute = '/auditLogScreen';
   static const attendanceCorrectionScreenRoute = '/attendanceCorrectionScreen';
   static const replyLeaveScreenRoute = '/replyLeaveScreen';
+  static const editAdvanceScreenRoute = '/editAdvanceScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -74,6 +76,7 @@ class AppRouter {
       GoRoute(path: attendanceCorrectionScreenRoute, builder: (context, state) => const AttendanceCorrectionScreen()),
       GoRoute(path: attendanceAuditLogScreenRoute, builder: (context, state) => const AuditLogScreen()),
       GoRoute(path: replyLeaveScreenRoute, builder: (context, state) => const ReplyLeaveScreen()),
+      GoRoute(path: editAdvanceScreenRoute, builder: (context, state) => const EditAdvanceScreen()),
 
       ((AppGlobals().userModel.role == UserRole.employee))
           ? ShellRoute(

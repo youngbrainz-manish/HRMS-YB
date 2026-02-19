@@ -5,6 +5,7 @@ import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/app_filter_dropdown.dart';
 import 'package:provider/provider.dart';
 
 class HrEmployeeScreen extends StatefulWidget {
@@ -199,48 +200,6 @@ class EmployeeCard extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-}
-
-class AppFilterDropdown extends StatelessWidget {
-  final String label;
-  final String value;
-  final List<String> options;
-  final ValueChanged<String> onChanged;
-
-  const AppFilterDropdown({
-    super.key,
-    required this.label,
-    required this.value,
-    required this.options,
-    required this.onChanged,
-  });
-
-  @override
-  Widget build(BuildContext context) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Text(label, style: AppTextStyle().subTitleTextStyle(context: context)),
-        const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
-          initialValue: value,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-          ),
-          items: options
-              .map(
-                (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e, style: AppTextStyle().subTitleTextStyle(context: context)),
-                ),
-              )
-              .toList(),
-          onChanged: (v) => onChanged(v!),
-        ),
-      ],
     );
   }
 }
