@@ -43,4 +43,6 @@ class AppColors {
   static const Color transparantColor = Colors.transparent;
 
   static Color hintColor = greyColor.withValues(alpha: 0.2);
+  static const Color indigocolor = Colors.indigo;
+  static const Color blueColor = Colors.blue;
 }

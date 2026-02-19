@@ -43,9 +43,10 @@ class CommonTextField extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
+            height: 47,
             color: Colors.transparent,
             child: TextFormField(
-              style: AppTextStyle().subTitleTextStyle(context: context),
+              style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 16),
               enabled: isEnable,
               controller: controller,
               obscureText: obscureText,

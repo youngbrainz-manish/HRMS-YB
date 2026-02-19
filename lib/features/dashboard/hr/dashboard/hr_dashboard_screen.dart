@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_bottom_nav_bar.dart';
@@ -97,13 +99,32 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
           ),
         ),
         SizedBox(width: 8),
-        Container(
-          padding: EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push(AppRouter.hrProfileScreenRoute);
+          },
+          child: Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
+            ),
+            child: Icon(Icons.person, size: 20),
           ),
-          child: Icon(Icons.person, size: 20),
+        ),
+        SizedBox(width: 8),
+        GestureDetector(
+          onTap: () {
+            GoRouter.of(context).push(AppRouter.notificationScreenRoute);
+          },
+          child: Container(
+            padding: EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              shape: BoxShape.circle,
+              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
+            ),
+            child: Icon(Icons.notifications_active, size: 20),
+          ),
         ),
         SizedBox(width: 8),
       ],
