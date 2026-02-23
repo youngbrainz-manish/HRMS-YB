@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_provider.dart';
@@ -158,11 +159,11 @@ class EmployeeHomeScreen extends StatelessWidget {
               style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
-              "Amit Kumar",
+              "${AuthenticationData.userModel?.name}",
               style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
-              "EMP003",
+              "EMP000${AuthenticationData.userModel?.id}",
               style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
           ],
@@ -301,6 +302,7 @@ class EmployeeHomeScreen extends StatelessWidget {
               itemBuilder: (context, index) {
                 Map<String, dynamic> leaveData = provider.leaveDetailsList[index];
                 return Card(
+                  margin: EdgeInsets.all(0),
                   child: Container(
                     padding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
                     decoration: BoxDecoration(

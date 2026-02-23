@@ -9,19 +9,21 @@ class UserModel {
   final UserRole role;
   final bool isActive;
   final DateTime? createdAt;
+  final String? token;
 
   const UserModel({
     required this.id,
     required this.name,
     required this.email,
-    required this.role,
     required this.phone,
+    required this.role,
     this.profileImage,
     this.isActive = true,
     this.createdAt,
+    this.token,
   });
 
-  /// CopyWith
+  /// ================= COPY WITH =================
   UserModel copyWith({
     int? id,
     String? name,
@@ -31,6 +33,7 @@ class UserModel {
     UserRole? role,
     bool? isActive,
     DateTime? createdAt,
+    String? token,
   }) {
     return UserModel(
       id: id ?? this.id,
@@ -41,50 +44,77 @@ class UserModel {
       role: role ?? this.role,
       isActive: isActive ?? this.isActive,
       createdAt: createdAt ?? this.createdAt,
+      token: token ?? this.token,
     );
   }
 
-  /// Convert JSON to Model
+  /// ================= FROM LOGIN API =================
   factory UserModel.fromJson(Map<String, dynamic> json) {
+    final roles = json['role'] as List?;
+
     return UserModel(
-      id: json['id'],
+      id: json['emp_id'],
+      name: "${json['First_Name'] ?? ''} ${json['Last_Name'] ?? ''}".trim(),
+      email: json['email'] ?? '',
+      phone: '', // API not providing phone
+      profileImage: json['Profile_photo'],
+      token: json['token'],
+      role: _parseRole(roles),
+      isActive: true,
+      createdAt: null,
+    );
+  }
+
+  /// ================= FROM MAP =================
+  factory UserModel.fromMap(Map<String, dynamic> json) {
+    return UserModel(
+      id: json['emp_id'],
       name: json['name'] ?? '',
       email: json['email'] ?? '',
-      phone: json['phone'],
-      profileImage: json['profile_image'],
-      role: _parseRole(json['role']),
-      isActive: json['is_active'] ?? true,
-      createdAt: json['created_at'] != null ? DateTime.tryParse(json['created_at']) : null,
+      phone: json['phone'] ?? '',
+      profileImage: json['Profile_photo'],
+      token: json['token'],
+      role: json['role'] == 'hr' ? UserRole.hr : UserRole.employee,
+      isActive: true,
+      createdAt: null,
     );
   }
 
-  /// Convert Model to JSON
+  /// ================= TO JSON =================
   Map<String, dynamic> toJson() {
     return {
-      'id': id,
+      'emp_id': id,
       'name': name,
       'email': email,
       'phone': phone,
       'profile_image': profileImage,
       'role': role.name,
+      'token': token,
       'is_active': isActive,
       'created_at': createdAt?.toIso8601String(),
     };
   }
 
-  /// Role parser
-  static UserRole _parseRole(String? role) {
-    switch (role) {
+  /// ================= ROLE PARSER =================
+  static UserRole _parseRole(List? roles) {
+    if (roles == null || roles.isEmpty) {
+      return UserRole.employee;
+    }
+
+    final roleName = roles.first['role_name']?.toString().toLowerCase();
+
+    switch (roleName) {
+      case 'admin':
       case 'hr':
         return UserRole.hr;
+
       case 'employee':
-        return UserRole.employee;
       default:
         return UserRole.employee;
     }
   }
 
-  /// Convenience getters
+  /// ================= GETTERS =================
   bool get isHr => role == UserRole.hr;
   bool get isEmployee => role == UserRole.employee;
 

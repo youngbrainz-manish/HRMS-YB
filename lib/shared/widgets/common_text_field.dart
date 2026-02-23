@@ -46,7 +46,7 @@ class CommonTextField extends StatelessWidget {
             height: 47,
             color: Colors.transparent,
             child: TextFormField(
-              style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 16),
+              style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13),
               enabled: isEnable,
               controller: controller,
               obscureText: obscureText,

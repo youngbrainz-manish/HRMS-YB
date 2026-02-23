@@ -42,6 +42,7 @@ class EmployeesPaySlipScreen extends StatelessWidget {
                 ),
                 ListView.separated(
                   shrinkWrap: true,
+                  physics: NeverScrollableScrollPhysics(),
                   padding: const EdgeInsets.all(16),
                   itemCount: provider.dummyPayslips.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 14),
@@ -52,8 +53,6 @@ class EmployeesPaySlipScreen extends StatelessWidget {
                       grossAmount: "Gross: ₹${payslip.grossSalary}",
                       netAmount: "₹${payslip.netPay}",
                       onTap: () {
-                        // PayslipScreen(data: payslip)
-                        // GoRouter.of(context).push(location)
                         final payslip = PayslipModel(
                           month: "October 2024",
                           employeeName: "Amit Kumar",

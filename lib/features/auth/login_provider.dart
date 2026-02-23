@@ -1,7 +1,13 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/core/constants/app_globals.dart';
-import 'package:hrms_yb/core/enums/user_role.dart';
+import 'package:hrms_yb/core/constants/app_constants.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
+import 'package:hrms_yb/core/network/common_response.dart';
+import 'package:hrms_yb/core/network/dio_api_request.dart';
+import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/models/user_model.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
   final BuildContext context;
@@ -13,8 +19,8 @@ class LoginProvider extends ChangeNotifier {
   bool get isLoading => _isLoading;
   bool get isLoggedIn => _user != null;
 
-  TextEditingController emailController = TextEditingController(text: "user_employee@gamil.com");
-  TextEditingController pinController = TextEditingController(text: "1234");
+  TextEditingController emailController = TextEditingController();
+  TextEditingController pinController = TextEditingController();
 
   LoginProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -27,27 +33,28 @@ class LoginProvider extends ChangeNotifier {
   Future<bool?> login({required String email, required String password}) async {
     _isLoading = true;
     notifyListeners();
+    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+    var response = await DioApiRequest().postCommonApiCall({
+      "email": email,
+      "password": password,
+    }, DioApiServices.login);
 
-    await Future.delayed(const Duration(seconds: 1));
-
-    // Demo logic
-    if (email.contains('hr')) {
-      _user = UserModel(id: 1, name: 'HR User', role: UserRole.hr, email: 'userhr@gamil.com', phone: '9876543211');
-      AppGlobals().userModel = _user!;
+    CommonResponse commonResponse = CommonResponse.fromJson(response.data);
+    if (commonResponse.success == true) {
+      AuthenticationData.token = response.data['data']['token'];
+      AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+      _user = AuthenticationData.userModel;
+      String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
+      await sharedPreferences.setString(AppConstants.userDetails, userJson);
+      notifyListeners();
+      _isLoading = false;
+      notifyListeners();
+      return true;
     } else {
-      _user = UserModel(
-        id: 2,
-        name: 'Employee User',
-        role: UserRole.employee,
-        email: 'useremploye@gamil.com',
-        phone: '9999999999',
-      );
-      AppGlobals().userModel = _user!;
+      _isLoading = false;
+      notifyListeners();
+      return false;
     }
-
-    _isLoading = false;
-    notifyListeners();
-    return true;
   }
 
   void logout() {

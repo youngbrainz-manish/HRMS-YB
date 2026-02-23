@@ -25,6 +25,7 @@ import 'package:hrms_yb/features/dashboard/hr/screens/payroll/advance/edit_advan
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/hr_payroll_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/profile/edit_profile_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/profile/hr_profile_screen.dart';
+import 'package:hrms_yb/shared/custom_splash_screen.dart';
 import 'package:hrms_yb/shared/notification/notification_screen.dart';
 import 'package:provider/provider.dart';
 
@@ -33,6 +34,7 @@ final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(d
 final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
+  static const splashRoute = '/';
   static const loginScreenRoute = '/login';
   static const forgotPinRoute = '/forgot-pin';
   static const hrDashboardRoute = '/hr-dashboard';
@@ -66,8 +68,13 @@ class AppRouter {
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
-    initialLocation: loginScreenRoute,
+    initialLocation: splashRoute,
     routes: <RouteBase>[
+      GoRoute(
+        name: 'Splash Screen',
+        path: splashRoute,
+        pageBuilder: slideTransitionPageBuider(child: CustomSplashScreen()),
+      ),
       GoRoute(
         name: 'Login Screen',
         path: loginScreenRoute,

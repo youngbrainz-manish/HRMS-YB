@@ -541,6 +541,14 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
+  typing_text_animation:
+    dependency: "direct main"
+    description:
+      name: typing_text_animation
+      sha256: "1c27b1e2ce7e082665785b9383cd28b99ca849def8e3c2dd9a7f2d6e724aa559"
+      url: "https://pub.dev"
+    source: hosted
+    version: "0.1.0"
   vector_graphics:
     dependency: transitive
     description:
@@ -585,10 +593,10 @@ packages:
     dependency: transitive
     description:
       name: web
-      sha256: "868d88a33d8a87b18ffc05f9f030ba328ffefba92d6c127917a2ba740f9cfe4a"
+      sha256: "97da13628db363c635202ad97068d47c5b8aa555808e7a9411963c533b449b27"
       url: "https://pub.dev"
     source: hosted
-    version: "1.1.1"
+    version: "0.5.1"
   xdg_directories:
     dependency: transitive
     description:

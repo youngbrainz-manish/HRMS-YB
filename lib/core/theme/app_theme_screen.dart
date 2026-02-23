@@ -69,9 +69,9 @@ class AppThemeScreen {
       headlineMedium: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 20),
       headlineSmall: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 18),
 
-      titleLarge: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 18),
-      titleMedium: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 17),
-      titleSmall: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 16),
+      titleLarge: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 16),
+      titleMedium: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 14),
+      titleSmall: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 12),
 
       bodyLarge: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 17),
       bodyMedium: TextStyle(color: AppColors.primaryLightTextColor, fontSize: 15),
@@ -134,9 +134,9 @@ class AppThemeScreen {
       headlineMedium: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 20),
       headlineSmall: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 18),
 
-      titleLarge: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 18),
-      titleMedium: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 17),
-      titleSmall: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 16),
+      titleLarge: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 16),
+      titleMedium: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 14),
+      titleSmall: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 12),
 
       bodyLarge: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 17),
       bodyMedium: TextStyle(color: AppColors.primaryDarkTextColor, fontSize: 15),

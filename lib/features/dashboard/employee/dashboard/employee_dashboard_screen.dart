@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/app_bottom_nav_bar.dart';
@@ -73,11 +74,11 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            "Patel Manish Kumar",
+            "${AuthenticationData.userModel?.name}",
             style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
           ),
           Text(
-            "Employee Id - EMP0003",
+            "Employee Id - EMP000${AuthenticationData.userModel?.id}",
             style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
           ),
         ],
