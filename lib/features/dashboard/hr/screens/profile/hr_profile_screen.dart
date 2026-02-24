@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/common_method.dart';
@@ -21,18 +22,21 @@ class HrProfileScreen extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Text(
-                  "Amisha Patel",
+                  "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
                   style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
                 ),
                 Text(
-                  "HR Manager",
+                  AuthenticationData.userModel?.department?.designation ?? 'N/A',
                   style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
                 ),
               ],
             ),
             Spacer(),
             const SizedBox(width: 16),
-            const CircleAvatar(radius: 20, backgroundImage: NetworkImage("https://i.pravatar.cc/300")),
+            CircleAvatar(
+              radius: 20,
+              backgroundImage: NetworkImage(AuthenticationData.userModel?.profilePhoto ?? "https://i.pravatar.cc/300"),
+            ),
           ],
         ),
         elevation: 0,
@@ -54,10 +58,13 @@ class HrProfileScreen extends StatelessWidget {
                   _infoCard(
                     context: context,
                     title: "Personal Information",
-                    children: const [
-                      InfoTile(title: "Employee ID", value: "HR-1023"),
-                      InfoTile(title: "Department", value: "Human Resources"),
-                      InfoTile(title: "Joining Date", value: "12 Jan 2022"),
+                    children: [
+                      InfoTile(title: "Employee ID", value: "HR-000${AuthenticationData.userModel?.empId}"),
+                      InfoTile(title: "Department", value: "${AuthenticationData.userModel?.department}"),
+                      InfoTile(
+                        title: "Joining Date",
+                        value: AuthenticationData.userModel!.department?.joiningDate ?? "N/A",
+                      ),
                     ],
                   ),
                   SizedBox(height: AppSize().verticalWidgetSpacing),
@@ -66,24 +73,24 @@ class HrProfileScreen extends StatelessWidget {
                   _infoCard(
                     context: context,
                     title: "Contact Information",
-                    children: const [
-                      InfoTile(title: "Email", value: "hr@company.com"),
-                      InfoTile(title: "Phone", value: "+91 9876543210"),
-                      InfoTile(title: "Location", value: "Ahmedabad"),
+                    children: [
+                      InfoTile(title: "Email", value: AuthenticationData.userModel?.email ?? "N/A"),
+                      InfoTile(title: "Phone", value: "+91 ${AuthenticationData.userModel?.mobileNo}"),
+                      InfoTile(title: "Location", value: AuthenticationData.userModel?.addresses?.first.city ?? "N/A"),
                     ],
                   ),
                   SizedBox(height: AppSize().verticalWidgetSpacing),
 
                   /// ===== COMPANY INFO =====
-                  _infoCard(
-                    context: context,
-                    title: "Company Details",
-                    children: const [
-                      InfoTile(title: "Company", value: "Your Business Pvt Ltd"),
-                      InfoTile(title: "Branch", value: "Head Office"),
-                    ],
-                  ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  // _infoCard(
+                  //   context: context,
+                  //   title: "Company Details",
+                  //   children: const [
+                  //     InfoTile(title: "Company", value: "Your Business Pvt Ltd"),
+                  //     InfoTile(title: "Branch", value: "Head Office"),
+                  //   ],
+                  // ),
+                  // SizedBox(height: AppSize().verticalWidgetSpacing),
 
                   /// ===== ACTIONS =====
                   _actionTile(

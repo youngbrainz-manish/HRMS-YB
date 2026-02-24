@@ -16,6 +16,7 @@ class CommonTextField extends StatelessWidget {
   final void Function()? onTap;
   final bool? isEnable;
   final String? headingText;
+  final double? height;
 
   const CommonTextField({
     super.key,
@@ -31,6 +32,7 @@ class CommonTextField extends StatelessWidget {
     this.onTap,
     this.isEnable = true,
     this.headingText,
+    this.height,
   });
 
   @override
@@ -43,7 +45,7 @@ class CommonTextField extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            height: 47,
+            height: height ?? 47,
             color: Colors.transparent,
             child: TextFormField(
               style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13),

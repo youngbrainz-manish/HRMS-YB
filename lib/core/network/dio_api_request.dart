@@ -5,8 +5,10 @@ import 'package:dio/dio.dart';
 // ignore: library_prefixes
 import 'package:dio/dio.dart' as dioImported;
 import 'package:flutter/foundation.dart';
+import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/constants/api_constants.dart';
+import 'package:hrms_yb/core/constants/app_constants.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/network/common_response.dart';
 import 'package:hrms_yb/core/network/dio_api_manager.dart';
@@ -194,5 +196,55 @@ class DioApiRequest {
     buffer.write(' "$url"');
 
     return buffer.toString();
+  }
+
+  Future<dioImported.Response?> commonDeleteApi({
+    required BuildContext context,
+    required String url,
+    bool? showToast,
+  }) async {
+    Dio dio = await DioApiManager().getDio();
+    try {
+      Options options = Options();
+      String token = DioApiManager().getToken();
+      if (token.isEmpty) {
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        token = sharedPreferences.getString(AppConstants.token) ?? '';
+      }
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
+      options.validateStatus = (status) => status != null && status <= 500;
+
+      final response = await dio.delete(url, options: options);
+
+      if (response.data is Map<String, dynamic>) {
+        CommonResponse commonResponse = CommonResponse.fromJson(response.data);
+        if (commonResponse.success == true) {
+          return response;
+        } else if (commonResponse.success == false) {
+          if (showToast == true && context.mounted) {}
+          return response;
+        } else {
+          if (showToast == true) {}
+          return response;
+        }
+      } else if (response.data is DioException) {
+        if (showToast == true) {}
+        return null;
+      } else {
+        if (showToast == true) {}
+        return response;
+      }
+    } on DioException catch (e) {
+      if (e.response != null) {
+        if (kDebugMode) {
+          print('Error: ${e.response?.statusCode} -> ${e.response?.data}');
+        }
+      } else {
+        if (kDebugMode) {
+          print('Request failed: ${e.message}');
+        }
+      }
+    }
+    return null;
   }
 }

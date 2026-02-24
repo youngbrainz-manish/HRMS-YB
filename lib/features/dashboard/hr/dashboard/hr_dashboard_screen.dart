@@ -40,7 +40,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         context: context,
                         color: states.contains(WidgetState.selected) ? AppColors.whiteColor : AppColors.darkGrey,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
-                        fontSize: 13,
+                        fontSize: 11,
                       )
                     : AppTextStyle().subTitleTextStyle(
                         context: context,
@@ -48,7 +48,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                             ? AppColors.primaryColor
                             : AppColors.secondaryDarkTextColor,
                         fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
-                        fontSize: 12,
+                        fontSize: 10,
                       ),
               ),
             ),

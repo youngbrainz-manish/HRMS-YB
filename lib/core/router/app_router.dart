@@ -18,6 +18,8 @@ import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_s
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/add_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/details/employee_details_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/holiday/hr_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
@@ -63,7 +65,9 @@ class AppRouter {
   static const editAdvanceScreenRoute = '/editAdvanceScreen';
   static const notificationScreenRoute = '/notificationScreen';
   static const hrProfileScreenRoute = '/hrProfileScreen';
+  static const hrHolidayScreenRoute = '/hrHolidayScreen';
   static const editProfileScreenRoute = '/editProfileScreen';
+  static const addHolidayScreenRoute = '/addHolidayScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -91,6 +95,7 @@ class AppRouter {
       GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
       GoRoute(path: hrProfileScreenRoute, builder: (context, state) => const HrProfileScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
+      GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
 
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -181,6 +186,13 @@ class AppRouter {
             path: hrPayrollScreenRoute,
             builder: (BuildContext context, GoRouterState state) {
               return HrPayrollScreen();
+            },
+          ),
+          GoRoute(
+            name: 'Hr Holiday Screen',
+            path: hrHolidayScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrHolidayScreen();
             },
           ),
         ],

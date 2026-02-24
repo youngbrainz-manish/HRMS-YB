@@ -9,7 +9,6 @@ import 'package:hrms_yb/models/user_model.dart';
 class HrDashboardProvider extends ChangeNotifier {
   final BuildContext context;
   int currentIndex = 0;
-  List<String> titleNames = ["Home", "Employee", "Attendance", "Leave", "Payroll"];
 
   HrDashboardProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -29,6 +28,8 @@ class HrDashboardProvider extends ChangeNotifier {
         GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrLeaveScreenRoute);
       case 4:
         GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrPayrollScreenRoute);
+      case 5:
+        GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrHolidayScreenRoute);
     }
     currentIndex = index;
     notifyListeners();

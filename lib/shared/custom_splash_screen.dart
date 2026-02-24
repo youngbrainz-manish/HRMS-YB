@@ -28,9 +28,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   void _init() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userJson = sharedPreferences.getString(AppConstants.userDetails);
-    print("object route => $userJson");
     if (userJson != null && userJson != "null") {
-      print("object route1 => ${userJson.runtimeType}");
       AuthenticationData.userModel = UserModel.fromJson(jsonDecode(userJson));
       await getProfileData();
     }

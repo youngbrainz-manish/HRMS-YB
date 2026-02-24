@@ -49,7 +49,7 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
                 crossAxisCount: 2,
                 mainAxisSpacing: 14,
                 crossAxisSpacing: 14,
-                childAspectRatio: 1.4,
+                childAspectRatio: 1.7,
               ),
               itemBuilder: (_, i) => _StatCard(stat: provider.stats[i]),
             ),
@@ -120,10 +120,10 @@ class _StatCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(stat.icon, size: 28),
+            Icon(stat.icon, size: 22),
             const Spacer(),
-            Text(stat.value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 32)),
-            SizedBox(height: 6),
+            Text(stat.value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 22)),
+            SizedBox(height: 4),
             Text(stat.title, style: AppTextStyle().lableTextStyle(context: context)),
           ],
         ),

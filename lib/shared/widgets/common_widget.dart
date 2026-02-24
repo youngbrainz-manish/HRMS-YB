@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
+import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
 class CommonWidget {
@@ -78,5 +80,62 @@ class CommonWidget {
 
   Widget defaultLoader({Color? color}) {
     return Center(child: CircularProgressIndicator(color: color ?? AppColors.primaryColor));
+  }
+
+  Future<bool?> showConfirmDialog({
+    required BuildContext context,
+    String title = "Confirmation",
+    String message = "Are you sure?",
+    String confirmText = "Yes",
+    String cancelText = "Cancel",
+  }) {
+    return showDialog<bool>(
+      context: context,
+      barrierDismissible: true,
+      builder: (context) {
+        return AlertDialog(
+          iconPadding: EdgeInsets.all(0),
+          insetPadding: EdgeInsets.all(0),
+          titlePadding: EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.all(0),
+          actionsPadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.all(0),
+          content: Card(
+            margin: EdgeInsets.all(0),
+            elevation: 3,
+            child: Container(
+              padding: EdgeInsets.all(12),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title, style: AppTextStyle().titleTextStyle(context: context)),
+                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  Text(message, style: AppTextStyle().subTitleTextStyle(context: context)),
+                  SizedBox(height: AppSize().verticalWidgetSpacing * 2),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      TextButton(onPressed: () => Navigator.pop(context, false), child: Text(cancelText)),
+                      SizedBox(width: 8),
+                      GestureDetector(
+                        onTap: () => Navigator.pop(context, true),
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                          decoration: BoxDecoration(
+                            color: AppColors.primaryColor,
+                            borderRadius: BorderRadius.circular(6),
+                          ),
+                          child: Center(child: Text(confirmText)),
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
+    );
   }
 }

@@ -54,6 +54,7 @@ class LoginProvider extends ChangeNotifier {
         userModel = AuthenticationData.userModel;
         String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
         await sharedPreferences.setString(AppConstants.userDetails, userJson);
+        await sharedPreferences.setString(AppConstants.token, AuthenticationData.token);
         notifyListeners();
         isLoading = false;
         notifyListeners();
