@@ -12,12 +12,8 @@ import 'package:shared_preferences/shared_preferences.dart';
 class LoginProvider extends ChangeNotifier {
   final BuildContext context;
 
-  UserModel? _user;
-  bool _isLoading = false;
-
-  UserModel? get user => _user;
-  bool get isLoading => _isLoading;
-  bool get isLoggedIn => _user != null;
+  UserModel? userModel;
+  bool isLoading = false;
 
   TextEditingController emailController = TextEditingController();
   TextEditingController pinController = TextEditingController();
@@ -31,34 +27,51 @@ class LoginProvider extends ChangeNotifier {
   void _init() {}
 
   Future<bool?> login({required String email, required String password}) async {
-    _isLoading = true;
+    isLoading = true;
     notifyListeners();
-    SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-    var response = await DioApiRequest().postCommonApiCall({
-      "email": email,
-      "password": password,
-    }, DioApiServices.login);
+    try {
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      var response = await DioApiRequest().postCommonApiCall({
+        "email": email,
+        "password": password,
+      }, DioApiServices.login);
 
-    CommonResponse commonResponse = CommonResponse.fromJson(response.data);
-    if (commonResponse.success == true) {
-      AuthenticationData.token = response.data['data']['token'];
-      AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
-      _user = AuthenticationData.userModel;
-      String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
-      await sharedPreferences.setString(AppConstants.userDetails, userJson);
-      notifyListeners();
-      _isLoading = false;
-      notifyListeners();
-      return true;
-    } else {
-      _isLoading = false;
+      CommonResponse commonResponse = CommonResponse.fromJson(response.data);
+      if (commonResponse.success == true) {
+        AuthenticationData.token = response.data['data']['token'];
+
+        List<Role> roles = (response.data['data']['role'] as List).map((e) => Role.fromJson(e)).toList();
+        AuthenticationData.userModel = UserModel(
+          empId: response.data['data']['emp_id'],
+          firstName: response.data['data']['First_Name'],
+          lastName: response.data['data']['Last_Name'],
+          email: response.data['data']['email'],
+          roles: roles,
+          profilePhoto: response.data['data']['Profile_photo'],
+          roleId: response.data['data']['role_id'],
+        );
+
+        userModel = AuthenticationData.userModel;
+        String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
+        await sharedPreferences.setString(AppConstants.userDetails, userJson);
+        notifyListeners();
+        isLoading = false;
+        notifyListeners();
+        return true;
+      } else {
+        isLoading = false;
+        notifyListeners();
+        return false;
+      }
+    } catch (e) {
+      isLoading = false;
       notifyListeners();
       return false;
     }
   }
 
   void logout() {
-    _user = null;
+    userModel = null;
     notifyListeners();
   }
 }

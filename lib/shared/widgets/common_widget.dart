@@ -75,4 +75,8 @@ class CommonWidget {
       ],
     );
   }
+
+  Widget defaultLoader({Color? color}) {
+    return Center(child: CircularProgressIndicator(color: color ?? AppColors.primaryColor));
+  }
 }

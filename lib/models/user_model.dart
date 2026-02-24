@@ -1,125 +1,293 @@
-import '../core/enums/user_role.dart';
-
 class UserModel {
-  final int id;
-  final String name;
-  final String email;
-  final String phone;
-  final String? profileImage;
-  final UserRole role;
-  final bool isActive;
-  final DateTime? createdAt;
-  final String? token;
+  final String? profilePhoto;
+  final int? empId;
+  final String? firstName;
+  final String? lastName;
+  final String? email;
+  final String? gender;
+  final int? age;
+  final String? mobileNo;
+  final String? birthday;
+  final String? status;
+  final Department? department;
+  final List<Address>? addresses;
+  final List<Education>? education;
+  final List<Role>? roles;
+  final int? roleId;
 
-  const UserModel({
-    required this.id,
-    required this.name,
-    required this.email,
-    required this.phone,
-    required this.role,
-    this.profileImage,
-    this.isActive = true,
-    this.createdAt,
-    this.token,
+  UserModel({
+    this.profilePhoto,
+    this.empId,
+    this.firstName,
+    this.lastName,
+    this.email,
+    this.gender,
+    this.age,
+    this.mobileNo,
+    this.birthday,
+    this.status,
+    this.department,
+    this.addresses,
+    this.education,
+    this.roles,
+    this.roleId,
   });
 
-  /// ================= COPY WITH =================
   UserModel copyWith({
-    int? id,
-    String? name,
+    String? profilePhoto,
+    int? empId,
+    String? firstName,
+    String? lastName,
     String? email,
-    String? phone,
-    String? profileImage,
-    UserRole? role,
-    bool? isActive,
-    DateTime? createdAt,
-    String? token,
+    String? gender,
+    int? age,
+    String? mobileNo,
+    String? birthday,
+    String? status,
+    Department? department,
+    List<Address>? addresses,
+    List<Education>? education,
+    List<Role>? roles,
+    int? roleId,
   }) {
     return UserModel(
-      id: id ?? this.id,
-      name: name ?? this.name,
+      profilePhoto: profilePhoto ?? this.profilePhoto,
+      empId: empId ?? this.empId,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
       email: email ?? this.email,
-      phone: phone ?? this.phone,
-      profileImage: profileImage ?? this.profileImage,
-      role: role ?? this.role,
-      isActive: isActive ?? this.isActive,
-      createdAt: createdAt ?? this.createdAt,
-      token: token ?? this.token,
+      gender: gender ?? this.gender,
+      age: age ?? this.age,
+      mobileNo: mobileNo ?? this.mobileNo,
+      birthday: birthday ?? this.birthday,
+      status: status ?? this.status,
+      department: department ?? this.department,
+      addresses: addresses ?? this.addresses,
+      education: education ?? this.education,
+      roles: roles ?? this.roles,
+      roleId: roleId ?? this.roleId,
     );
   }
 
-  /// ================= FROM LOGIN API =================
   factory UserModel.fromJson(Map<String, dynamic> json) {
-    final roles = json['role'] as List?;
-
     return UserModel(
-      id: json['emp_id'],
-      name: "${json['First_Name'] ?? ''} ${json['Last_Name'] ?? ''}".trim(),
-      email: json['email'] ?? '',
-      phone: '', // API not providing phone
-      profileImage: json['Profile_photo'],
-      token: json['token'],
-      role: _parseRole(roles),
-      isActive: true,
-      createdAt: null,
+      profilePhoto: json['profile_photo'],
+      empId: json['emp_id'],
+      firstName: json['first_name'],
+      lastName: json['last_name'],
+      email: json['email'],
+      gender: json['gender'],
+      age: json['age'],
+      mobileNo: json['mobile_no'],
+      birthday: json['birthday'],
+      status: json['status'],
+      department: json['department'] != null ? Department.fromJson(json['department']) : null,
+      addresses: (json['addresses'] as List?)?.map((e) => Address.fromJson(e)).toList(),
+      education: (json['education'] as List?)?.map((e) => Education.fromJson(e)).toList(),
+      roles: (json['roles'] as List?)?.map((e) => Role.fromJson(e)).toList(),
+      roleId: json['role_id'],
     );
   }
 
-  /// ================= FROM MAP =================
-  factory UserModel.fromMap(Map<String, dynamic> json) {
-    return UserModel(
-      id: json['emp_id'],
-      name: json['name'] ?? '',
-      email: json['email'] ?? '',
-      phone: json['phone'] ?? '',
-      profileImage: json['Profile_photo'],
-      token: json['token'],
-      role: json['role'] == 'hr' ? UserRole.hr : UserRole.employee,
-      isActive: true,
-      createdAt: null,
+  Map<String, dynamic> toJson() => {
+    'profile_photo': profilePhoto,
+    'emp_id': empId,
+    'first_name': firstName,
+    'last_name': lastName,
+    'email': email,
+    'gender': gender,
+    'age': age,
+    'mobile_no': mobileNo,
+    'birthday': birthday,
+    'status': status,
+    'department': department?.toJson(),
+    'addresses': addresses?.map((e) => e.toJson()).toList(),
+    'education': education?.map((e) => e.toJson()).toList(),
+    'roles': roles?.map((e) => e.toJson()).toList(),
+    'role_id': roleId,
+  };
+}
+
+class Department {
+  final int? empId;
+  final int? deptId;
+  final String? deptName;
+  final String? designation;
+  final String? joiningDate;
+  final int? salary;
+  final ReportingTo? reportingTo;
+
+  Department({
+    this.empId,
+    this.deptId,
+    this.deptName,
+    this.designation,
+    this.joiningDate,
+    this.salary,
+    this.reportingTo,
+  });
+
+  Department copyWith({
+    int? empId,
+    int? deptId,
+    String? deptName,
+    String? designation,
+    String? joiningDate,
+    int? salary,
+    ReportingTo? reportingTo,
+  }) {
+    return Department(
+      empId: empId ?? this.empId,
+      deptId: deptId ?? this.deptId,
+      deptName: deptName ?? this.deptName,
+      designation: designation ?? this.designation,
+      joiningDate: joiningDate ?? this.joiningDate,
+      salary: salary ?? this.salary,
+      reportingTo: reportingTo ?? this.reportingTo,
     );
   }
 
-  /// ================= TO JSON =================
-  Map<String, dynamic> toJson() {
-    return {
-      'emp_id': id,
-      'name': name,
-      'email': email,
-      'phone': phone,
-      'profile_image': profileImage,
-      'role': role.name,
-      'token': token,
-      'is_active': isActive,
-      'created_at': createdAt?.toIso8601String(),
-    };
+  factory Department.fromJson(Map<String, dynamic> json) {
+    return Department(
+      empId: json['emp_id'],
+      deptId: json['dept_id'],
+      deptName: json['dept_name'],
+      designation: json['designation'],
+      joiningDate: json['joining_date'],
+      salary: json['salary'],
+      reportingTo: json['reporting_to'] != null ? ReportingTo.fromJson(json['reporting_to']) : null,
+    );
   }
 
-  /// ================= ROLE PARSER =================
-  static UserRole _parseRole(List? roles) {
-    if (roles == null || roles.isEmpty) {
-      return UserRole.employee;
-    }
+  Map<String, dynamic> toJson() => {
+    'emp_id': empId,
+    'dept_id': deptId,
+    'dept_name': deptName,
+    'designation': designation,
+    'joining_date': joiningDate,
+    'salary': salary,
+    'reporting_to': reportingTo?.toJson(),
+  };
+}
 
-    final roleName = roles.first['role_name']?.toString().toLowerCase();
+class ReportingTo {
+  final int? empId;
+  final String? firstName;
+  final String? lastName;
 
-    switch (roleName) {
-      case 'admin':
-      case 'hr':
-        return UserRole.hr;
+  ReportingTo({this.empId, this.firstName, this.lastName});
 
-      case 'employee':
-      default:
-        return UserRole.employee;
-    }
+  ReportingTo copyWith({int? empId, String? firstName, String? lastName}) {
+    return ReportingTo(
+      empId: empId ?? this.empId,
+      firstName: firstName ?? this.firstName,
+      lastName: lastName ?? this.lastName,
+    );
   }
 
-  /// ================= GETTERS =================
-  bool get isHr => role == UserRole.hr;
-  bool get isEmployee => role == UserRole.employee;
-
-  @override
-  String toString() {
-    return 'UserModel(id: $id, name: $name, email: $email, role: $role)';
+  factory ReportingTo.fromJson(Map<String, dynamic> json) {
+    return ReportingTo(empId: json['emp_id'], firstName: json['first_name'], lastName: json['last_name']);
   }
+
+  Map<String, dynamic> toJson() => {'emp_id': empId, 'first_name': firstName, 'last_name': lastName};
+}
+
+class Address {
+  final int? addressId;
+  final String? addressType;
+  final String? street;
+  final String? city;
+  final String? state;
+  final String? pincode;
+
+  Address({this.addressId, this.addressType, this.street, this.city, this.state, this.pincode});
+
+  Address copyWith({
+    int? addressId,
+    String? addressType,
+    String? street,
+    String? city,
+    String? state,
+    String? pincode,
+  }) {
+    return Address(
+      addressId: addressId ?? this.addressId,
+      addressType: addressType ?? this.addressType,
+      street: street ?? this.street,
+      city: city ?? this.city,
+      state: state ?? this.state,
+      pincode: pincode ?? this.pincode,
+    );
+  }
+
+  factory Address.fromJson(Map<String, dynamic> json) {
+    return Address(
+      addressId: json['address_id'],
+      addressType: json['address_type'],
+      street: json['street'],
+      city: json['city'],
+      state: json['state'],
+      pincode: json['pincode'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'address_id': addressId,
+    'address_type': addressType,
+    'street': street,
+    'city': city,
+    'state': state,
+    'pincode': pincode,
+  };
+}
+
+class Education {
+  final int? eduId;
+  final String? institutionName;
+  final String? degree;
+  final String? specialization;
+
+  Education({this.eduId, this.institutionName, this.degree, this.specialization});
+
+  Education copyWith({int? eduId, String? institutionName, String? degree, String? specialization}) {
+    return Education(
+      eduId: eduId ?? this.eduId,
+      institutionName: institutionName ?? this.institutionName,
+      degree: degree ?? this.degree,
+      specialization: specialization ?? this.specialization,
+    );
+  }
+
+  factory Education.fromJson(Map<String, dynamic> json) {
+    return Education(
+      eduId: json['edu_id'],
+      institutionName: json['institution_name'],
+      degree: json['degree'],
+      specialization: json['specialization'],
+    );
+  }
+
+  Map<String, dynamic> toJson() => {
+    'edu_id': eduId,
+    'institution_name': institutionName,
+    'degree': degree,
+    'specialization': specialization,
+  };
+}
+
+class Role {
+  final int? roleId;
+  final String? roleName;
+
+  Role({this.roleId, this.roleName});
+
+  Role copyWith({int? roleId, String? roleName}) {
+    return Role(roleId: roleId ?? this.roleId, roleName: roleName ?? this.roleName);
+  }
+
+  factory Role.fromJson(Map<String, dynamic> json) {
+    return Role(roleId: json['role_id'], roleName: json['role_name']);
+  }
+
+  Map<String, dynamic> toJson() => {'role_id': roleId, 'role_name': roleName};
 }

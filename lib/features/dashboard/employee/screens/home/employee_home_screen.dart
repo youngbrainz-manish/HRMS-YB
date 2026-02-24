@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_provider.dart';
 import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
@@ -45,8 +46,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    _welcomeCardWidget(isDarkMode, context),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    // _welcomeCardWidget(isDarkMode, context),
+                    // SizedBox(height: AppSize().verticalWidgetSpacing),
                     Card(
                       margin: EdgeInsets.all(0),
                       child: Padding(
@@ -81,8 +82,10 @@ class EmployeeHomeScreen extends StatelessWidget {
                                 Expanded(
                                   flex: 1,
                                   child: CommonButton(
-                                    title: "View",
-                                    onTap: () {},
+                                    title: "View all",
+                                    onTap: () {
+                                      context.read<EmployeeDashboardProvider>().onItemTapped(1);
+                                    },
                                     color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.8),
                                     borderColor: AppColors.successPrimary.withValues(alpha: 0.3),
                                     style: AppTextStyle().subTitleTextStyle(context: context),
@@ -144,6 +147,7 @@ class EmployeeHomeScreen extends StatelessWidget {
     );
   }
 
+  // ignore: unused_element
   Widget _welcomeCardWidget(bool isDarkMode, BuildContext context) {
     return Card(
       margin: EdgeInsets.all(0),
@@ -159,11 +163,11 @@ class EmployeeHomeScreen extends StatelessWidget {
               style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
-              "${AuthenticationData.userModel?.name}",
+              "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
               style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
-              "EMP000${AuthenticationData.userModel?.id}",
+              "EMP000${AuthenticationData.userModel?.empId}",
               style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
           ],

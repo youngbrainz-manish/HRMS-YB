@@ -1,19 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/models/employee_model.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
+import 'package:hrms_yb/core/network/dio_api_request.dart';
+import 'package:hrms_yb/core/network/dio_api_services.dart';
+import 'package:hrms_yb/models/user_model.dart';
 
 class EmployeesProfileProvider extends ChangeNotifier {
   final BuildContext context;
-
-  final employee = EmployeeModel(
-    name: "Patel ManishKumar",
-    employeeId: "EMP003",
-    mobile: "9876543212",
-    email: "manish@company.com",
-    department: "App Developer",
-    designation: "App Developer",
-    joiningDate: "June 20, 2019",
-    employeeType: "Permanent",
-  );
+  bool isLoading = false;
+  UserModel? employee;
 
   EmployeesProfileProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -22,6 +16,22 @@ class EmployeesProfileProvider extends ChangeNotifier {
   }
 
   void _init() {
+    getProfileData();
+    notifyListeners();
+  }
+
+  Future<void> getProfileData() async {
+    isLoading = true;
+    notifyListeners();
+    String employeeId = AuthenticationData.userModel?.empId.toString() ?? '';
+    String url = "${DioApiServices.getUserById}/$employeeId";
+    var response = await DioApiRequest().getCommonApiCall(url);
+    if (response != null && response.data?['success'] == true) {
+      AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+      employee = AuthenticationData.userModel;
+      notifyListeners();
+    }
+    isLoading = false;
     notifyListeners();
   }
 }

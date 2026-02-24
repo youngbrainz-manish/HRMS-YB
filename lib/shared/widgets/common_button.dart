@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
 class CommonButton extends StatelessWidget {
@@ -61,11 +62,7 @@ class CommonButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
             child: Center(
               child: isLoading
-                  ? const SizedBox(
-                      height: 22,
-                      width: 22,
-                      child: CircularProgressIndicator(strokeWidth: 2, color: Colors.white),
-                    )
+                  ? SizedBox(height: 22, width: 22, child: CommonWidget().defaultLoader(color: Colors.white))
                   : Row(
                       mainAxisAlignment: mainAxisAlignment,
                       children: [

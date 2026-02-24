@@ -74,11 +74,11 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           Text(
-            "${AuthenticationData.userModel?.name}",
+            "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
             style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
           ),
           Text(
-            "Employee Id - EMP000${AuthenticationData.userModel?.id}",
+            "Employee Id - EMP000${AuthenticationData.userModel?.empId}",
             style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
           ),
         ],

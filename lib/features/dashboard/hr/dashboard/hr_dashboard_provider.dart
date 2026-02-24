@@ -1,6 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
+import 'package:hrms_yb/core/network/dio_api_request.dart';
+import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
+import 'package:hrms_yb/models/user_model.dart';
 
 class HrDashboardProvider extends ChangeNotifier {
   final BuildContext context;
@@ -8,7 +12,9 @@ class HrDashboardProvider extends ChangeNotifier {
   List<String> titleNames = ["Home", "Employee", "Attendance", "Leave", "Payroll"];
 
   HrDashboardProvider({required this.context}) {
-    WidgetsBinding.instance.addPostFrameCallback((_) {});
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      _init();
+    });
   }
 
   void onItemTapped(int index) {
@@ -26,5 +32,22 @@ class HrDashboardProvider extends ChangeNotifier {
     }
     currentIndex = index;
     notifyListeners();
+  }
+
+  void _init() {
+    getProfileData();
+  }
+
+  Future<void> getProfileData() async {
+    String employeeId = AuthenticationData.userModel?.empId.toString() ?? '';
+    String url = "${DioApiServices.getUserById}/$employeeId";
+    try {
+      var response = await DioApiRequest().getCommonApiCall(url);
+      if (response != null && response.data?['success'] == true) {
+        AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+      }
+    } catch (e) {
+      // print("Error fetching profile data: $e");
+    }
   }
 }

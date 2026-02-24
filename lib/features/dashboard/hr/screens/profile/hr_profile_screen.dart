@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
@@ -94,7 +95,16 @@ class HrProfileScreen extends StatelessWidget {
                   ),
                   SizedBox(height: AppSize().verticalWidgetSpacing),
                   _actionTile(Icons.lock, "Change Password"), SizedBox(height: AppSize().verticalWidgetSpacing),
-                  _actionTile(Icons.logout, "Logout"), SizedBox(height: AppSize().verticalWidgetSpacing),
+                  _actionTile(
+                    Icons.logout,
+                    "Logout",
+                    onTap: () async {
+                      await CommonMethod().errageAllDataAndGotoLogin();
+                      // ignore: use_build_context_synchronously
+                      GoRouter.of(context).go(AppRouter.loginScreenRoute);
+                    },
+                  ),
+                  SizedBox(height: AppSize().verticalWidgetSpacing),
                 ],
               ),
             ),

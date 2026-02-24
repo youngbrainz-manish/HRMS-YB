@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms_yb/core/constants/app_globals.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/auth/login_provider.dart';
@@ -95,7 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       CommonTextField(
                         controller: provider.pinController,
                         hintText: "Enter your password",
-                        labelText: "Emter Password",
+                        labelText: "Enter Password",
                         prefixIcon: Icon(Icons.password),
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: true,
@@ -108,26 +107,28 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 36),
                       CommonButton(
+                        isLoading: provider.isLoading,
                         title: "Login",
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
+                          if (provider.emailController.text.isEmpty || provider.pinController.text.isEmpty) {
+                            ScaffoldMessenger.of(
+                              context,
+                            ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
+                            return;
+                          }
                           var data = await provider.login(
                             email: provider.emailController.text.trim(),
                             password: provider.pinController.text.trim(),
                           );
+
                           if (data == true) {
-                            if (provider.user?.isHr == true) {
-                              if (provider.user != null) {
-                                AppGlobals().userModel = provider.user!;
-                              }
-                              // ignore: use_build_context_synchronously
-                              GoRouter.of(context).go(AppRouter.hrDashboardRoute);
-                            } else {
-                              if (provider.user != null) {
-                                AppGlobals().userModel = provider.user!;
-                              }
+                            if (provider.userModel!.roleId == 1) {
                               // ignore: use_build_context_synchronously
                               GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute);
+                            } else {
+                              // ignore: use_build_context_synchronously
+                              GoRouter.of(context).go(AppRouter.hrDashboardRoute);
                             }
                           }
                         },
