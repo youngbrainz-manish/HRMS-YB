@@ -151,7 +151,7 @@ class _SectionCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text(title, style: const TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
+            Text(title, style: AppTextStyle().titleTextStyle(context: context)),
             SizedBox(height: AppSize().verticalWidgetSpacing),
             child,
           ],

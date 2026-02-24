@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/shared/utils/app_fonts.dart';
 
 class AppThemeScreen {
   AppThemeScreen._();
@@ -8,6 +9,7 @@ class AppThemeScreen {
   // 🌞 LIGHT THEME
   // ==============================
   static final ThemeData lightTheme = ThemeData(
+    fontFamily: AppFonts.interRegular,
     useMaterial3: true,
     brightness: Brightness.light,
     iconTheme: IconThemeData(color: AppColors.darkGrey),
@@ -90,6 +92,7 @@ class AppThemeScreen {
   // 🌙 DARK THEME
   // ==============================
   static final ThemeData darkTheme = ThemeData(
+    fontFamily: AppFonts.interRegular,
     useMaterial3: true,
     brightness: Brightness.dark,
     iconTheme: IconThemeData(color: AppColors.lightGrey),

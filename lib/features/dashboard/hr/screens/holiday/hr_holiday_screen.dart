@@ -18,17 +18,18 @@ class HrHolidayScreen extends StatelessWidget {
       child: Consumer<HrHolidayProvider>(
         builder: (context, provider, child) {
           return Scaffold(
-            body: SafeArea(child: _buildBody(provider: provider)),
+            body: SafeArea(child: _buildBody(provider)),
             floatingActionButton: provider.isLoading
-                ? SizedBox()
+                ? const SizedBox()
                 : FloatingActionButton(
                     onPressed: () async {
                       bool? ret = await GoRouter.of(context).push(AppRouter.addHolidayScreenRoute);
+
                       if (ret == true) {
                         provider.getHolidays();
                       }
                     },
-                    child: Icon(Icons.add, color: AppColors.whiteColor),
+                    child: const Icon(Icons.add, color: AppColors.whiteColor),
                   ),
           );
         },
@@ -36,48 +37,66 @@ class HrHolidayScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({required HrHolidayProvider provider}) {
+  /// ================= BODY =================
+
+  Widget _buildBody(HrHolidayProvider provider) {
+    if (provider.isLoading) {
+      return CommonWidget().defaultLoader();
+    }
+
+    if (provider.holidays.isEmpty) {
+      return const Center(child: Text("No Holidays Found"));
+    }
+
     return Stack(
       children: [
-        Column(
-          children: [
-            Expanded(
-              child: provider.isLoading
-                  ? CommonWidget().defaultLoader()
-                  : ListView.builder(
-                      itemCount: provider.holidays.length,
-                      itemBuilder: (context, index) {
-                        return HolidayCard(
-                          holiday: provider.holidays[index],
-                          onTap: () async {
-                            final confirm = await CommonWidget().showConfirmDialog(
-                              context: context,
-                              title: "Delete Holiday",
-                              message: "Do you want to delete this holiday?",
-                            );
-                            if (confirm == true) {
-                              provider.deleteHoliday(id: provider.holidays[index].holidayId ?? 0);
-                            }
-                          },
-                        );
-                      },
-                    ),
-            ),
-          ],
-        ),
-        Visibility(
-          visible: provider.isDeleting,
-          child: Container(
-            color: AppColors.primaryColor.withValues(alpha: 0.1),
-            height: double.infinity,
-            width: double.infinity,
-            child: Center(child: CommonWidget().defaultLoader()),
+        RefreshIndicator(
+          onRefresh: () => provider.getHolidays(),
+          child: ListView.builder(
+            physics: AlwaysScrollableScrollPhysics(),
+            controller: provider.scrollController,
+            itemCount: provider.holidays.length + (provider.isPaginationLoading ? 1 : 0),
+            itemBuilder: (context, index) {
+              /// bottom pagination loader
+              if (index >= provider.holidays.length) {
+                return const Padding(
+                  padding: EdgeInsets.all(16),
+                  child: Center(child: CircularProgressIndicator()),
+                );
+              }
+
+              return HolidayCard(
+                holiday: provider.holidays[index],
+                onTap: () async {
+                  final confirm = await CommonWidget().showConfirmDialog(
+                    context: context,
+                    title: "Delete Holiday",
+                    message: "Do you want to delete this holiday?",
+                  );
+
+                  if (confirm == true) {
+                    provider.deleteHoliday(id: provider.holidays[index].holidayId ?? 0);
+                  }
+                },
+              );
+            },
           ),
         ),
+
+        /// deleting overlay loader
+        if (provider.isDeleting)
+          Container(
+            color: AppColors.primaryColor.withValues(alpha: 0.1),
+            child: Center(child: CommonWidget().defaultLoader()),
+          ),
       ],
     );
   }
 }
+
+/// ===============================================================
+/// HOLIDAY CARD
+/// ===============================================================
 
 class HolidayCard extends StatelessWidget {
   final HolidayModel holiday;
@@ -92,9 +111,8 @@ class HolidayCard extends StatelessWidget {
     return Container(
       margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
       child: Card(
-        margin: EdgeInsets.all(0),
-        child: Container(
-          padding: EdgeInsets.only(left: 14, top: 14, bottom: 14),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 14, right: 0, top: 14, bottom: 14),
           child: Row(
             children: [
               /// DATE BOX
@@ -108,7 +126,7 @@ class HolidayCard extends StatelessWidget {
                 child: Column(
                   children: [
                     Text("${date?.day ?? '--'}", style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
-                    Text(_monthName(date), style: TextStyle(fontSize: 12, color: AppColors.greyColor)),
+                    Text(_monthName(date), style: const TextStyle(fontSize: 12)),
                   ],
                 ),
               ),
@@ -124,9 +142,12 @@ class HolidayCard extends StatelessWidget {
                     const SizedBox(height: 8),
                     Row(
                       children: [
-                        Icon(Icons.event, size: 16, color: AppColors.greyColor),
+                        const Icon(Icons.event, size: 16),
                         const SizedBox(width: 6),
-                        Text(holiday.holidayDate ?? "", style: TextStyle(color: AppColors.greyColor, fontSize: 12)),
+                        Text(
+                          holiday.holidayDate ?? "",
+                          style: AppTextStyle().lableTextStyle(context: context, fontSize: 12),
+                        ),
                       ],
                     ),
                   ],
@@ -173,7 +194,6 @@ class HolidayCard extends StatelessWidget {
     );
   }
 
-  /// Holiday Type Color
   Color _typeColor() {
     switch (holiday.holidayType) {
       case "NATIONAL":
@@ -187,7 +207,9 @@ class HolidayCard extends StatelessWidget {
 
   String _monthName(DateTime? date) {
     if (date == null) return "--";
+
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
+
     return months[date.month - 1];
   }
 }
