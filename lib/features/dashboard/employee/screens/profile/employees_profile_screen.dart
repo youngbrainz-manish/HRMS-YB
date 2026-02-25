@@ -125,22 +125,99 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                       ),
                     ],
                   ),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
+                  /// Holiday List
+                  GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).push(AppRouter.holidayScreenRoute);
+                    },
+                    child: Card(
+                      margin: EdgeInsets.all(0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        height: 46,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.holiday_village_outlined, color: AppColors.primaryColor),
+                            SizedBox(width: 10),
+                            Text(
+                              "View All Holidays",
+                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                            ),
+                            Spacer(),
+                            Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// UPDATE PIN
-                  CommonButton(
-                    icon: Icon(Icons.key_outlined, color: AppColors.primaryColor),
-                    title: "Update Access PIN",
+                  GestureDetector(
                     onTap: () {},
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    color: AppColors.transparantColor,
-                    borderColor: AppColors.primaryColor,
-                    titleColor: context.watch<AppThemeProvider>().isDarkMode
-                        ? AppColors.whiteColor
-                        : AppColors.blackColor,
+                    child: Card(
+                      margin: EdgeInsets.all(0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        height: 46,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(Icons.key_outlined, color: AppColors.primaryColor),
+                            SizedBox(width: 10),
+                            Text(
+                              "Update Access PIN",
+                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                            ),
+                            Spacer(),
+                            Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                          ],
+                        ),
+                      ),
+                    ),
                   ),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
+                  /// UPDATE THEME
+                  GestureDetector(
+                    onTap: () {
+                      GoRouter.of(context).push(AppRouter.holidayScreenRoute);
+                    },
+                    child: Card(
+                      margin: EdgeInsets.all(0),
+                      child: Container(
+                        padding: EdgeInsets.symmetric(horizontal: 12),
+                        height: 46,
+                        width: double.infinity,
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Icon(
+                              context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                              size: 26,
+                              color: AppColors.primaryColor,
+                            ),
+                            SizedBox(width: 10),
+                            Text("Dark Theme", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                            Spacer(),
+                            Switch(
+                              padding: EdgeInsets.all(0),
+                              key: context.read<EmployeeDashboardProvider>().themeSwitchKey,
+                              value: context.watch<AppThemeProvider>().isDarkMode,
+                              onChanged: (v) {
+                                context.read<EmployeeDashboardProvider>().toggleThemeMode();
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// LOGOUT
@@ -153,30 +230,6 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                       GoRouter.of(context).go(AppRouter.loginScreenRoute);
                     },
                     mainAxisAlignment: MainAxisAlignment.start,
-                  ),
-                  SizedBox(height: AppSize.verticalWidgetSpacing),
-
-                  /// UPDATE THEME
-                  Card(
-                    margin: EdgeInsets.all(0),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
-                      leading: Icon(
-                        context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                        size: 26,
-                        color: AppColors.primaryColor,
-                      ),
-                      title: Text("Dark Theme"),
-                      onTap: () {},
-                      trailing: Switch(
-                        padding: EdgeInsets.all(0),
-                        key: context.read<EmployeeDashboardProvider>().themeSwitchKey,
-                        value: context.watch<AppThemeProvider>().isDarkMode,
-                        onChanged: (v) {
-                          context.read<EmployeeDashboardProvider>().toggleThemeMode();
-                        },
-                      ),
-                    ),
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
                 ],
@@ -192,7 +245,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
         width: double.infinity,
         padding: const EdgeInsets.symmetric(vertical: 16),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(12),
           gradient: LinearGradient(
             colors: context.watch<AppThemeProvider>().isDarkMode
                 ? [AppColors.blackColor.withValues(alpha: 0.2), AppColors.whiteColor.withValues(alpha: 0.2)]

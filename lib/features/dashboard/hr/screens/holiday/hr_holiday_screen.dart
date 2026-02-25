@@ -173,18 +173,21 @@ class HolidayCard extends StatelessWidget {
                       style: TextStyle(fontSize: 12, fontWeight: FontWeight.w600, color: _typeColor()),
                     ),
                   ),
-                  GestureDetector(
-                    onTap: onTap,
-                    child: Container(
-                      margin: EdgeInsets.only(right: 10, top: 10),
-                      child: Row(
-                        children: [
-                          Text(
-                            "Remove",
-                            style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.errorColor),
-                          ),
-                          Icon(Icons.delete, size: 20, color: AppColors.errorColor),
-                        ],
+                  Visibility(
+                    visible: onTap != null,
+                    child: GestureDetector(
+                      onTap: onTap,
+                      child: Container(
+                        margin: EdgeInsets.only(right: 10, top: 10),
+                        child: Row(
+                          children: [
+                            Text(
+                              "Remove",
+                              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.errorColor),
+                            ),
+                            Icon(Icons.delete, size: 20, color: AppColors.errorColor),
+                          ],
+                        ),
                       ),
                     ),
                   ),

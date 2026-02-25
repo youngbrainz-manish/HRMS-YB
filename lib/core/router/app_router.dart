@@ -5,6 +5,7 @@ import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/holiday/emp_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/pay_slip/employees_pay_slip_screen.dart';
@@ -68,6 +69,7 @@ class AppRouter {
   static const hrHolidayScreenRoute = '/hrHolidayScreen';
   static const editProfileScreenRoute = '/editProfileScreen';
   static const addHolidayScreenRoute = '/addHolidayScreen';
+  static String holidayScreenRoute = '/holidayScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -95,6 +97,7 @@ class AppRouter {
       GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
       GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
+      GoRoute(path: holidayScreenRoute, builder: (context, state) => const HolidayScreen()),
 
       ShellRoute(
         navigatorKey: _shellNavigatorKey,

@@ -40,14 +40,14 @@ class AppBottomNavBar extends StatelessWidget {
           NavigationDestination(
             icon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.whiteColor,
             ),
             label: "Home",
@@ -55,14 +55,14 @@ class AppBottomNavBar extends StatelessWidget {
           NavigationDestination(
             icon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.whiteColor,
             ),
             label: "Attendance",
@@ -70,14 +70,14 @@ class AppBottomNavBar extends StatelessWidget {
           NavigationDestination(
             icon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
-              height: 28,
-              width: 28,
+              height: 25,
+              width: 25,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
-              height: 28,
-              width: 28,
+              height: 25,
+              width: 25,
               color: AppColors.whiteColor,
             ),
             label: "Leave",
@@ -85,14 +85,14 @@ class AppBottomNavBar extends StatelessWidget {
           NavigationDestination(
             icon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
-              height: 25,
-              width: 25,
+              height: 22,
+              width: 22,
               color: AppColors.whiteColor,
             ),
             label: "Payslip",
@@ -100,14 +100,14 @@ class AppBottomNavBar extends StatelessWidget {
           NavigationDestination(
             icon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
-              height: 22,
-              width: 22,
+              height: 19,
+              width: 19,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
             selectedIcon: CommonWidget().buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
-              height: 22,
-              width: 22,
+              height: 20,
+              width: 20,
               color: AppColors.whiteColor,
             ),
             label: "Profile",

@@ -79,7 +79,9 @@ class CommonWidget {
   }
 
   Widget defaultLoader({Color? color}) {
-    return Center(child: CircularProgressIndicator(color: color ?? AppColors.primaryColor));
+    return Center(
+      child: CircularProgressIndicator(padding: EdgeInsets.all(0), color: color ?? AppColors.primaryColor),
+    );
   }
 
   Future<bool?> showConfirmDialog({
