@@ -107,14 +107,16 @@ class AppThemeScreen {
     appBarTheme: const AppBarTheme(backgroundColor: AppColors.primaryDarkColor, elevation: 0, centerTitle: true),
 
     cardTheme: CardThemeData(
-      color: const Color(0xFF2A2A2A),
+      // color: const Color(0xFF2A2A2A),
+      color: AppColors.blackColor,
       elevation: 2,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
     ),
 
     inputDecorationTheme: InputDecorationTheme(
       filled: true,
-      fillColor: const Color(0xFF2A2A2A),
+      // fillColor: const Color(0xFF2A2A2A),
+      fillColor: AppColors.blackColor,
       contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
       border: OutlineInputBorder(borderRadius: BorderRadius.circular(10)),
     ),

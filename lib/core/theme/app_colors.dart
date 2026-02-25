@@ -37,7 +37,8 @@ class AppColors {
   static const Color leaveColor = warningColor;
 
   static const Color lightButtonColor = primaryColor;
-  static const Color dartButtonColor = Color.fromARGB(255, 65, 23, 23);
+  // static const Color dartButtonColor = Color.fromARGB(255, 65, 23, 23);
+  static const Color dartButtonColor = primaryColor;
   // static const Color dartButtonColor = Colors.black;
 
   static const Color transparantColor = Colors.transparent;

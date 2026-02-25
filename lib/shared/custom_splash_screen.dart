@@ -8,7 +8,10 @@ import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/models/user_model.dart';
+import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CustomSplashScreen extends StatefulWidget {
@@ -19,9 +22,18 @@ class CustomSplashScreen extends StatefulWidget {
 }
 
 class _CustomSplashScreenState extends State<CustomSplashScreen> {
+  bool isDark = false;
   @override
   void initState() {
     super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Future.delayed(const Duration(milliseconds: 200), () {
+        setState(() {
+          isDark = context.read<AppThemeProvider>().isDarkMode;
+        });
+      });
+    });
     _init();
   }
 
@@ -67,22 +79,24 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   }
 
   Widget _buildBody({required BuildContext context}) {
-    return Container(
-      color: Colors.white,
-      height: MediaQuery.of(context).size.height,
-      width: MediaQuery.of(context).size.width,
-      child: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Image.asset("assets/images/transparant_logo.png", height: 175, width: 175),
-            SizedBox(height: 20),
-            TypewriterText(
-              text: "Welcome to HRMS YB",
-              style: TextStyle(color: Colors.black, fontSize: 16.0),
-              speed: Duration(milliseconds: 200),
-            ),
-          ],
+    return AnimatedContainer(
+      duration: const Duration(seconds: 2),
+      curve: Curves.fastOutSlowIn,
+      color: isDark ? AppColors.blackColor : AppColors.whiteColor,
+      child: SizedBox.expand(
+        child: Center(
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              Image.asset("assets/images/transparant_logo.png", height: 175, width: 175),
+              const SizedBox(height: 20),
+              TypewriterText(
+                text: "Welcome to HRMS YB",
+                style: TextStyle(color: isDark ? AppColors.whiteColor : AppColors.blackColor, fontSize: 16),
+                speed: const Duration(milliseconds: 200),
+              ),
+            ],
+          ),
         ),
       ),
     );

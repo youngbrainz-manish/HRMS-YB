@@ -20,6 +20,7 @@ class HrDashboardScreen extends StatefulWidget {
 
 class _HrDashboardScreenState extends State<HrDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
+  final GlobalKey _themeSwitchKey = GlobalKey();
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
@@ -272,7 +273,6 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-
                       leading: Icon(
                         context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
                         size: 22,
@@ -281,13 +281,23 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                       title: Text("Dark Theme"),
                       onTap: () {},
                       trailing: Switch(
+                        key: _themeSwitchKey,
                         value: context.watch<AppThemeProvider>().isDarkMode,
                         onChanged: (v) {
-                          context.read<AppThemeProvider>().toggleTheme();
+                          final renderBox = _themeSwitchKey.currentContext?.findRenderObject() as RenderBox?;
+                          final origin =
+                              renderBox?.localToGlobal(Offset(renderBox.size.width / 2, renderBox.size.height / 2)) ??
+                              Offset.zero;
+                          context.read<AppThemeProvider>().toggleThemeWithAnimation(
+                            origin: origin,
+                            overlayState: Overlay.of(context),
+                            devicePixelRatio: MediaQuery.of(context).devicePixelRatio,
+                          );
                         },
                       ),
                     ),
                   ),
+
                   SizedBox(height: 4),
                   Card(
                     margin: EdgeInsets.all(0),

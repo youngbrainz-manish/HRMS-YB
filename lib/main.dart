@@ -10,7 +10,12 @@ void main() async {
   final themeProvider = AppThemeProvider();
   await themeProvider.loadTheme();
 
-  runApp(ChangeNotifierProvider.value(value: themeProvider, child: const HRMSApp()));
+  runApp(
+    MultiProvider(
+      providers: [ChangeNotifierProvider.value(value: themeProvider)],
+      child: const HRMSApp(),
+    ),
+  );
 }
 
 class HRMSApp extends StatelessWidget {
@@ -29,13 +34,16 @@ class _AppView extends StatelessWidget {
   Widget build(BuildContext context) {
     final themeProvider = context.watch<AppThemeProvider>();
 
-    return MaterialApp.router(
-      debugShowCheckedModeBanner: false,
-      title: 'HRMS',
-      theme: AppThemeScreen.lightTheme,
-      darkTheme: AppThemeScreen.darkTheme,
-      themeMode: themeProvider.themeMode,
-      routerConfig: AppRouter.router,
+    return RepaintBoundary(
+      key: themeProvider.repaintKey,
+      child: MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        title: 'HRMS',
+        theme: AppThemeScreen.lightTheme,
+        darkTheme: AppThemeScreen.darkTheme,
+        themeMode: themeProvider.themeMode,
+        routerConfig: AppRouter.router,
+      ),
     );
   }
 }

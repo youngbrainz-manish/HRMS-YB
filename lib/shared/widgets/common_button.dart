@@ -62,7 +62,7 @@ class CommonButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Center(
               child: isLoading
-                  ? SizedBox(height: 22, width: 22, child: CommonWidget().defaultLoader(color: Colors.white))
+                  ? SizedBox(child: CommonWidget().defaultLoader(color: AppColors.whiteColor))
                   : Row(
                       mainAxisAlignment: mainAxisAlignment,
                       children: [

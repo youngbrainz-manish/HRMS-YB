@@ -58,7 +58,7 @@ class CommonTextField extends StatelessWidget {
                 labelText: labelText,
                 hintText: hintText,
                 hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey, height: 1.3, fontSize: 14),
-                labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor),
+                labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor, fontSize: 15),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

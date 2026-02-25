@@ -20,21 +20,24 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => LoginProvider(context: context),
-      child: Consumer<LoginProvider>(
-        builder: (context, provider, child) {
-          return GestureDetector(
-            onTap: () {
-              FocusScope.of(context).requestFocus(FocusNode());
-            },
-            child: Scaffold(
-              body: SafeArea(
-                child: _buildBody(context: context, provider: provider),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).requestFocus(FocusNode()),
+      child: ChangeNotifierProvider(
+        create: (_) => LoginProvider(context: context),
+        child: Consumer<LoginProvider>(
+          builder: (context, provider, child) {
+            return GestureDetector(
+              onTap: () {
+                FocusScope.of(context).requestFocus(FocusNode());
+              },
+              child: Scaffold(
+                body: SafeArea(
+                  child: _buildBody(context: context, provider: provider),
+                ),
               ),
-            ),
-          );
-        },
+            );
+          },
+        ),
       ),
     );
   }
@@ -42,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget _buildBody({required BuildContext context, required LoginProvider provider}) {
     bool isDarkMode = context.watch<AppThemeProvider>().isDarkMode;
     return Container(
-      color: isDarkMode ? AppColors.appScreenDark : AppColors.appScreenLight,
+      // color: isDarkMode ? AppColors.appScreenDark : AppColors.appScreenLight,
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       padding: EdgeInsets.symmetric(horizontal: 16),
@@ -73,6 +76,7 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               SizedBox(height: 32),
               Card(
+                margin: EdgeInsets.all(0),
                 child: Container(
                   padding: EdgeInsets.only(left: 24, top: 32, right: 24, bottom: 16),
                   child: Column(
