@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
-import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
+import 'package:hrms_yb/core/theme/app_theme_screen.dart';
 import 'package:provider/provider.dart';
 
-void main() {
-  runApp(const HRMSApp());
+void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+
+  final themeProvider = AppThemeProvider();
+  await themeProvider.loadTheme();
+
+  runApp(ChangeNotifierProvider.value(value: themeProvider, child: const HRMSApp()));
 }
 
 class HRMSApp extends StatelessWidget {
@@ -13,10 +18,7 @@ class HRMSApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MultiProvider(
-      providers: [ChangeNotifierProvider(create: (_) => AppThemeProvider())],
-      child: const _AppView(),
-    );
+    return const _AppView();
   }
 }
 

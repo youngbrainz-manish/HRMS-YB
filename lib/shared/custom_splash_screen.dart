@@ -1,3 +1,4 @@
+import 'dart:async';
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
@@ -9,7 +10,6 @@ import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/models/user_model.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:typing_text_animation/typing_text_animation.dart';
 
 class CustomSplashScreen extends StatefulWidget {
   const CustomSplashScreen({super.key});
@@ -77,10 +77,10 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
           children: [
             Image.asset("assets/images/transparant_logo.png", height: 175, width: 175),
             SizedBox(height: 20),
-            TypingTextAnimation(
-              texts: ["Welcome to HRMS YB", ""],
-              textStyle: TextStyle(color: Colors.black, fontSize: 16.0),
-              showCursor: true,
+            TypewriterText(
+              text: "Welcome to HRMS YB",
+              style: TextStyle(color: Colors.black, fontSize: 16.0),
+              speed: Duration(milliseconds: 200),
             ),
           ],
         ),
@@ -91,5 +91,54 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   @override
   void dispose() {
     super.dispose();
+  }
+}
+
+class TypewriterText extends StatefulWidget {
+  final String text;
+  final TextStyle? style;
+  final Duration speed;
+
+  const TypewriterText({super.key, required this.text, this.style, this.speed = const Duration(milliseconds: 80)});
+
+  @override
+  State<TypewriterText> createState() => _TypewriterTextState();
+}
+
+class _TypewriterTextState extends State<TypewriterText> {
+  String _displayText = "";
+  int _index = 0;
+  Timer? _timer;
+
+  @override
+  void initState() {
+    super.initState();
+    _startTyping();
+  }
+
+  void _startTyping() {
+    _timer = Timer.periodic(widget.speed, (timer) {
+      if (!mounted) return;
+
+      if (_index < widget.text.length) {
+        setState(() {
+          _displayText += widget.text[_index];
+          _index++;
+        });
+      } else {
+        timer.cancel();
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _timer?.cancel();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Text("${_displayText}_", style: widget.style);
   }
 }

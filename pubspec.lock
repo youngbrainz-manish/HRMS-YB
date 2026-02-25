@@ -549,14 +549,6 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.4.0"
-  typing_text_animation:
-    dependency: "direct main"
-    description:
-      name: typing_text_animation
-      sha256: "1c27b1e2ce7e082665785b9383cd28b99ca849def8e3c2dd9a7f2d6e724aa559"
-      url: "https://pub.dev"
-    source: hosted
-    version: "0.1.0"
   vector_graphics:
     dependency: transitive
     description:
