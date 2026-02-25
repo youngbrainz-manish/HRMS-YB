@@ -38,28 +38,26 @@ class AppMultilineTextField extends StatelessWidget {
           enabled: enabled,
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
-
           decoration: InputDecoration(
             hintStyle: AppTextStyle().lableTextStyle(context: context, fontSize: 16, color: AppColors.greyColor),
             labelText: label,
             hintText: hint,
             alignLabelWithHint: true,
-
             contentPadding: const EdgeInsets.all(16),
-
-            border: OutlineInputBorder(borderRadius: BorderRadius.circular(16)),
-
+            border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
+              borderRadius: BorderRadius.circular(12),
               borderSide: BorderSide(color: AppColors.borderGrey),
             ),
-
             focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16),
-              borderSide: BorderSide(color: AppColors.primaryColor, width: 1.5),
+              borderSide: BorderSide(color: AppColors.primaryColor),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            disabledBorder: OutlineInputBorder(
+              borderSide: BorderSide(color: AppColors.borderGrey),
+              borderRadius: BorderRadius.circular(12),
             ),
           ),
-
           validator: validator,
         ),
       ],

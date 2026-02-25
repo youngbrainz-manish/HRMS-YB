@@ -34,9 +34,9 @@ class HrLeaveScreen extends StatelessWidget {
       width: MediaQuery.of(context).size.width,
       child: Column(
         children: [
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
           _tabBar(provider: provider, context: context),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
           Expanded(
             child: ListView.builder(
               itemCount: provider.dummyLeaves.length,
@@ -103,7 +103,7 @@ class LeaveApprovalCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      margin: EdgeInsets.only(bottom: AppSize().verticalWidgetSpacing),
+      margin: EdgeInsets.only(bottom: AppSize.verticalWidgetSpacing),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
       child: Padding(
         padding: const EdgeInsets.all(16),

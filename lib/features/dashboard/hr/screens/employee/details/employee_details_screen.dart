@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/details/employee_details_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
@@ -56,9 +57,9 @@ class _EmployeeHeaderCard extends StatelessWidget {
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      padding: const EdgeInsets.symmetric(vertical: 28),
+      padding: EdgeInsets.symmetric(vertical: AppSize.verticalWidgetSpacing),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(10),
         gradient: LinearGradient(colors: [AppColors.primaryColor, AppColors.primaryColor.withValues(alpha: 0.6)]),
       ),
       child: Column(
@@ -68,11 +69,11 @@ class _EmployeeHeaderCard extends StatelessWidget {
             backgroundColor: Colors.white24,
             child: Icon(Icons.person_outline, size: 42, color: Colors.white),
           ),
-          const SizedBox(height: 16),
+          SizedBox(height: AppSize.verticalWidgetSpacing / 2),
 
           Text(
             "Kavita Nair",
-            style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 22),
+            style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 20),
           ),
 
           const SizedBox(height: 4),
@@ -130,19 +131,19 @@ class _DetailTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 12),
+      padding: const EdgeInsets.symmetric(vertical: AppSize.verticalWidgetSpacing / 2),
       child: Row(
         children: [
           Container(
-            height: 46,
-            width: 46,
+            height: 40,
+            width: 40,
             decoration: BoxDecoration(
               color: item.color.withValues(alpha: .15),
               borderRadius: BorderRadius.circular(14),
             ),
             child: Icon(item.icon, color: item.color),
           ),
-          const SizedBox(width: 16),
+          const SizedBox(width: AppSize.verticalWidgetSpacing),
           Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

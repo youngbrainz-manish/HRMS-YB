@@ -93,7 +93,6 @@ class AppRouter {
       GoRoute(path: replyLeaveScreenRoute, builder: (context, state) => const ReplyLeaveScreen()),
       GoRoute(path: editAdvanceScreenRoute, builder: (context, state) => const EditAdvanceScreen()),
       GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
-      GoRoute(path: hrProfileScreenRoute, builder: (context, state) => const HrProfileScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
       GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
 
@@ -153,6 +152,13 @@ class AppRouter {
           );
         },
         routes: [
+          GoRoute(
+            name: 'Hr Profile Screen',
+            path: hrProfileScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return HrProfileScreen();
+            },
+          ),
           GoRoute(
             name: 'Hr Home Screen',
             path: hrDashboardRoute,

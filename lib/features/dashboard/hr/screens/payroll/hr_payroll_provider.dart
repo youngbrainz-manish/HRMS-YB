@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 
 class HrPayrollProvider extends ChangeNotifier {
   final BuildContext context;
@@ -17,6 +18,17 @@ class HrPayrollProvider extends ChangeNotifier {
 
   void _init() {
     notifyListeners();
+  }
+
+  void selectMonth({required BuildContext context}) async {
+    final date = await showDatePicker(
+      barrierColor: AppColors.borderGrey.withValues(alpha: 0.3),
+      context: context,
+      firstDate: DateTime(2020),
+      lastDate: DateTime(2100),
+      initialDate: DateTime.now(),
+    );
+    debugPrint("Selected Month: ${date?.month}/${date?.year}");
   }
 }
 

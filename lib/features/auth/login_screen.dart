@@ -90,7 +90,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           return null;
                         },
                       ),
-                      SizedBox(height: AppSize().verticalWidgetSpacing),
+                      SizedBox(height: AppSize.verticalWidgetSpacing),
                       CommonTextField(
                         controller: provider.pinController,
                         hintText: "Enter your password",
@@ -133,7 +133,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           }
                         },
                       ),
-                      SizedBox(height: AppSize().verticalWidgetSpacing),
+                      SizedBox(height: AppSize.verticalWidgetSpacing),
                       GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());

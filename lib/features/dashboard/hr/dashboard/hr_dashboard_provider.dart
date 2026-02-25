@@ -10,6 +10,8 @@ class HrDashboardProvider extends ChangeNotifier {
   final BuildContext context;
   int currentIndex = 0;
 
+  String title = "Home";
+
   HrDashboardProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
@@ -50,5 +52,10 @@ class HrDashboardProvider extends ChangeNotifier {
     } catch (e) {
       // print("Error fetching profile data: $e");
     }
+  }
+
+  void changeTitle(String s) {
+    title = s;
+    notifyListeners();
   }
 }

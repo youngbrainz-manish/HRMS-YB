@@ -20,10 +20,10 @@ class CommonWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(10.0),
+        padding: const EdgeInsets.all(12.0),
         child: CircleAvatar(
           backgroundColor: AppColors.lightGrey.withValues(alpha: 0.3),
-          child: Icon(Icons.arrow_back_ios_new_rounded, size: 22, color: AppColors.whiteColor),
+          child: Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: AppColors.whiteColor),
         ),
       ),
     );
@@ -109,9 +109,9 @@ class CommonWidget {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   Text(title, style: AppTextStyle().titleTextStyle(context: context)),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                   Text(message, style: AppTextStyle().subTitleTextStyle(context: context)),
-                  SizedBox(height: AppSize().verticalWidgetSpacing * 2),
+                  SizedBox(height: AppSize.verticalWidgetSpacing * 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [

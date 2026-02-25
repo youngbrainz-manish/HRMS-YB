@@ -63,7 +63,7 @@ class LeaveFormScreen extends StatelessWidget {
                   provider.updateState();
                 },
               ),
-              SizedBox(height: AppSize().verticalWidgetSpacing * 1.5),
+              SizedBox(height: AppSize.verticalWidgetSpacing * 1.5),
 
               /// Dates
               Row(
@@ -85,7 +85,7 @@ class LeaveFormScreen extends StatelessWidget {
                       ],
                     ),
                   ),
-                  SizedBox(width: AppSize().verticalWidgetSpacing),
+                  SizedBox(width: AppSize.verticalWidgetSpacing),
                   Expanded(
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -105,14 +105,14 @@ class LeaveFormScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              SizedBox(height: AppSize().verticalWidgetSpacing),
+              SizedBox(height: AppSize.verticalWidgetSpacing),
 
               /// Reason
               Text("Reason *", style: AppTextStyle().titleTextStyle(context: provider.context)),
               const SizedBox(height: 4),
               AppMultilineTextField(controller: provider.reason, hint: "Write your reason here..."),
               // CommonTextField(controller: provider.reason, hintText: "Enter reason for leave"),
-              SizedBox(height: AppSize().verticalWidgetSpacing),
+              SizedBox(height: AppSize.verticalWidgetSpacing),
 
               /// Attachment (Optional)
               Text("Attachment (Optional)", style: AppTextStyle().titleTextStyle(context: provider.context)),
@@ -154,8 +154,8 @@ class LeaveFormScreen extends StatelessWidget {
                   ),
                 ),
               ),
-              SizedBox(height: AppSize().verticalWidgetSpacing),
-              SizedBox(height: AppSize().verticalWidgetSpacing),
+              SizedBox(height: AppSize.verticalWidgetSpacing),
+              SizedBox(height: AppSize.verticalWidgetSpacing),
 
               /// Submit Button
               CommonButton(title: "Submit Leave Application", onTap: () {}),

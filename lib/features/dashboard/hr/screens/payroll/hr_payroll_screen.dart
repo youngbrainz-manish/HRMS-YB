@@ -39,14 +39,14 @@ class HrPayrollScreen extends StatelessWidget {
         child: Column(
           children: [
             // Month Selector
-            _selectMonth(),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            _selectMonth(provider: provider),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
 
             _buildSummaryCard(context: context),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
 
             _anctionButtons(context),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
 
             _employeeList(context, provider),
           ],
@@ -55,7 +55,7 @@ class HrPayrollScreen extends StatelessWidget {
     );
   }
 
-  Widget _selectMonth() {
+  Widget _selectMonth({required HrPayrollProvider provider}) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Padding(
@@ -64,6 +64,11 @@ class HrPayrollScreen extends StatelessWidget {
           headingText: "Select Month",
           controller: TextEditingController(),
           hintText: "Select Month",
+          isEnable: false,
+          onTap: () {
+            provider.selectMonth(context: provider.context);
+            // Show Month Picker
+          },
         ),
       ),
     );
@@ -163,13 +168,13 @@ class HrPayrollScreen extends StatelessWidget {
           children: [
             Text(emp.name, style: AppTextStyle().subTitleTextStyle(context: context)),
             Text("${emp.dept} • ${emp.id}", style: AppTextStyle().lableTextStyle(context: context, fontSize: 12)),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             _payRow("Gross Salary", "₹${emp.gross}", context: context),
             _payRow("Advance", "-₹${emp.advance}", color: AppColors.errorColor, context: context),
             _payRow("Professional Tax", "-₹${emp.tax}", color: AppColors.errorColor, context: context),
             Divider(height: 24),
             _payRow("Net Pay", "₹${emp.netPay}", color: AppColors.successPrimary, isBold: true, context: context),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             CommonButton(title: "View Payslip Preview", onTap: () {}, height: 40, fontSize: 15),
           ],
         ),

@@ -23,32 +23,35 @@ class AppFilterDropdown extends StatelessWidget {
       children: [
         Text(label, style: AppTextStyle().subTitleTextStyle(context: context)),
         const SizedBox(height: 8),
-        DropdownButtonFormField<String>(
-          initialValue: value,
-          decoration: InputDecoration(
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.primaryColor),
+        SizedBox(
+          height: 45,
+          child: DropdownButtonFormField<String>(
+            initialValue: value,
+            decoration: InputDecoration(
+              border: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.primaryColor),
+              ),
+              contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+              focusedBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.primaryColor),
+              ),
+              enabledBorder: OutlineInputBorder(
+                borderRadius: BorderRadius.circular(12),
+                borderSide: BorderSide(color: AppColors.borderGrey),
+              ),
             ),
-            contentPadding: const EdgeInsets.symmetric(horizontal: 16),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.primaryColor),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(color: AppColors.borderGrey),
-            ),
+            items: options
+                .map(
+                  (e) => DropdownMenuItem(
+                    value: e,
+                    child: Text(e, style: AppTextStyle().subTitleTextStyle(context: context)),
+                  ),
+                )
+                .toList(),
+            onChanged: (v) => onChanged(v!),
           ),
-          items: options
-              .map(
-                (e) => DropdownMenuItem(
-                  value: e,
-                  child: Text(e, style: AppTextStyle().subTitleTextStyle(context: context)),
-                ),
-              )
-              .toList(),
-          onChanged: (v) => onChanged(v!),
         ),
       ],
     );

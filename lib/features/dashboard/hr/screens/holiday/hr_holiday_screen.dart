@@ -22,6 +22,7 @@ class HrHolidayScreen extends StatelessWidget {
             floatingActionButton: provider.isLoading
                 ? const SizedBox()
                 : FloatingActionButton(
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
                     onPressed: () async {
                       bool? ret = await GoRouter.of(context).push(AppRouter.addHolidayScreenRoute);
 
@@ -53,6 +54,7 @@ class HrHolidayScreen extends StatelessWidget {
         RefreshIndicator(
           onRefresh: () => provider.getHolidays(),
           child: ListView.builder(
+            padding: EdgeInsets.only(bottom: 16),
             physics: AlwaysScrollableScrollPhysics(),
             controller: provider.scrollController,
             itemCount: provider.holidays.length + (provider.isPaginationLoading ? 1 : 0),
@@ -109,10 +111,11 @@ class HolidayCard extends StatelessWidget {
     final date = DateTime.tryParse(holiday.holidayDate ?? "");
 
     return Container(
-      margin: const EdgeInsets.only(top: 16, left: 16, right: 16),
+      margin: const EdgeInsets.only(left: 16, right: 16, top: 16),
       child: Card(
+        margin: EdgeInsets.all(0),
         child: Padding(
-          padding: const EdgeInsets.only(left: 14, right: 0, top: 14, bottom: 14),
+          padding: const EdgeInsets.only(left: 14, right: 0, top: 16, bottom: 14),
           child: Row(
             children: [
               /// DATE BOX

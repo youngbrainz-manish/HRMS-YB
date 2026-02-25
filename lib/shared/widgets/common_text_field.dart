@@ -45,7 +45,7 @@ class CommonTextField extends StatelessWidget {
         GestureDetector(
           onTap: onTap,
           child: Container(
-            height: height ?? 47,
+            height: height ?? 45,
             color: Colors.transparent,
             child: TextFormField(
               style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13),
@@ -57,20 +57,24 @@ class CommonTextField extends StatelessWidget {
               decoration: InputDecoration(
                 labelText: labelText,
                 hintText: hintText,
-                hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey),
+                hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey, height: 1.3, fontSize: 14),
                 labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
                 enabledBorder: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: Colors.grey.shade400),
+                  borderSide: BorderSide(color: AppColors.borderGrey),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryColor),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+                disabledBorder: OutlineInputBorder(
+                  borderSide: BorderSide(color: AppColors.borderGrey),
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                contentPadding: const EdgeInsets.only(left: 12, right: 12, top: 16, bottom: 16),
               ),
             ),
           ),

@@ -46,11 +46,11 @@ class EmployeeAttendaceScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _dateTimeWidget(isDarkMode: isDarkMode),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _punchInPunchOutWidget(isDarkMode, context),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _breakInbreakOutWidget(isDarkMode, context),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     Card(
                       margin: EdgeInsets.all(0),
                       child: Padding(
@@ -78,11 +78,11 @@ class EmployeeAttendaceScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _sessionDurationWidget(isDarkMode, context, provider),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _attendanceCalenderWidget(provider, isDarkMode),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _recentHistoryWidget(context: context, provider: provider, isDarkMode: isDarkMode),
                     SizedBox(height: 8),
                   ],
@@ -252,7 +252,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             onTap: () {},
           ),
         ),
-        SizedBox(width: AppSize().verticalWidgetSpacing),
+        SizedBox(width: AppSize.verticalWidgetSpacing),
         Expanded(
           child: AppActionCard(
             bgColor: isDarkMode ? AppColors.errorColor : AppColors.absentColor,
@@ -262,7 +262,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
             onTap: () {},
           ),
         ),
-        SizedBox(height: AppSize().verticalWidgetSpacing),
+        SizedBox(height: AppSize.verticalWidgetSpacing),
       ],
     );
   }

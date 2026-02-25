@@ -53,7 +53,7 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
               ),
               itemBuilder: (_, i) => _StatCard(stat: provider.stats[i]),
             ),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
 
             /// ===== QUICK ACTIONS =====
             _SectionCard(
@@ -71,13 +71,21 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
                 itemBuilder: (_, i) => GestureDetector(
                   onTap: () async {
                     if (i == 0) {
+                      context.read<HrDashboardProvider>().changeTitle("Add Employee");
                       await GoRouter.of(context).push(AppRouter.addEmployeeScreenRoute);
+                      if (context.mounted) {
+                        context.read<HrDashboardProvider>().changeTitle("Home");
+                        GoRouter.of(context).go(AppRouter.hrDashboardRoute);
+                      }
                     } else if (i == 1) {
-                      context.read<HrDashboardProvider>().onItemTapped(3);
+                      context.read<HrDashboardProvider>().changeTitle("Leave Management");
+                      GoRouter.of(context).go(AppRouter.hrLeaveScreenRoute);
                     } else if (i == 2) {
-                      context.read<HrDashboardProvider>().onItemTapped(2);
+                      context.read<HrDashboardProvider>().changeTitle("Attendance");
+                      GoRouter.of(context).go(AppRouter.hrAttendanceScreenRoute);
                     } else if (i == 3) {
-                      context.read<HrDashboardProvider>().onItemTapped(4);
+                      context.read<HrDashboardProvider>().changeTitle("Payroll");
+                      GoRouter.of(context).go(AppRouter.hrPayrollScreenRoute);
                     }
                   },
                   child: _QuickActionCard(action: provider.quickActions[i]),
@@ -85,15 +93,13 @@ class _HrHomeScreenState extends State<HrHomeScreen> {
               ),
             ),
 
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
 
             /// ===== RECENT ACTIVITIES =====
             _SectionCard(
               title: "Recent Activities",
               child: Column(children: provider.activities.map((e) => _ActivityTile(activity: e)).toList()),
             ),
-
-            SizedBox(height: AppSize().verticalWidgetSpacing),
           ],
         ),
       ),
@@ -109,7 +115,6 @@ class _StatCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Card(
-      // color: AppColors.whiteColor.withValues(alpha: 0.1),
       margin: EdgeInsets.all(0),
       child: Container(
         padding: const EdgeInsets.all(16),
@@ -120,10 +125,10 @@ class _StatCard extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Icon(stat.icon, size: 22),
+            Icon(stat.icon, size: 20),
             const Spacer(),
-            Text(stat.value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 22)),
-            SizedBox(height: 4),
+            Text(stat.value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 20)),
+            Spacer(),
             Text(stat.title, style: AppTextStyle().lableTextStyle(context: context)),
           ],
         ),
@@ -143,16 +148,12 @@ class _SectionCard extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
-        padding: const EdgeInsets.all(18),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(20),
-          boxShadow: [BoxShadow(blurRadius: 10, color: Colors.black.withValues(alpha: .05))],
-        ),
+        padding: const EdgeInsets.all(16),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(title, style: AppTextStyle().titleTextStyle(context: context)),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             child,
           ],
         ),
@@ -169,18 +170,21 @@ class _QuickActionCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: const EdgeInsets.symmetric(horizontal: 12),
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(18),
+        borderRadius: BorderRadius.circular(10),
         color: action.color.withValues(alpha: .08),
         border: Border.all(color: action.color.withValues(alpha: .25)),
       ),
       child: Row(
         children: [
-          Icon(action.icon, color: action.color),
+          Icon(action.icon, color: action.color, size: 20),
           const SizedBox(width: 10),
           Expanded(
-            child: Text(action.title, style: const TextStyle(fontWeight: FontWeight.w500)),
+            child: Text(
+              action.title,
+              style: AppTextStyle().subTitleTextStyle(context: context, color: action.color, height: 1.2),
+            ),
           ),
         ],
       ),

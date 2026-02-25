@@ -47,7 +47,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // _welcomeCardWidget(isDarkMode, context),
-                    // SizedBox(height: AppSize().verticalWidgetSpacing),
+                    // SizedBox(height: AppSize.verticalWidgetSpacing),
                     Card(
                       margin: EdgeInsets.all(0),
                       child: Padding(
@@ -97,19 +97,19 @@ class EmployeeHomeScreen extends StatelessWidget {
                         ),
                       ),
                     ),
-                    // SizedBox(height: AppSize().verticalWidgetSpacing),
+                    // SizedBox(height: AppSize.verticalWidgetSpacing),
                     // _todayAttendanceWidget(context, isDarkMode),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     Text("Quick Actions", style: AppTextStyle().titleTextStyle(context: context)),
                     SizedBox(height: 4),
                     _quickActionWidget(context),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _leaveBalanceWidget(context, provider, isDarkMode),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _latestPaySlipWidget(context),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                     _latestNotificationWidget(context, provider),
-                    SizedBox(height: AppSize().verticalWidgetSpacing),
+                    SizedBox(height: AppSize.verticalWidgetSpacing),
                   ],
                 ),
               ),
@@ -329,7 +329,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 );
               },
             ),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             CommonButton(
               title: "1 leave request pending approval",
               onTap: () {},
@@ -364,7 +364,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             Row(
               children: [
                 Column(

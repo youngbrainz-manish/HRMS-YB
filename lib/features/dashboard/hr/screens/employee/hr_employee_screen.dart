@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -27,10 +28,11 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
               child: _buildBody(context: context, provider: provider),
             ),
             floatingActionButton: FloatingActionButton(
+              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
               onPressed: () async {
                 await GoRouter.of(context).push(AppRouter.addEmployeeScreenRoute);
               },
-              child: Icon(Icons.add),
+              child: Icon(Icons.add, color: AppColors.whiteColor),
             ),
           );
         },
@@ -45,7 +47,7 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
         /// SEARCH
         _searchField(provider: provider),
 
-        SizedBox(height: AppSize().verticalWidgetSpacing),
+        SizedBox(height: AppSize.verticalWidgetSpacing),
 
         /// FILTER TOGGLE
         GestureDetector(
@@ -67,11 +69,11 @@ class _HrEmployeeScreenState extends State<HrEmployeeScreen> {
 
         if (provider.showFilters) ...[const SizedBox(height: 16), _filterCard(provider: provider)],
 
-        SizedBox(height: AppSize().verticalWidgetSpacing),
+        SizedBox(height: AppSize.verticalWidgetSpacing),
 
         Text("${provider.employees.length} employees found", style: AppTextStyle().lableTextStyle(context: context)),
 
-        SizedBox(height: AppSize().verticalWidgetSpacing),
+        SizedBox(height: AppSize.verticalWidgetSpacing),
 
         ...provider.employees.map((e) {
           return GestureDetector(
@@ -151,17 +153,17 @@ class EmployeeCard extends StatelessWidget {
     return Card(
       margin: const EdgeInsets.only(bottom: 14),
       child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
         child: Row(
           children: [
             Container(
-              height: 56,
-              width: 56,
+              height: 50,
+              width: 50,
               decoration: BoxDecoration(
-                color: AppColors.textButtonColor.withValues(alpha: 0.3),
-                borderRadius: BorderRadius.circular(16),
+                color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
+                borderRadius: BorderRadius.circular(10),
               ),
-              child: const Icon(Icons.person_outline, color: AppColors.textButtonColor),
+              child: const Icon(Icons.person_outline, color: AppColors.primaryColor),
             ),
 
             const SizedBox(width: 16),

@@ -1,3 +1,3 @@
 class AppSize {
-  double verticalWidgetSpacing = 16;
+  static const double verticalWidgetSpacing = 16;
 }

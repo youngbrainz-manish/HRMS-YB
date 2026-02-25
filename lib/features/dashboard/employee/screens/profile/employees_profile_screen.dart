@@ -55,7 +55,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                 children: [
                   _buildProfileCard(provider: provider),
 
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// PERSONAL DETAILS
                   SectionCard(
@@ -85,7 +85,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                       ),
                     ],
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// EMPLOYMENT DETAILS
                   SectionCard(
@@ -126,7 +126,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                     ],
                   ),
 
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// UPDATE PIN
                   CommonButton(
@@ -144,7 +144,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                         : AppColors.blackColor,
                   ),
 
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// LOGOUT
                   CommonButton(
@@ -157,7 +157,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                     },
                     mainAxisAlignment: MainAxisAlignment.start,
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                 ],
               ),
             ),

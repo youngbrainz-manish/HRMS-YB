@@ -136,7 +136,7 @@ class AddEmployeeScreen extends StatelessWidget {
                   provider.updateState();
                 },
               ),
-              SizedBox(height: AppSize().verticalWidgetSpacing * 1.5),
+              SizedBox(height: AppSize.verticalWidgetSpacing * 1.5),
 
               /// INFO BOX
               Container(

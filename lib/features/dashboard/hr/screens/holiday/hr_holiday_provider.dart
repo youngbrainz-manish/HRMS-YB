@@ -61,7 +61,7 @@ class HrHolidayProvider extends ChangeNotifier {
       hasMoreData = true;
       holidays.clear();
     }
-
+    if (!context.mounted) return;
     notifyListeners();
 
     try {
@@ -89,6 +89,7 @@ class HrHolidayProvider extends ChangeNotifier {
 
     isLoading = false;
     isPaginationLoading = false;
+    if (!context.mounted) return;
     notifyListeners();
   }
 

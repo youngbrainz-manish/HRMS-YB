@@ -59,14 +59,14 @@ class CommonButton extends StatelessWidget {
               border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
               borderRadius: BorderRadius.circular(borderRadius),
             ),
-            padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+            padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Center(
               child: isLoading
                   ? SizedBox(height: 22, width: 22, child: CommonWidget().defaultLoader(color: Colors.white))
                   : Row(
                       mainAxisAlignment: mainAxisAlignment,
                       children: [
-                        if (icon != null) ...[icon!, SizedBox(width: 12)],
+                        if (icon != null) ...[icon!, SizedBox(width: 8)],
                         Text(
                           title,
                           style:

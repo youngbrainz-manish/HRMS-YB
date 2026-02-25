@@ -7,7 +7,7 @@ class AttendanceCorrectionProvider extends ChangeNotifier {
   /// Dummy Data
   final List<String> employees = ["Manish Patel", "Rahul Sharma", "Priya Singh"];
 
-  String? selectedEmployee = "Manish Patel";
+  String selectedEmployee = "Manish Patel";
 
   final TextEditingController dateController = TextEditingController(text: "19/12/2024");
 

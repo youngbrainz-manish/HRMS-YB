@@ -6,7 +6,6 @@ import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
-import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
 class HrProfileScreen extends StatelessWidget {
   const HrProfileScreen({super.key});
@@ -14,33 +13,33 @@ class HrProfileScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: CommonWidget().backButton(onTap: () => context.pop()),
-        title: Row(
-          children: [
-            Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
-                  style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
-                ),
-                Text(
-                  AuthenticationData.userModel?.department?.designation ?? 'N/A',
-                  style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
-                ),
-              ],
-            ),
-            Spacer(),
-            const SizedBox(width: 16),
-            CircleAvatar(
-              radius: 20,
-              backgroundImage: NetworkImage(AuthenticationData.userModel?.profilePhoto ?? "https://i.pravatar.cc/300"),
-            ),
-          ],
-        ),
-        elevation: 0,
-      ),
+      // appBar: AppBar(
+      //   leading: CommonWidget().backButton(onTap: () => context.pop()),
+      //   title: Row(
+      //     children: [
+      //       Column(
+      //         crossAxisAlignment: CrossAxisAlignment.start,
+      //         children: [
+      //           Text(
+      //             "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
+      //             style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
+      //           ),
+      //           Text(
+      //             AuthenticationData.userModel?.department?.designation ?? 'N/A',
+      //             style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
+      //           ),
+      //         ],
+      //       ),
+      //       Spacer(),
+      //       const SizedBox(width: 16),
+      //       CircleAvatar(
+      //         radius: 20,
+      //         backgroundImage: NetworkImage(AuthenticationData.userModel?.profilePhoto ?? "https://i.pravatar.cc/300"),
+      //       ),
+      //     ],
+      //   ),
+      //   elevation: 0,
+      // ),
       body: Scaffold(body: SafeArea(child: _buildBody(context))),
     );
   }
@@ -51,10 +50,48 @@ class HrProfileScreen extends StatelessWidget {
         /// ===== PERSONAL INFO =====
         Expanded(
           child: Padding(
-            padding: const EdgeInsets.all(16),
+            padding: const EdgeInsets.symmetric(horizontal: 16),
             child: SingleChildScrollView(
               child: Column(
                 children: [
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                  ///===== PROFILE HEADER =====
+                  Card(
+                    margin: EdgeInsets.all(0),
+                    child: Container(
+                      width: double.infinity,
+                      padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 16),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 30,
+                            backgroundColor: AppColors.absentColor,
+                            backgroundImage: NetworkImage(
+                              AuthenticationData.userModel?.profilePhoto ?? "https://i.pravatar.cc/300",
+                            ),
+                          ),
+                          const SizedBox(width: 16),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
+                                style: AppTextStyle().titleTextStyle(context: context),
+                              ),
+                              Text(
+                                AuthenticationData.userModel?.department?.designation ?? 'N/A',
+                                style: AppTextStyle().lableTextStyle(context: context),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                  /// ===== PERSONAL INFO =====
                   _infoCard(
                     context: context,
                     title: "Personal Information",
@@ -67,7 +104,7 @@ class HrProfileScreen extends StatelessWidget {
                       ),
                     ],
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// ===== CONTACT INFO =====
                   _infoCard(
@@ -79,18 +116,7 @@ class HrProfileScreen extends StatelessWidget {
                       InfoTile(title: "Location", value: AuthenticationData.userModel?.addresses?.first.city ?? "N/A"),
                     ],
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
-
-                  /// ===== COMPANY INFO =====
-                  // _infoCard(
-                  //   context: context,
-                  //   title: "Company Details",
-                  //   children: const [
-                  //     InfoTile(title: "Company", value: "Your Business Pvt Ltd"),
-                  //     InfoTile(title: "Branch", value: "Head Office"),
-                  //   ],
-                  // ),
-                  // SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// ===== ACTIONS =====
                   _actionTile(
@@ -100,8 +126,8 @@ class HrProfileScreen extends StatelessWidget {
                       GoRouter.of(context).push(AppRouter.editProfileScreenRoute);
                     },
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
-                  _actionTile(Icons.lock, "Change Password"), SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+                  _actionTile(Icons.lock, "Change Password"), SizedBox(height: AppSize.verticalWidgetSpacing),
                   _actionTile(
                     Icons.logout,
                     "Logout",
@@ -111,7 +137,7 @@ class HrProfileScreen extends StatelessWidget {
                       GoRouter.of(context).go(AppRouter.loginScreenRoute);
                     },
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                 ],
               ),
             ),

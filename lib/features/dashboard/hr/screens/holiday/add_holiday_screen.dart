@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/widgets/app_filter_dropdown.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
@@ -55,73 +56,85 @@ class _AddHolidayScreenState extends State<AddHolidayScreen> {
     var response = await DioApiRequest().postCommonApiCall(requestData, DioApiServices.addHoliday);
 
     if (response?.data != null && response?.data['success'] == true) {
-      ScaffoldMessenger.of(
-        context, // ignore: use_build_context_synchronously
-      ).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.successPrimary,
-          content: Text(response?.data['message'] ?? "Holiday Added Successfully"),
-        ),
-      );
-      // ignore: use_build_context_synchronously
-      context.pop(true);
-    } else {
-      ScaffoldMessenger.of(
-        context, // ignore: use_build_context_synchronously
-      ).showSnackBar(
-        SnackBar(
-          backgroundColor: AppColors.errorColor,
-          content: Text(response?.data['message'] ?? "Failed to add holiday"),
-        ),
-      );
+      if (context.mounted) {
+        ScaffoldMessenger.of(
+          context, // ignore: use_build_context_synchronously
+        ).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.successPrimary,
+            content: Text(response?.data['message'] ?? "Holiday Added Successfully"),
+          ),
+        );
+        // ignore: use_build_context_synchronously
+        context.pop(true);
+      } else {
+        ScaffoldMessenger.of(
+          context, // ignore: use_build_context_synchronously
+        ).showSnackBar(
+          SnackBar(
+            backgroundColor: AppColors.errorColor,
+            content: Text(response?.data['message'] ?? "Failed to add holiday"),
+          ),
+        );
+      }
     }
+    if (!context.mounted) return;
     setState(() => isLoading = false);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        leading: CommonWidget().backButton(onTap: () => context.pop()),
-        title: const Text("Add Holiday"),
-      ),
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: Scaffold(
+        appBar: AppBar(
+          leading: CommonWidget().backButton(onTap: () => context.pop()),
+          title: const Text("Add Holiday"),
+        ),
 
-      body: SingleChildScrollView(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            /// TITLE
-            CommonTextField(controller: titleController, hintText: "Enter holiday title", headingText: "Holiday Title"),
+        body: SingleChildScrollView(
+          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: AppSize.verticalWidgetSpacing / 2),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              const SizedBox(height: AppSize.verticalWidgetSpacing),
 
-            const SizedBox(height: 16),
+              /// TITLE
+              CommonTextField(
+                controller: titleController,
+                hintText: "Enter holiday title",
+                headingText: "Holiday Title",
+              ),
 
-            /// DATE
-            CommonTextField(
-              controller: dateController,
-              hintText: "Select date",
-              onTap: selectDate,
-              headingText: "Holiday Date",
-              suffixIcon: Icons.calendar_today,
-              isEnable: false,
-            ),
-            const SizedBox(height: 16),
+              const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
 
-            /// TYPE DROPDOWN
-            AppFilterDropdown(
-              label: "Holiday Type",
-              value: holidayType,
-              options: holidayTypeOptions,
-              onChanged: (value) {
-                setState(() => holidayType = value);
-              },
-            ),
+              /// DATE
+              CommonTextField(
+                controller: dateController,
+                hintText: "Select date",
+                onTap: selectDate,
+                headingText: "Holiday Date",
+                suffixIcon: Icons.calendar_today,
+                isEnable: false,
+              ),
+              const SizedBox(height: 16),
 
-            const SizedBox(height: 30),
+              /// TYPE DROPDOWN
+              AppFilterDropdown(
+                label: "Holiday Type",
+                value: holidayType,
+                options: holidayTypeOptions,
+                onChanged: (value) {
+                  setState(() => holidayType = value);
+                },
+              ),
 
-            /// SUBMIT BUTTON
-            CommonButton(title: "Save Holiday", onTap: submit, isLoading: isLoading),
-          ],
+              const SizedBox(height: 30),
+
+              /// SUBMIT BUTTON
+              CommonButton(title: "Save Holiday", onTap: submit, isLoading: isLoading),
+            ],
+          ),
         ),
       ),
     );

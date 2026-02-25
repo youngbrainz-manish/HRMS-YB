@@ -37,7 +37,7 @@ class HrAttendanceScreen extends StatelessWidget {
         children: [
           /// Select Date
           _dateSelector(provider: provider),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
 
           /// Status Cards
           Row(
@@ -50,24 +50,24 @@ class HrAttendanceScreen extends StatelessWidget {
             ],
           ),
 
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
 
           /// Buttons
           Row(
             children: [
               Expanded(
                 child: CommonButton(
-                  icon: Icon(Icons.edit, color: AppColors.whiteColor),
+                  icon: Icon(Icons.edit, color: AppColors.whiteColor, size: 20),
                   title: "Mark Correction",
                   onTap: () async {
                     await GoRouter.of(context).push(AppRouter.attendanceCorrectionScreenRoute);
                   },
                 ),
               ),
-              const SizedBox(width: 12),
+              const SizedBox(width: 8),
               Expanded(
                 child: CommonButton(
-                  icon: Icon(Icons.more_time_sharp),
+                  icon: Icon(Icons.more_time_sharp, size: 20),
                   title: "Audit Log",
                   style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 14),
                   onTap: () async {
@@ -79,7 +79,7 @@ class HrAttendanceScreen extends StatelessWidget {
               ),
             ],
           ),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
 
           /// List
           Card(

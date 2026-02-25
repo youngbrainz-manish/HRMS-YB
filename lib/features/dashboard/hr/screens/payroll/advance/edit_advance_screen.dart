@@ -13,20 +13,23 @@ class EditAdvanceScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider(
-      create: (_) => EditAdvanceProvider(context: context),
-      child: Consumer<EditAdvanceProvider>(
-        builder: (context, provider, child) {
-          return Scaffold(
-            appBar: AppBar(
-              leading: CommonWidget().backButton(onTap: () => context.pop()),
-              title: Text("Edit Advance"),
-            ),
-            body: SafeArea(
-              child: _buildBody(context: context, provider: provider),
-            ),
-          );
-        },
+    return GestureDetector(
+      onTap: () => FocusScope.of(context).unfocus(),
+      child: ChangeNotifierProvider(
+        create: (_) => EditAdvanceProvider(context: context),
+        child: Consumer<EditAdvanceProvider>(
+          builder: (context, provider, child) {
+            return Scaffold(
+              appBar: AppBar(
+                leading: CommonWidget().backButton(onTap: () => context.pop()),
+                title: Text("Edit Advance"),
+              ),
+              body: SafeArea(
+                child: _buildBody(context: context, provider: provider),
+              ),
+            );
+          },
+        ),
       ),
     );
   }
@@ -56,14 +59,15 @@ Widget _buildBody({required BuildContext context, required EditAdvanceProvider p
                       provider.updateState();
                     },
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                   CommonTextField(
                     headingText: "Amount *",
                     controller: provider.amountController,
                     hintText: "Enter Amount",
+                    keyboardType: TextInputType.number,
                   ),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
-                  SizedBox(height: AppSize().verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                   CommonButton(title: "Save Advance", onTap: () {}),
                 ],
               ),

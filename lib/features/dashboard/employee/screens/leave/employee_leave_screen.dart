@@ -29,16 +29,16 @@ class EmployeeLeaveScreen extends StatelessWidget {
       child: Column(
         children: [
           leaveBalanceCard(provider: provider),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
           CommonButton(
             title: "+ Apply for leave",
             onTap: () async {
               await GoRouter.of(provider.context).push(AppRouter.leaveFormScreenRoute);
             },
           ),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
           myLeaveRequestCard(provider: provider),
-          SizedBox(height: AppSize().verticalWidgetSpacing),
+          SizedBox(height: AppSize.verticalWidgetSpacing),
         ],
       ),
     );
@@ -120,7 +120,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("My Leave Requests", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            SizedBox(height: AppSize().verticalWidgetSpacing),
+            SizedBox(height: AppSize.verticalWidgetSpacing),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
