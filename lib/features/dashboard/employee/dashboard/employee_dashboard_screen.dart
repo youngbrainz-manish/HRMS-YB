@@ -23,7 +23,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
       child: Consumer<EmployeeDashboardProvider>(
         builder: (context, employeeDashboardProvider, child) {
           return Scaffold(
-            appBar: _buildAppBar(context),
+            appBar: _buildAppBar(context: context, provider: employeeDashboardProvider),
             body: SafeArea(
               child: Column(children: [Expanded(child: widget.widget)]),
             ),
@@ -57,7 +57,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
     );
   }
 
-  AppBar _buildAppBar(BuildContext context) {
+  AppBar _buildAppBar({required BuildContext context, required EmployeeDashboardProvider provider}) {
     return AppBar(
       leading: Container(
         padding: EdgeInsets.all(2),
@@ -84,27 +84,11 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
         ],
       ),
       actions: [
-        GestureDetector(
-          onTap: () {
-            context.read<AppThemeProvider>().toggleTheme();
-          },
-          child: Container(
-            padding: EdgeInsets.all(6),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
-            ),
-            child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 21),
-          ),
-        ),
         SizedBox(width: 8),
-        Container(
-          padding: EdgeInsets.all(6),
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
-          ),
-          child: Icon(Icons.notifications_none_sharp, size: 20),
+        Card(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(40)),
+          margin: EdgeInsets.all(0),
+          child: Padding(padding: EdgeInsets.all(6), child: Icon(Icons.notifications_none_sharp, size: 20)),
         ),
         SizedBox(width: 8),
       ],

@@ -13,12 +13,12 @@ class PayslipCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return InkWell(
-      borderRadius: BorderRadius.circular(18),
+      borderRadius: BorderRadius.circular(10),
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(16),
+        padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 12),
         decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
+          borderRadius: BorderRadius.circular(10),
           border: Border.all(color: AppColors.borderGrey),
         ),
         child: Row(
@@ -29,7 +29,7 @@ class PayslipCard extends StatelessWidget {
               width: 56,
               decoration: BoxDecoration(
                 color: AppColors.holidayColor.withValues(alpha: 0.2),
-                borderRadius: BorderRadius.circular(16),
+                borderRadius: BorderRadius.circular(10),
               ),
               child: const Icon(Icons.description_outlined, color: AppColors.holidayColor, size: 28),
             ),

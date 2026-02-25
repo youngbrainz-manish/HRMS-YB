@@ -84,7 +84,6 @@ class EmployeeAttendaceScreen extends StatelessWidget {
                     _attendanceCalenderWidget(provider, isDarkMode),
                     SizedBox(height: AppSize.verticalWidgetSpacing),
                     _recentHistoryWidget(context: context, provider: provider, isDarkMode: isDarkMode),
-                    SizedBox(height: 8),
                   ],
                 ),
               ),
@@ -214,8 +213,8 @@ class EmployeeAttendaceScreen extends StatelessWidget {
   }) {
     return Card(
       margin: EdgeInsets.all(0),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+      child: Container(
+        padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 4),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

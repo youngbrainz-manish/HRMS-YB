@@ -13,7 +13,6 @@ class SectionCard extends StatelessWidget {
       margin: EdgeInsets.all(0),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(borderRadius: BorderRadius.circular(22)),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [

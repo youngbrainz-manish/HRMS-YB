@@ -43,9 +43,9 @@ class EmployeesPaySlipScreen extends StatelessWidget {
                 ListView.separated(
                   shrinkWrap: true,
                   physics: NeverScrollableScrollPhysics(),
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.only(left: 16, right: 16, top: 16, bottom: 16),
                   itemCount: provider.dummyPayslips.length,
-                  separatorBuilder: (_, __) => const SizedBox(height: 14),
+                  separatorBuilder: (_, __) => const SizedBox(height: 16),
                   itemBuilder: (context, index) {
                     final payslip = provider.dummyPayslips[index];
                     return PayslipCard(

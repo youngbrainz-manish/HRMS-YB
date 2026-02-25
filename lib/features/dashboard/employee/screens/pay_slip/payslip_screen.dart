@@ -94,10 +94,10 @@ class PayslipScreen extends StatelessWidget {
       decoration: BoxDecoration(
         gradient: LinearGradient(
           colors: context.watch<AppThemeProvider>().isDarkMode
-              ? [AppColors.dartButtonColor, AppColors.dartButtonColor.withValues(alpha: 0.5)]
+              ? [AppColors.blackColor, AppColors.blackColor]
               : [AppColors.primaryColor, AppColors.primaryColor.withValues(alpha: 0.5)],
         ),
-        borderRadius: BorderRadius.circular(24),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -133,7 +133,6 @@ class PayslipScreen extends StatelessWidget {
   }) {
     return Card(
       margin: EdgeInsets.all(0),
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
       elevation: 2,
       child: Padding(
         padding: const EdgeInsets.all(18),
@@ -185,7 +184,7 @@ class PayslipScreen extends StatelessWidget {
       padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
         color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.successSecondary : AppColors.successPrimary,
-        borderRadius: BorderRadius.circular(16),
+        borderRadius: BorderRadius.circular(12),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

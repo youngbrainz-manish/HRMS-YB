@@ -21,6 +21,10 @@ class AttendanceHistoryTile extends StatelessWidget {
       child: Card(
         margin: EdgeInsets.all(0),
         child: Container(
+          decoration: BoxDecoration(
+            borderRadius: BorderRadius.circular(12),
+            color: AppColors.borderGrey.withValues(alpha: 0.1),
+          ),
           height: 80,
           padding: const EdgeInsets.all(8.0),
           child: Column(

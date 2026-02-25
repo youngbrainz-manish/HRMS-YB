@@ -41,7 +41,7 @@ class CommonButton extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(0),
       elevation: 5,
-      shadowColor: context.read<AppThemeProvider>().isDarkMode ? AppColors.dartButtonColor : AppColors.primaryColor,
+      // shadowColor: context.read<AppThemeProvider>().isDarkMode ? AppColors.dartButtonColor : AppColors.primaryColor,
       child: Material(
         color: color ?? (isDark ? AppColors.dartButtonColor : AppColors.lightButtonColor),
         shadowColor: Colors.white,

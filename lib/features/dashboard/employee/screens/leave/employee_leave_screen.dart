@@ -49,15 +49,11 @@ class EmployeeLeaveScreen extends StatelessWidget {
       margin: EdgeInsets.all(0),
       child: Container(
         padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withValues(alpha: .05))],
-        ),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("Leave Balance", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            SizedBox(height: 16),
+            SizedBox(height: 8),
             GridView.builder(
               shrinkWrap: true,
               physics: const NeverScrollableScrollPhysics(),
@@ -84,24 +80,27 @@ class EmployeeLeaveScreen extends StatelessWidget {
   }
 
   Widget leaveBalanceItemWidget({required BuildContext context, required String title, required String days}) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-      decoration: BoxDecoration(
-        color: AppColors.primaryColor.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(title, style: AppTextStyle().subTitleTextStyle(context: context)),
-          Spacer(),
-          Text(days, style: AppTextStyle().titleTextStyle(context: context, fontSize: 20)),
-          Spacer(),
-          Text(
-            "days left",
-            style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),
-          ),
-        ],
+    return Card(
+      margin: EdgeInsets.all(0),
+      child: Container(
+        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
+        decoration: BoxDecoration(
+          color: AppColors.greyColor.withValues(alpha: 0.2),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(title, style: AppTextStyle().subTitleTextStyle(context: context)),
+            Spacer(),
+            Text(days, style: AppTextStyle().titleTextStyle(context: context, fontSize: 20)),
+            Spacer(),
+            Text(
+              "days left",
+              style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),
+            ),
+          ],
+        ),
       ),
     );
   }
@@ -120,14 +119,13 @@ class EmployeeLeaveScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text("My Leave Requests", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            SizedBox(height: AppSize.verticalWidgetSpacing),
             ListView.builder(
               shrinkWrap: true,
               physics: NeverScrollableScrollPhysics(),
               itemCount: 4,
               itemBuilder: (contex, index) {
                 return Container(
-                  margin: EdgeInsets.only(bottom: 12, top: 12),
+                  margin: EdgeInsets.only(top: 8),
                   padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
                   width: double.infinity,
                   decoration: BoxDecoration(
@@ -164,7 +162,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
                         padding: EdgeInsets.all(8),
                         width: double.infinity,
                         decoration: BoxDecoration(
-                          color: AppColors.greyColor.withValues(alpha: 0.3),
+                          color: AppColors.greyColor.withValues(alpha: 0.2),
                           borderRadius: BorderRadius.circular(8),
                         ),
                         child: Column(
@@ -175,7 +173,10 @@ class EmployeeLeaveScreen extends StatelessWidget {
                               "Reason:",
                               style: AppTextStyle().lableTextStyle(context: provider.context, fontSize: 16),
                             ),
-                            Text("Family function", style: AppTextStyle().subTitleTextStyle(context: provider.context)),
+                            Text(
+                              "Family function",
+                              style: AppTextStyle().subTitleTextStyle(context: provider.context, fontSize: 13),
+                            ),
                           ],
                         ),
                       ),

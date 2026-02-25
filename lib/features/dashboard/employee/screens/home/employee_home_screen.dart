@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
+import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
@@ -225,55 +227,69 @@ class EmployeeHomeScreen extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-          child: Card(
-            margin: EdgeInsets.all(0),
-            child: Container(
-              height: 80,
-              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
+          child: GestureDetector(
+            onTap: () {
+              context.read<EmployeeDashboardProvider>().onItemTapped(1);
+            },
+            child: Card(
+              margin: EdgeInsets.all(0),
+              child: Container(
+                height: 70,
+                margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      shadowColor: AppColors.transparantColor,
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       color: AppColors.successSecondary.withValues(alpha: 0.8),
-                      borderRadius: BorderRadius.circular(12),
+                      margin: EdgeInsets.all(0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: Icon(Icons.login_outlined, size: 26, color: AppColors.successPrimary),
+                      ),
                     ),
-                    child: Icon(Icons.login_outlined, size: 26, color: AppColors.successPrimary),
-                  ),
-                  SizedBox(height: 8),
-                  Text("Punch In/Out", style: AppTextStyle().subTitleTextStyle(context: context)),
-                ],
+                    Spacer(),
+                    Text("Punch In/Out", style: AppTextStyle().subTitleTextStyle(context: context)),
+                  ],
+                ),
               ),
             ),
           ),
         ),
         SizedBox(width: 12),
         Expanded(
-          child: Card(
-            margin: EdgeInsets.all(0),
-            child: Container(
-              height: 80,
-              margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Container(
-                    padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
-                    decoration: BoxDecoration(
+          child: GestureDetector(
+            onTap: () {
+              // context.read<EmployeeDashboardProvider>().onItemTapped(2);
+              GoRouter.of(context).push(AppRouter.leaveFormScreenRoute);
+            },
+            child: Card(
+              margin: EdgeInsets.all(0),
+              child: Container(
+                height: 70,
+                margin: EdgeInsets.symmetric(vertical: 12, horizontal: 16),
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Card(
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                       color: AppColors.secondaryPurpleColor,
-                      borderRadius: BorderRadius.circular(12),
+                      shadowColor: AppColors.transparantColor,
+                      margin: EdgeInsets.all(0),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: CommonWidget().buildSvgImage(
+                          path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
+                          height: 26,
+                          color: AppColors.primaryPurpleColor,
+                        ),
+                      ),
                     ),
-                    child: CommonWidget().buildSvgImage(
-                      path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
-                      height: 26,
-                      color: AppColors.primaryPurpleColor,
-                    ),
-                  ),
-                  // SizedBox(height: 8),
-                  Spacer(),
-                  Text("Apply Leave", style: AppTextStyle().subTitleTextStyle(context: context)),
-                ],
+                    Spacer(),
+                    Text("Apply Leave", style: AppTextStyle().subTitleTextStyle(context: context)),
+                  ],
+                ),
               ),
             ),
           ),
@@ -301,7 +317,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                 crossAxisCount: 2,
                 mainAxisSpacing: 8,
                 crossAxisSpacing: 8,
-                childAspectRatio: 2.2,
+                childAspectRatio: 2.4,
               ),
               itemBuilder: (context, index) {
                 Map<String, dynamic> leaveData = provider.leaveDetailsList[index];
@@ -310,8 +326,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                   child: Container(
                     padding: EdgeInsets.only(left: 12, top: 6, bottom: 6),
                     decoration: BoxDecoration(
-                      color: AppColors.borderGrey.withValues(alpha: 0.3),
-                      borderRadius: BorderRadius.circular(8),
+                      color: AppColors.borderGrey.withValues(alpha: 0.2),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
@@ -321,8 +337,9 @@ class EmployeeHomeScreen extends StatelessWidget {
                           leaveData['name'],
                           style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
                         ),
-                        SizedBox(height: 2),
+                        Spacer(),
                         Text("${leaveData['days']} days", style: AppTextStyle().titleTextStyle(context: context)),
+                        Spacer(),
                       ],
                     ),
                   ),
