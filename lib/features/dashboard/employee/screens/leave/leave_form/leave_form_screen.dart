@@ -29,7 +29,7 @@ class LeaveFormScreen extends StatelessWidget {
               appBar: AppBar(
                 title: Text("Apply for leave"),
                 centerTitle: false,
-                leading: CommonWidget().backButton(onTap: () => GoRouter.of(context).pop()),
+                leading: CommonWidget.backButton(onTap: () => GoRouter.of(context).pop()),
               ),
               body: SafeArea(child: _buildBody(provider: provider)),
             );

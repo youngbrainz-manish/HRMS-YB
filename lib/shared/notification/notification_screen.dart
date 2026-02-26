@@ -17,7 +17,7 @@ class NotificationScreen extends StatelessWidget {
         builder: (context, provider, child) {
           return Scaffold(
             appBar: AppBar(
-              leading: CommonWidget().backButton(onTap: () => context.pop()),
+              leading: CommonWidget.backButton(onTap: () => context.pop()),
               title: const Text("Notifications"),
               centerTitle: true,
             ),

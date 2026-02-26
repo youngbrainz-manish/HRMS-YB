@@ -247,4 +247,63 @@ class DioApiRequest {
     }
     return null;
   }
+
+  Future<dynamic> putCommonApiCall(var data, String url, {bool? showToast}) async {
+    Dio dio = await DioApiManager().getDio();
+    try {
+      Options options = Options();
+      String token = DioApiManager().getToken();
+
+      if (token.isEmpty) {
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+        token = sharedPreferences.getString(ApiConstants.token) ?? '';
+      }
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
+
+      if (data is FormData) {
+        options.contentType = 'multipart/form-data';
+      }
+
+      /// DEBUG CURL LOG
+      if (kDebugMode) {
+        String cURL = generateCurlFromFormData(url, data, options);
+        log("route PUT cURL : $cURL");
+      }
+
+      /// PUT REQUEST
+      var response = await dio.put(url, data: data, options: options);
+
+      /// RESPONSE HANDLING (same as POST)
+      if (response.data is Map<String, dynamic>) {
+        CommonResponse commonResponse = CommonResponse.fromJson(response.data);
+
+        if (commonResponse.status == 200) {
+          return response;
+        } else if (commonResponse.status == 401) {
+          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+          sharedPreferences.clear();
+
+          AuthenticationData.token = "";
+
+          GoRoute(path: AppRouter.loginScreenRoute);
+
+          return null;
+        } else {
+          return response;
+        }
+      } else {
+        return null;
+      }
+    } on DioException catch (e) {
+      print("object route PUT ERROR => $e");
+
+      if (e.response != null) {
+        return e.response;
+      }
+      return null;
+    } catch (ex) {
+      print("object route PUT EXCEPTION => $ex");
+      return null;
+    }
+  }
 }

@@ -199,8 +199,19 @@ class Address {
   final String? city;
   final String? state;
   final String? pincode;
+  final String? emergencyContact;
+  final String? emergencyContactName;
 
-  Address({this.addressId, this.addressType, this.street, this.city, this.state, this.pincode});
+  Address({
+    this.addressId,
+    this.addressType,
+    this.street,
+    this.city,
+    this.state,
+    this.pincode,
+    this.emergencyContact,
+    this.emergencyContactName,
+  });
 
   Address copyWith({
     int? addressId,
@@ -209,6 +220,8 @@ class Address {
     String? city,
     String? state,
     String? pincode,
+    String? emergencyContact,
+    String? emergencyContactName,
   }) {
     return Address(
       addressId: addressId ?? this.addressId,
@@ -217,6 +230,8 @@ class Address {
       city: city ?? this.city,
       state: state ?? this.state,
       pincode: pincode ?? this.pincode,
+      emergencyContact: emergencyContact ?? this.emergencyContact,
+      emergencyContactName: emergencyContactName ?? this.emergencyContactName,
     );
   }
 
@@ -228,6 +243,8 @@ class Address {
       city: json['city'],
       state: json['state'],
       pincode: json['pincode'],
+      emergencyContact: json['emergency_contact'],
+      emergencyContactName: json['emergency_contact_name'],
     );
   }
 
@@ -238,6 +255,8 @@ class Address {
     'city': city,
     'state': state,
     'pincode': pincode,
+    'emergency_contact': emergencyContact,
+    'emergency_contact_name': emergencyContactName,
   };
 }
 

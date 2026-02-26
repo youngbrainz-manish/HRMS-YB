@@ -17,7 +17,7 @@ class HolidayScreen extends StatelessWidget {
         builder: (context, provider, child) {
           return Scaffold(
             appBar: AppBar(
-              leading: CommonWidget().backButton(onTap: () => context.pop()),
+              leading: CommonWidget.backButton(onTap: () => context.pop()),
               title: Text("Holiday List"),
             ),
             body: _buildBody(context: context, provider: provider),
@@ -29,7 +29,7 @@ class HolidayScreen extends StatelessWidget {
 
   Widget _buildBody({required BuildContext context, required EmpHolidayProvider provider}) {
     if (provider.isLoading) {
-      return CommonWidget().defaultLoader();
+      return CommonWidget.defaultLoader();
     }
 
     if (provider.holidays.isEmpty) {
@@ -63,7 +63,7 @@ class HolidayScreen extends StatelessWidget {
         if (provider.isDeleting)
           Container(
             color: AppColors.primaryColor.withValues(alpha: 0.1),
-            child: Center(child: CommonWidget().defaultLoader()),
+            child: Center(child: CommonWidget.defaultLoader()),
           ),
       ],
     );

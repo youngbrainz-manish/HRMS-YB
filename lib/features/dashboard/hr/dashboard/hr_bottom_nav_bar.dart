@@ -37,13 +37,13 @@ class HrBottomNavBar extends StatelessWidget {
         labelTextStyle: labelTextStyle,
         destinations: [
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
               height: 22,
               width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/home-icon.svg",
               height: 22,
               width: 22,
@@ -52,13 +52,13 @@ class HrBottomNavBar extends StatelessWidget {
             label: "Home",
           ),
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
               height: 20,
               width: 20,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
               height: 20,
               width: 20,
@@ -67,13 +67,13 @@ class HrBottomNavBar extends StatelessWidget {
             label: "Employee",
           ),
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
               height: 22,
               width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
               height: 22,
               width: 22,
@@ -82,13 +82,13 @@ class HrBottomNavBar extends StatelessWidget {
             label: "Attendance",
           ),
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 25,
               width: 25,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 25,
               width: 25,
@@ -97,13 +97,13 @@ class HrBottomNavBar extends StatelessWidget {
             label: "Leave",
           ),
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
               height: 22,
               width: 22,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
               height: 22,
               width: 22,
@@ -112,13 +112,13 @@ class HrBottomNavBar extends StatelessWidget {
             label: "Payroll",
           ),
           NavigationDestination(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 25,
               width: 25,
               color: AppColors.secondaryDarkTextColor.withValues(alpha: 0.6),
             ),
-            selectedIcon: CommonWidget().buildSvgImage(
+            selectedIcon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
               height: 25,
               width: 25,

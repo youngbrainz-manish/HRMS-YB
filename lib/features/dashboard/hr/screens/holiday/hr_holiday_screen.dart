@@ -42,7 +42,7 @@ class HrHolidayScreen extends StatelessWidget {
 
   Widget _buildBody(HrHolidayProvider provider) {
     if (provider.isLoading) {
-      return CommonWidget().defaultLoader();
+      return CommonWidget.defaultLoader();
     }
 
     if (provider.holidays.isEmpty) {
@@ -70,7 +70,7 @@ class HrHolidayScreen extends StatelessWidget {
               return HolidayCard(
                 holiday: provider.holidays[index],
                 onTap: () async {
-                  final confirm = await CommonWidget().showConfirmDialog(
+                  final confirm = await CommonWidget.showConfirmDialog(
                     context: context,
                     title: "Delete Holiday",
                     message: "Do you want to delete this holiday?",
@@ -89,7 +89,7 @@ class HrHolidayScreen extends StatelessWidget {
         if (provider.isDeleting)
           Container(
             color: AppColors.primaryColor.withValues(alpha: 0.1),
-            child: Center(child: CommonWidget().defaultLoader()),
+            child: Center(child: CommonWidget.defaultLoader()),
           ),
       ],
     );

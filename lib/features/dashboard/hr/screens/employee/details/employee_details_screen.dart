@@ -18,7 +18,7 @@ class EmployeeDetailsScreen extends StatelessWidget {
         builder: (context, provider, child) {
           return Scaffold(
             appBar: AppBar(
-              leading: CommonWidget().backButton(onTap: () => GoRouter.of(context).pop()),
+              leading: CommonWidget.backButton(onTap: () => GoRouter.of(context).pop()),
               title: Text(
                 "Employee Details",
                 style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),

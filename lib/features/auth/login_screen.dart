@@ -7,6 +7,7 @@ import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 
@@ -116,9 +117,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
                           if (provider.emailController.text.isEmpty || provider.pinController.text.isEmpty) {
-                            ScaffoldMessenger.of(
-                              context,
-                            ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
+                            CommonWidget.customSnackbar(
+                              context: context,
+                              description: "Please fill all fields",
+                              type: SnackbarType.error,
+                            );
                             return;
                           }
                           var data = await provider.login(
@@ -144,9 +147,11 @@ class _LoginScreenState extends State<LoginScreen> {
                           final result = await context.push(AppRouter.forgotPinRoute);
 
                           if (result == true) {
-                            ScaffoldMessenger.of(
-                              context, // ignore: use_build_context_synchronously
-                            ).showSnackBar(const SnackBar(content: Text("Recovery email sent successfully")));
+                            CommonWidget.customSnackbar(
+                              context: context, // ignore: use_build_context_synchronously
+                              description: "Recovery email sent successfully",
+                              type: SnackbarType.success,
+                            );
                           }
                         },
                         child: Text(

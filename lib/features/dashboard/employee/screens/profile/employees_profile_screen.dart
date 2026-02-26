@@ -10,7 +10,7 @@ import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
-import 'package:hrms_yb/shared/widgets/common_button.dart';
+import 'package:hrms_yb/shared/widgets/common_text.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
@@ -30,12 +30,6 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
         builder: (context, provider, child) {
           return Scaffold(
             body: SafeArea(child: _buildBody(provider: provider)),
-            floatingActionButton: 1 == 1
-                ? SizedBox()
-                : FloatingActionButton.small(
-                    onPressed: () {},
-                    child: Icon(Icons.edit, color: AppColors.whiteColor),
-                  ),
           );
         },
       ),
@@ -48,13 +42,35 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
       height: MediaQuery.of(context).size.height,
       width: MediaQuery.of(context).size.width,
       child: provider.isLoading
-          ? CommonWidget().defaultLoader()
+          ? CommonWidget.defaultLoader()
           : SingleChildScrollView(
               child: Column(
                 children: [
                   SizedBox(height: AppSize.verticalWidgetSpacing),
                   _buildProfileCard(provider: provider),
 
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                  /// Edit Profile
+                  CommonWidget.butoonWithImageAndText(
+                    color: AppColors.primaryColor,
+                    onTap: () async {
+                      var data = await GoRouter.of(context).push(AppRouter.editProfileScreenRoute);
+                      if (data == true) {
+                        provider.getProfileData();
+                      }
+                    },
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.person_4_sharp, color: AppColors.whiteColor),
+                        SizedBox(width: 10),
+                        CommonTextWidget().buildButtonText(context: context, title: "Edit Profile"),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.whiteColor),
+                      ],
+                    ),
+                  ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// PERSONAL DETAILS
@@ -128,108 +144,82 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// Holiday List
-                  GestureDetector(
-                    onTap: () {
+                  CommonWidget.butoonWithImageAndText(
+                    onTap: () async {
                       GoRouter.of(context).push(AppRouter.holidayScreenRoute);
                     },
-                    child: Card(
-                      margin: EdgeInsets.all(0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        height: 46,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.holiday_village_outlined, color: AppColors.primaryColor),
-                            SizedBox(width: 10),
-                            Text(
-                              "View All Holidays",
-                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
-                            ),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
-                          ],
-                        ),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.holiday_village_outlined, color: AppColors.primaryColor),
+                        SizedBox(width: 10),
+                        Text("View All Holidays", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                      ],
                     ),
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// UPDATE PIN
-                  GestureDetector(
+                  CommonWidget.butoonWithImageAndText(
                     onTap: () {},
-                    child: Card(
-                      margin: EdgeInsets.all(0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        height: 46,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(Icons.key_outlined, color: AppColors.primaryColor),
-                            SizedBox(width: 10),
-                            Text(
-                              "Update Access PIN",
-                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
-                            ),
-                            Spacer(),
-                            Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
-                          ],
-                        ),
-                      ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.key_outlined, color: AppColors.primaryColor),
+                        SizedBox(width: 10),
+                        Text("Update Access PIN", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                      ],
                     ),
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// UPDATE THEME
-                  GestureDetector(
-                    onTap: () {
-                      GoRouter.of(context).push(AppRouter.holidayScreenRoute);
-                    },
-                    child: Card(
-                      margin: EdgeInsets.all(0),
-                      child: Container(
-                        padding: EdgeInsets.symmetric(horizontal: 12),
-                        height: 46,
-                        width: double.infinity,
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.start,
-                          children: [
-                            Icon(
-                              context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
-                              size: 26,
-                              color: AppColors.primaryColor,
-                            ),
-                            SizedBox(width: 10),
-                            Text("Dark Theme", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
-                            Spacer(),
-                            Switch(
-                              padding: EdgeInsets.all(0),
-                              key: context.read<EmployeeDashboardProvider>().themeSwitchKey,
-                              value: context.watch<AppThemeProvider>().isDarkMode,
-                              onChanged: (v) {
-                                context.read<EmployeeDashboardProvider>().toggleThemeMode();
-                              },
-                            ),
-                          ],
+                  CommonWidget.butoonWithImageAndText(
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(
+                          context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
+                          size: 26,
+                          color: AppColors.primaryColor,
                         ),
-                      ),
+                        SizedBox(width: 10),
+                        Text("Dark Theme", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                        Spacer(),
+                        Switch(
+                          padding: EdgeInsets.all(0),
+                          key: context.read<EmployeeDashboardProvider>().themeSwitchKey,
+                          value: context.watch<AppThemeProvider>().isDarkMode,
+                          onChanged: (v) {
+                            context.read<EmployeeDashboardProvider>().toggleThemeMode();
+                          },
+                        ),
+                      ],
                     ),
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
                   /// LOGOUT
-                  CommonButton(
-                    icon: Icon(Icons.logout, color: AppColors.whiteColor),
-                    title: "Logout",
+                  CommonWidget.butoonWithImageAndText(
                     onTap: () async {
-                      await CommonMethod().errageAllDataAndGotoLogin();
-                      // ignore: use_build_context_synchronously
-                      GoRouter.of(context).go(AppRouter.loginScreenRoute);
+                      if (context.mounted) {
+                        await CommonMethod().errageAllDataAndGotoLogin(context: context);
+                      }
                     },
-                    mainAxisAlignment: MainAxisAlignment.start,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Icon(Icons.logout, color: AppColors.primaryColor),
+                        SizedBox(width: 10),
+                        Text("Logout", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                        Spacer(),
+                        Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                      ],
+                    ),
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
                 ],
@@ -254,35 +244,41 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
             end: Alignment.topCenter,
           ),
         ),
-        child: Column(
+        child: Row(
           children: [
+            SizedBox(width: AppSize.verticalWidgetSpacing),
             CircleAvatar(
-              radius: 40,
-              backgroundColor: Colors.white.withValues(alpha: .2),
-              child: provider.employee?.profilePhoto != null
-                  ? ClipRRect(
-                      borderRadius: BorderRadius.circular(50),
-                      child: Image.network(
-                        provider.employee!.profilePhoto!,
-                        fit: BoxFit.cover,
-                        errorBuilder: (context, error, stackTrace) {
-                          return const Icon(Icons.person_outline, size: 50, color: AppColors.whiteColor);
-                        },
-                      ),
-                    )
-                  : const Icon(Icons.person_outline, size: 50, color: AppColors.whiteColor),
+              radius: 50,
+              backgroundColor: AppColors.lightGrey,
+              backgroundImage: (provider.employee?.profilePhoto ?? "").isNotEmpty
+                  ? NetworkImage(provider.employee!.profilePhoto!)
+                  : null,
+              child: (provider.employee?.profilePhoto ?? "").isEmpty
+                  ? const Icon(Icons.person_outline, size: 50, color: AppColors.whiteColor)
+                  : SizedBox(),
             ),
-            const SizedBox(height: 12),
-            Text(
-              provider.employee?.firstName != null && provider.employee?.lastName != null
-                  ? "${provider.employee!.firstName} ${provider.employee!.lastName}"
-                  : 'N/A',
-              style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 20),
-            ),
-            const SizedBox(height: 4),
-            Text(
-              ("EMP000${provider.employee?.empId ?? ''}").toString(),
-              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 13),
+            const SizedBox(width: AppSize.verticalWidgetSpacing),
+            Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  provider.employee?.firstName != null && provider.employee?.lastName != null
+                      ? "${provider.employee!.firstName} ${provider.employee!.lastName}"
+                      : 'N/A',
+                  style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 20),
+                ),
+                const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+                Text(
+                  provider.employee?.firstName != null && provider.employee?.lastName != null
+                      ? "${provider.employee!.department?.designation}"
+                      : 'N/A',
+                  style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
+                ),
+                Text(
+                  ("ID - EMP000${provider.employee?.empId ?? ''}").toString(),
+                  style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
+                ),
+              ],
             ),
           ],
         ),

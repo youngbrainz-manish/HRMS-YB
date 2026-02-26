@@ -69,6 +69,8 @@ class AppRouter {
   static const hrHolidayScreenRoute = '/hrHolidayScreen';
   static const editProfileScreenRoute = '/editProfileScreen';
   static const addHolidayScreenRoute = '/addHolidayScreen';
+
+  //Emp
   static String holidayScreenRoute = '/holidayScreen';
 
   static GoRouter router = GoRouter(
@@ -97,6 +99,8 @@ class AppRouter {
       GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
       GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
+
+      ///Emp
       GoRoute(path: holidayScreenRoute, builder: (context, state) => const HolidayScreen()),
 
       ShellRoute(

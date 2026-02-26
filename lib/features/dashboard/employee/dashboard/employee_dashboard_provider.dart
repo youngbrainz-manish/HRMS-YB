@@ -6,6 +6,8 @@ import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/models/user_model.dart';
+import 'package:hrms_yb/shared/common_method.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeDashboardProvider extends ChangeNotifier {
@@ -47,6 +49,15 @@ class EmployeeDashboardProvider extends ChangeNotifier {
       var response = await DioApiRequest().getCommonApiCall(url);
       if (response != null && response.data?['success'] == true) {
         AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+      } else {
+        CommonWidget.customSnackbar(
+          context: context, // ignore: use_build_context_synchronously
+          description: response?.data?['message'],
+          type: SnackbarType.error,
+        );
+        if (context.mounted) {
+          await CommonMethod().errageAllDataAndGotoLogin(context: context);
+        }
       }
     } catch (e) {
       // print("Error fetching profile data: $e");

@@ -88,7 +88,7 @@ class _AddHolidayScreenState extends State<AddHolidayScreen> {
       onTap: () => FocusScope.of(context).unfocus(),
       child: Scaffold(
         appBar: AppBar(
-          leading: CommonWidget().backButton(onTap: () => context.pop()),
+          leading: CommonWidget.backButton(onTap: () => context.pop()),
           title: const Text("Add Holiday"),
         ),
 

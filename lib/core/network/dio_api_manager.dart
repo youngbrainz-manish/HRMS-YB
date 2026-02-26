@@ -17,8 +17,6 @@ class DioApiManager {
   DioApiManager._internal();
 
   Future<void> configureDio() async {
-    SharedPreferences prefs = await SharedPreferences.getInstance();
-    token = prefs.getString(AppConstants.token) ?? '';
     BaseOptions options = BaseOptions(
       baseUrl: DioApiServices.baseUrl,
       connectTimeout: const Duration(milliseconds: 50000),
@@ -33,6 +31,8 @@ class DioApiManager {
   }
 
   Future<Dio> getDio() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    token = prefs.getString(AppConstants.token) ?? '';
     if (dio == null) {
       await configureDio();
     }

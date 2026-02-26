@@ -111,7 +111,6 @@ class EmployeeHomeScreen extends StatelessWidget {
                     _latestPaySlipWidget(context),
                     SizedBox(height: AppSize.verticalWidgetSpacing),
                     _latestNotificationWidget(context, provider),
-                    SizedBox(height: AppSize.verticalWidgetSpacing),
                   ],
                 ),
               ),
@@ -192,7 +191,7 @@ class EmployeeHomeScreen extends StatelessWidget {
               children: [
                 Text("Today's Attendance", style: AppTextStyle().titleTextStyle(context: context)),
                 Spacer(),
-                CommonWidget().buildSvgImage(
+                CommonWidget.buildSvgImage(
                   path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
                   height: 20,
                   width: 20,
@@ -279,7 +278,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                       margin: EdgeInsets.all(0),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: CommonWidget().buildSvgImage(
+                        child: CommonWidget.buildSvgImage(
                           path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
                           height: 26,
                           color: AppColors.primaryPurpleColor,
@@ -374,7 +373,7 @@ class EmployeeHomeScreen extends StatelessWidget {
               children: [
                 Text("Latest PaySlip", style: AppTextStyle().titleTextStyle(context: context)),
                 Spacer(),
-                CommonWidget().buildSvgImage(
+                CommonWidget.buildSvgImage(
                   path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
                   color: AppColors.textButtonColor,
                   height: 24,

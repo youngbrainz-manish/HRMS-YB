@@ -102,7 +102,7 @@ class EmployeeAttendaceScreen extends StatelessWidget {
         width: double.infinity,
         child: Column(
           children: [
-            CommonWidget().buildSvgImage(
+            CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
               color: isDarkMode ? AppColors.whiteColor : AppColors.textButtonColor,
               height: 24,

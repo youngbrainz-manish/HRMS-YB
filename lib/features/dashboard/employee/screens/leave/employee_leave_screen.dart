@@ -38,7 +38,6 @@ class EmployeeLeaveScreen extends StatelessWidget {
           ),
           SizedBox(height: AppSize.verticalWidgetSpacing),
           myLeaveRequestCard(provider: provider),
-          SizedBox(height: AppSize.verticalWidgetSpacing),
         ],
       ),
     );

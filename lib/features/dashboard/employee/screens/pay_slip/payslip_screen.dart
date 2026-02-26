@@ -77,7 +77,6 @@ class PayslipScreen extends StatelessWidget {
                   ),
                 ],
               ),
-              const SizedBox(height: 16),
             ],
           ),
         ),
@@ -179,41 +178,22 @@ class PayslipScreen extends StatelessWidget {
   // ================= NET PAY =================
 
   Widget _netPayCard({required BuildContext context}) {
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.successSecondary : AppColors.successPrimary,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            "Net Pay",
-            style: AppTextStyle().titleTextStyle(
-              context: context,
-              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            data.netPay.rupee,
-            style: AppTextStyle().titleTextStyle(
-              context: context,
-              fontSize: 24,
-              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
-            ),
-          ),
-          const SizedBox(height: 8),
-          Text(
-            "Amount credited to your account",
-            style: AppTextStyle().subTitleTextStyle(
-              context: context,
-              color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.borderGrey,
-            ),
-          ),
-        ],
+    return Card(
+      margin: EdgeInsets.all(0),
+      child: Container(
+        width: double.infinity,
+        padding: const EdgeInsets.all(16),
+        decoration: BoxDecoration(borderRadius: BorderRadius.circular(12)),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text("Net Pay", style: AppTextStyle().titleTextStyle(context: context)),
+            const SizedBox(height: 8),
+            Text(data.netPay.rupee, style: AppTextStyle().titleTextStyle(context: context, fontSize: 24)),
+            const SizedBox(height: 8),
+            Text("Amount credited to your account", style: AppTextStyle().subTitleTextStyle(context: context)),
+          ],
+        ),
       ),
     );
   }

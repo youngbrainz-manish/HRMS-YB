@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:provider/provider.dart';
 
 class CommonTextField extends StatelessWidget {
   final TextEditingController controller;
@@ -58,7 +60,10 @@ class CommonTextField extends StatelessWidget {
                 labelText: labelText,
                 hintText: hintText,
                 hintStyle: context.textTheme.bodyLarge?.copyWith(color: Colors.grey, height: 1.3, fontSize: 14),
-                labelStyle: context.textTheme.bodyLarge?.copyWith(color: AppColors.primaryColor, fontSize: 15),
+                labelStyle: context.textTheme.bodyLarge?.copyWith(
+                  color: context.read<AppThemeProvider>().isDarkMode ? AppColors.whiteColor : AppColors.primaryColor,
+                  fontSize: 15,
+                ),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon != null ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon)) : null,
                 border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),

@@ -6,12 +6,12 @@ import 'package:hrms_yb/models/user_model.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
-class EmployeesProfileProvider extends ChangeNotifier {
+class HrProfileProvider extends ChangeNotifier {
   final BuildContext context;
   bool isLoading = false;
   UserModel? employee;
 
-  EmployeesProfileProvider({required this.context}) {
+  HrProfileProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });

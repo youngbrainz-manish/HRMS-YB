@@ -123,7 +123,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/home-icon.svg",
                         height: 22,
                         width: 22,
@@ -163,7 +163,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
                         height: 22,
                         width: 22,
@@ -185,7 +185,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
                         height: 22,
                         width: 22,
@@ -207,7 +207,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
                         height: 22,
                         width: 22,
@@ -229,7 +229,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
                         height: 22,
                         width: 22,
@@ -251,7 +251,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: CommonWidget().buildSvgImage(
+                      leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
                         height: 22,
                         width: 22,
@@ -306,9 +306,9 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                       leading: Icon(Icons.logout, color: Colors.red),
                       title: Text("Logout", style: TextStyle(color: Colors.red)),
                       onTap: () async {
-                        await CommonMethod().errageAllDataAndGotoLogin();
-                        // ignore: use_build_context_synchronously
-                        GoRouter.of(context).go(AppRouter.loginScreenRoute);
+                        if (context.mounted) {
+                          await CommonMethod().errageAllDataAndGotoLogin(context: context);
+                        }
                       },
                     ),
                   ),

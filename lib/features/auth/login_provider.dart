@@ -7,6 +7,7 @@ import 'package:hrms_yb/core/network/common_response.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/models/user_model.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class LoginProvider extends ChangeNotifier {
@@ -60,6 +61,11 @@ class LoginProvider extends ChangeNotifier {
         notifyListeners();
         return true;
       } else {
+        CommonWidget.customSnackbar(
+          context: context, // ignore: use_build_context_synchronously
+          description: commonResponse.message ?? "Loggedin Successfully",
+          type: SnackbarType.error,
+        );
         isLoading = false;
         notifyListeners();
         return false;

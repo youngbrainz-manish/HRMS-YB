@@ -6,8 +6,10 @@ import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';
 
+enum SnackbarType { success, error, other }
+
 class CommonWidget {
-  Widget buildSvgImage({required String path, required Color color, double? height, double? width}) {
+  static buildSvgImage({required String path, required Color color, double? height, double? width}) {
     return SvgPicture.asset(
       path,
       height: height ?? 22,
@@ -16,7 +18,7 @@ class CommonWidget {
     );
   }
 
-  Widget backButton({required void Function() onTap}) {
+  static backButton({required void Function() onTap}) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
@@ -78,13 +80,13 @@ class CommonWidget {
     );
   }
 
-  Widget defaultLoader({Color? color}) {
+  static defaultLoader({Color? color}) {
     return Center(
       child: CircularProgressIndicator(padding: EdgeInsets.all(0), color: color ?? AppColors.primaryColor),
     );
   }
 
-  Future<bool?> showConfirmDialog({
+  static Future<bool?> showConfirmDialog({
     required BuildContext context,
     String title = "Confirmation",
     String message = "Are you sure?",
@@ -138,6 +140,76 @@ class CommonWidget {
           ),
         );
       },
+    );
+  }
+
+  static customSnackbar({
+    required BuildContext context,
+    String? title,
+    required String description,
+    required SnackbarType type,
+    Widget? icon,
+  }) {
+    return ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        behavior: SnackBarBehavior.floating,
+        margin: EdgeInsets.only(
+          bottom: AppSize.verticalWidgetSpacing / 2,
+          left: AppSize.verticalWidgetSpacing / 2,
+          right: AppSize.verticalWidgetSpacing / 2,
+        ),
+        backgroundColor: type == SnackbarType.success
+            ? AppColors.successPrimary
+            : type == SnackbarType.error
+            ? AppColors.errorColor
+            : AppColors.warningColor,
+        content: Row(
+          children: [
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if ((title ?? "").isNotEmpty)
+                    Text(
+                      title!,
+                      style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
+                    ),
+                  SizedBox(height: 4),
+                  Text(
+                    description,
+                    style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
+                  ),
+                ],
+              ),
+            ),
+            icon ??
+                Icon(
+                  type == SnackbarType.success
+                      ? Icons.check_circle_outline_rounded
+                      : type == SnackbarType.error
+                      ? Icons.nearby_error_rounded
+                      : Icons.info,
+                  color: AppColors.whiteColor,
+                ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  static butoonWithImageAndText({void Function()? onTap, Color? color, required Widget child}) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Card(
+        color: color,
+        margin: EdgeInsets.all(0),
+        child: Container(
+          padding: EdgeInsets.symmetric(horizontal: 12),
+          height: 46,
+          width: double.infinity,
+          child: child,
+        ),
+      ),
     );
   }
 }

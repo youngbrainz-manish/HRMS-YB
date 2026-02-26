@@ -111,7 +111,7 @@ class HrPayrollScreen extends StatelessWidget {
         SizedBox(width: 12),
         Expanded(
           child: CommonButton(
-            icon: CommonWidget().buildSvgImage(
+            icon: CommonWidget.buildSvgImage(
               path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
               color: AppColors.whiteColor,
             ),
