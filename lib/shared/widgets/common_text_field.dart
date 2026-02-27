@@ -19,6 +19,7 @@ class CommonTextField extends StatelessWidget {
   final bool? isEnable;
   final String? headingText;
   final double? height;
+  final bool securePass;
 
   const CommonTextField({
     super.key,
@@ -35,6 +36,7 @@ class CommonTextField extends StatelessWidget {
     this.isEnable = true,
     this.headingText,
     this.height,
+    this.securePass = false,
   });
 
   @override

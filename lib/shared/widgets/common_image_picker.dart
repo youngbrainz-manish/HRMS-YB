@@ -22,6 +22,7 @@ class CommonImagePicker {
                   title: "Camera",
                   onTap: () async {
                     final file = await _pickImage(ImageSource.camera);
+                    // ignore: use_build_context_synchronously
                     Navigator.pop(context, file);
                   },
                 ),
@@ -30,6 +31,7 @@ class CommonImagePicker {
                   title: "Gallery",
                   onTap: () async {
                     final file = await _pickImage(ImageSource.gallery);
+                    // ignore: use_build_context_synchronously
                     Navigator.pop(context, file);
                   },
                 ),

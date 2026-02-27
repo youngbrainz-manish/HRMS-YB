@@ -19,6 +19,8 @@ class LoginProvider extends ChangeNotifier {
   TextEditingController emailController = TextEditingController();
   TextEditingController pinController = TextEditingController();
 
+  bool hidePass = true;
+
   LoginProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
@@ -79,6 +81,10 @@ class LoginProvider extends ChangeNotifier {
 
   void logout() {
     userModel = null;
+    notifyListeners();
+  }
+
+  void updateState() {
     notifyListeners();
   }
 }

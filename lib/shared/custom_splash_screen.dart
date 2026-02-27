@@ -46,7 +46,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
     }
 
     Future.delayed(const Duration(seconds: 2), () {
-      if (AuthenticationData.userModel != null) {
+      if (AuthenticationData.userModel != null && AuthenticationData.userModel?.empId != null) {
         if (AuthenticationData.userModel?.roles?.first.roleName.toString().toLowerCase() == "Employee".toLowerCase()) {
           GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute); // ignore: use_build_context_synchronously
         } else {

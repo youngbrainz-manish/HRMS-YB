@@ -54,16 +54,7 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: Column(
             children: [
-              Align(
-                alignment: Alignment.topRight,
-                child: IconButton(
-                  icon: Icon(isDarkMode ? Icons.light_mode : Icons.dark_mode),
-                  onPressed: () {
-                    context.read<AppThemeProvider>().toggleTheme();
-                  },
-                ),
-              ),
-
+              SizedBox(height: AppSize.verticalWidgetSpacing),
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(shape: BoxShape.circle, color: isDarkMode ? Colors.black : Colors.white),
@@ -100,9 +91,14 @@ class _LoginScreenState extends State<LoginScreen> {
                         controller: provider.pinController,
                         hintText: "Enter your password",
                         labelText: "Enter Password",
-                        prefixIcon: Icon(Icons.password),
+                        prefixIcon: Icon(Icons.lock_outline),
                         keyboardType: TextInputType.visiblePassword,
-                        obscureText: true,
+                        obscureText: provider.hidePass,
+                        suffixIcon: provider.hidePass ? Icons.visibility_off : Icons.visibility,
+                        onSuffixTap: () {
+                          provider.hidePass = !provider.hidePass;
+                          provider.updateState();
+                        },
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             return "Password is required";

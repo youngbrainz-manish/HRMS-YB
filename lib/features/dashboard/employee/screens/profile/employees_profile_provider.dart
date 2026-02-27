@@ -28,8 +28,8 @@ class EmployeesProfileProvider extends ChangeNotifier {
     String employeeId = AuthenticationData.userModel?.empId.toString() ?? '';
     String url = "${DioApiServices.getUserById}/$employeeId";
     var response = await DioApiRequest().getCommonApiCall(url);
-    if (response != null && response.data?['success'] == true) {
-      AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+    if (response != null && response.data?['success'] == true && response.data?['data'] != null) {
+      AuthenticationData.userModel = UserModel.fromJson(response.data?['data']);
       employee = AuthenticationData.userModel;
       notifyListeners();
     } else {

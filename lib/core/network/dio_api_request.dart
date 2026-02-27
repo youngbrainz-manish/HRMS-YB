@@ -18,7 +18,7 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DioApiRequest {
   DioApiRequest();
 
-  postCommonApiCall(var data, String url, {bool? showToast}) async {
+  postCommonApiCall(var data, String url, {bool? showToast, String? resetToken}) async {
     Dio dio = await DioApiManager().getDio();
     try {
       Options options = Options();
@@ -26,6 +26,9 @@ class DioApiRequest {
       if (token.isEmpty) {
         SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         token = sharedPreferences.getString(ApiConstants.token) ?? '';
+      }
+      if (resetToken != null) {
+        token = resetToken;
       }
 
       options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
@@ -295,14 +298,14 @@ class DioApiRequest {
         return null;
       }
     } on DioException catch (e) {
-      print("object route PUT ERROR => $e");
+      debugPrint("object route PUT ERROR => $e");
 
       if (e.response != null) {
         return e.response;
       }
       return null;
     } catch (ex) {
-      print("object route PUT EXCEPTION => $ex");
+      debugPrint("object route PUT EXCEPTION => $ex");
       return null;
     }
   }

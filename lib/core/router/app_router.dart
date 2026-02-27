@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:hrms_yb/features/auth/forgot_pin_screen.dart';
+import 'package:hrms_yb/features/auth/forgot_pass/forgot_pin_screen.dart';
 import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';

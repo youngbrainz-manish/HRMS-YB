@@ -8,6 +8,7 @@ import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_pr
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
 import 'package:hrms_yb/shared/common_method.dart';
+import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_screen.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_text.dart';
@@ -151,7 +152,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.holiday_village_outlined, color: AppColors.primaryColor),
+                        Icon(Icons.beach_access, color: AppColors.primaryColor),
                         SizedBox(width: 10),
                         Text("View All Holidays", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                         Spacer(),
@@ -163,7 +164,9 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
 
                   /// UPDATE PIN
                   CommonWidget.butoonWithImageAndText(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (context) => HierarchyScreen()));
+                    },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [

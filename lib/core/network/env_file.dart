@@ -14,7 +14,7 @@ class Environment {
         if (kDebugMode && !kIsWeb) {
           debugPrint("chats === $keyName");
         }
-        Map<String, dynamic> buildValues = {'base_url': 'https://hrmsapi.ybtest.co.in/api/'};
+        Map<String, dynamic> buildValues = {'base_url': 'https://prescriptive-slumberously-giana.ngrok-free.dev/api/'};
 
         return buildValues[keyName];
       } else if (environmentMode == EnvironmentMode.PROD) {

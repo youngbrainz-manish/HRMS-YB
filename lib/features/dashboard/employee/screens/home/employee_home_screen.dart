@@ -1,3 +1,4 @@
+import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
@@ -56,15 +57,23 @@ class EmployeeHomeScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(16),
                         child: Column(
                           children: [
-                            Center(
-                              child: PunchButton(
-                                title: "09:00 AM",
-                                lable: "PUNCH OUT",
-                                titleColor: AppColors.errorColor,
-                                icon: Icon(Icons.touch_app_outlined, size: 38, color: AppColors.errorColor),
-                                isDarkMode: isDarkMode,
-                                progress: 0.82,
-                                onTap: () {},
+                            AvatarGlow(
+                              glowColor: AppColors.primaryColor,
+                              glowCount: 5,
+                              child: Material(
+                                elevation: 8.0,
+                                shape: CircleBorder(),
+                                child: Center(
+                                  child: PunchButton(
+                                    title: "09:00 AM",
+                                    lable: "PUNCH OUT",
+                                    titleColor: AppColors.errorColor,
+                                    icon: Icon(Icons.touch_app_outlined, size: 38, color: AppColors.errorColor),
+                                    isDarkMode: isDarkMode,
+                                    progress: 0.82,
+                                    onTap: () {},
+                                  ),
+                                ),
                               ),
                             ),
                             SizedBox(height: 16),
