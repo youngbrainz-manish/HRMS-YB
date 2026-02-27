@@ -6,13 +6,10 @@ import 'package:dio/dio.dart';
 import 'package:dio/dio.dart' as dioImported;
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/constants/api_constants.dart';
 import 'package:hrms_yb/core/constants/app_constants.dart';
-import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/network/common_response.dart';
 import 'package:hrms_yb/core/network/dio_api_manager.dart';
-import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class DioApiRequest {
@@ -42,22 +39,8 @@ class DioApiRequest {
 
       if (response.data is Map<String, dynamic>) {
         CommonResponse commonResponse = CommonResponse.fromJson(response.data);
-        if (commonResponse.status == 200) {
+        if (commonResponse.success == true) {
           return response;
-        } else if (commonResponse.status == 401) {
-          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-          sharedPreferences.clear();
-          AuthenticationData.token = "";
-
-          if (showToast == true) {
-            // CommonWidget().showSnackBar(
-            //   message: commonResponse.message ?? Constants.apiErrorMessage,
-            //   bgColor: requiredRedColor,
-            // );
-            // AppGlobal.showSnackBar(body: commonResponse.message ?? Constants.apiErrorMessage);
-          }
-          GoRoute(path: AppRouter.loginScreenRoute);
-          return null;
         } else {
           if (showToast == true) {
             // CommonWidget().showSnackBar(
@@ -117,26 +100,9 @@ class DioApiRequest {
       options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
       options.validateStatus = (status) => status != null && status < 500;
       var response = await dio.get(url, options: options, queryParameters: queryParams);
-
       if (response.data is Map<String, dynamic>) {
         CommonResponse commonResponse = CommonResponse.fromJson(response.data);
-        if (commonResponse.status == 200) {
-          return response;
-        } else if (commonResponse.status == 401) {
-          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-
-          sharedPreferences.clear();
-          AuthenticationData.token = "";
-
-          if (showToast == true) {
-            // CommonWidget().showSnackBar(
-            //   message: commonResponse.message ?? Constants.apiErrorMessage,
-            //   bgColor: requiredRedColor,
-            // );
-            GoRoute(path: AppRouter.loginScreenRoute);
-            // AppGlobal.showSnackBar(body: commonResponse.message ?? Constants.apiErrorMessage);
-          }
-
+        if (commonResponse.success == true) {
           return response;
         } else {
           if (showToast == true) {
@@ -280,17 +246,8 @@ class DioApiRequest {
       if (response.data is Map<String, dynamic>) {
         CommonResponse commonResponse = CommonResponse.fromJson(response.data);
 
-        if (commonResponse.status == 200) {
+        if (commonResponse.success == true) {
           return response;
-        } else if (commonResponse.status == 401) {
-          SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
-          sharedPreferences.clear();
-
-          AuthenticationData.token = "";
-
-          GoRoute(path: AppRouter.loginScreenRoute);
-
-          return null;
         } else {
           return response;
         }

@@ -18,6 +18,7 @@ class CommonButton extends StatelessWidget {
   final Color? titleColor;
   final double? fontSize;
   final MainAxisAlignment mainAxisAlignment;
+  final Widget? loadingWidget;
 
   const CommonButton({
     super.key,
@@ -33,6 +34,7 @@ class CommonButton extends StatelessWidget {
     this.titleColor,
     this.fontSize = 14,
     this.mainAxisAlignment = MainAxisAlignment.center,
+    this.loadingWidget,
   });
 
   @override
@@ -62,7 +64,7 @@ class CommonButton extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 8),
             child: Center(
               child: isLoading
-                  ? SizedBox(child: CommonWidget.defaultLoader(color: AppColors.whiteColor))
+                  ? loadingWidget ?? SizedBox(child: CommonWidget.defaultLoader(color: AppColors.whiteColor))
                   : Row(
                       mainAxisAlignment: mainAxisAlignment,
                       children: [

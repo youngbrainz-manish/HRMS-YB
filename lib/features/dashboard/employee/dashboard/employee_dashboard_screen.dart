@@ -78,7 +78,7 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
             style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
           ),
           Text(
-            "Employee Id - EMP000${AuthenticationData.userModel?.empId}",
+            "Employee Id - EMP000${AuthenticationData.userModel?.userId}",
             style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
           ),
         ],

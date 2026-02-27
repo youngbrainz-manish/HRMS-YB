@@ -59,7 +59,7 @@ class EmployeeHomeScreen extends StatelessWidget {
                           children: [
                             AvatarGlow(
                               glowColor: AppColors.primaryColor,
-                              glowCount: 5,
+                              glowCount: 2,
                               child: Material(
                                 elevation: 8.0,
                                 shape: CircleBorder(),
@@ -177,7 +177,7 @@ class EmployeeHomeScreen extends StatelessWidget {
               style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
             ),
             Text(
-              "EMP000${AuthenticationData.userModel?.empId}",
+              "EMP000${AuthenticationData.userModel?.userId}",
               style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
             ),
           ],

@@ -8,7 +8,6 @@ import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_pr
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
 import 'package:hrms_yb/shared/common_method.dart';
-import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_screen.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_text.dart';
@@ -134,9 +133,9 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                         bgColor: Colors.indigo.shade50,
                         iconColor: Colors.indigo,
                         title: "Employee Type",
-                        value: provider.employee?.roles?.first.roleName == "HR"
+                        value: provider.employee?.role?.roleName == "HR"
                             ? "HR"
-                            : provider.employee?.roles?.first.roleName == "Employee"
+                            : provider.employee?.role?.roleName == "Employee"
                             ? "Employee"
                             : '',
                       ),
@@ -164,15 +163,15 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
 
                   /// UPDATE PIN
                   CommonWidget.butoonWithImageAndText(
-                    onTap: () {
-                      Navigator.push(context, MaterialPageRoute(builder: (context) => HierarchyScreen()));
+                    onTap: () async {
+                      await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);
                     },
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.start,
                       children: [
-                        Icon(Icons.key_outlined, color: AppColors.primaryColor),
+                        Icon(Icons.account_tree, color: AppColors.primaryColor),
                         SizedBox(width: 10),
-                        Text("Update Access PIN", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                        Text("Company Structure", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                         Spacer(),
                         Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
                       ],
@@ -278,7 +277,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                   style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
                 ),
                 Text(
-                  ("ID - EMP000${provider.employee?.empId ?? ''}").toString(),
+                  ("ID - EMP000${provider.employee?.userId ?? ''}").toString(),
                   style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor),
                 ),
               ],

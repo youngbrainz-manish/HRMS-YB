@@ -25,7 +25,7 @@ class EmployeesProfileProvider extends ChangeNotifier {
   Future<void> getProfileData() async {
     isLoading = true;
     notifyListeners();
-    String employeeId = AuthenticationData.userModel?.empId.toString() ?? '';
+    String employeeId = AuthenticationData.userModel?.userId.toString() ?? '';
     String url = "${DioApiServices.getUserById}/$employeeId";
     var response = await DioApiRequest().getCommonApiCall(url);
     if (response != null && response.data?['success'] == true && response.data?['data'] != null) {
@@ -35,7 +35,7 @@ class EmployeesProfileProvider extends ChangeNotifier {
     } else {
       CommonWidget.customSnackbar(
         context: context, // ignore: use_build_context_synchronously
-        description: response?.data?['message'],
+        description: response?.data?['message'] ?? "Something went wrong!",
         type: SnackbarType.error,
       );
       if (context.mounted) {

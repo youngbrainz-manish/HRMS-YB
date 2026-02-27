@@ -46,8 +46,8 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
     }
 
     Future.delayed(const Duration(seconds: 2), () {
-      if (AuthenticationData.userModel != null && AuthenticationData.userModel?.empId != null) {
-        if (AuthenticationData.userModel?.roles?.first.roleName.toString().toLowerCase() == "Employee".toLowerCase()) {
+      if (AuthenticationData.userModel != null && AuthenticationData.userModel?.userId != null) {
+        if (AuthenticationData.userModel?.role?.roleName.toString().toLowerCase() == "Employee".toLowerCase()) {
           GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute); // ignore: use_build_context_synchronously
         } else {
           GoRouter.of(context).go(AppRouter.hrDashboardRoute); // ignore: use_build_context_synchronously
@@ -59,7 +59,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   }
 
   Future<void> getProfileData() async {
-    String employeeId = AuthenticationData.userModel?.empId.toString() ?? '';
+    String employeeId = AuthenticationData.userModel?.userId.toString() ?? '';
     String url = "${DioApiServices.getUserById}/$employeeId";
     try {
       var response = await DioApiRequest().getCommonApiCall(url);

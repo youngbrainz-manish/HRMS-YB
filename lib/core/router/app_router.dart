@@ -30,6 +30,7 @@ import 'package:hrms_yb/features/dashboard/hr/screens/profile/edit_profile_scree
 import 'package:hrms_yb/features/dashboard/hr/screens/profile/hr_profile_screen.dart';
 import 'package:hrms_yb/shared/custom_splash_screen.dart';
 import 'package:hrms_yb/shared/notification/notification_screen.dart';
+import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_screen.dart';
 import 'package:provider/provider.dart';
 
 final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
@@ -69,6 +70,7 @@ class AppRouter {
   static const hrHolidayScreenRoute = '/hrHolidayScreen';
   static const editProfileScreenRoute = '/editProfileScreen';
   static const addHolidayScreenRoute = '/addHolidayScreen';
+  static const hierarchyScreenRoute = '/hierarchyScreen';
 
   //Emp
   static String holidayScreenRoute = '/holidayScreen';
@@ -99,6 +101,7 @@ class AppRouter {
       GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
       GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
+      GoRoute(path: hierarchyScreenRoute, builder: (context, state) => const HierarchyScreen()),
 
       ///Emp
       GoRoute(path: holidayScreenRoute, builder: (context, state) => const HolidayScreen()),

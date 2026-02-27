@@ -40,18 +40,19 @@ class LoginProvider extends ChangeNotifier {
       }, DioApiServices.login);
 
       CommonResponse commonResponse = CommonResponse.fromJson(response.data);
+
       if (commonResponse.success == true) {
         AuthenticationData.token = response.data['data']['token'];
 
         List<Role> roles = (response.data['data']['role'] as List).map((e) => Role.fromJson(e)).toList();
         AuthenticationData.userModel = UserModel(
-          empId: response.data['data']['emp_id'],
-          firstName: response.data['data']['First_Name'],
-          lastName: response.data['data']['Last_Name'],
+          userId: response.data['data']['user_id'],
+          firstName: response.data['data']['first_name'],
+          lastName: response.data['data']['last_name'],
           email: response.data['data']['email'],
-          roles: roles,
-          profilePhoto: response.data['data']['Profile_photo'],
-          roleId: response.data['data']['role_id'],
+          role: roles.first,
+          profilePhoto: response.data['data']['profile_photo'],
+          // roleId: response.data['data']['role_id'],
         );
 
         userModel = AuthenticationData.userModel;
@@ -65,7 +66,7 @@ class LoginProvider extends ChangeNotifier {
       } else {
         CommonWidget.customSnackbar(
           context: context, // ignore: use_build_context_synchronously
-          description: commonResponse.message ?? "Loggedin Successfully",
+          description: commonResponse.message ?? "Something went wronge!",
           type: SnackbarType.error,
         );
         isLoading = false;

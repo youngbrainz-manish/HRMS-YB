@@ -61,7 +61,7 @@ class ForgotPasswordProvider extends ChangeNotifier {
         CommonWidget.customSnackbar(
           context: context, // ignore: use_build_context_synchronously
           description: response.data['message'],
-          type: SnackbarType.success,
+          type: SnackbarType.error,
         );
       }
     } catch (e) {

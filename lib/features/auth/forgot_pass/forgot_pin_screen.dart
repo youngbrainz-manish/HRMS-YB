@@ -7,6 +7,7 @@ import 'package:hrms_yb/shared/utils/app_extensions.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
 import 'package:provider/provider.dart';
 
@@ -150,9 +151,14 @@ class _ForgotPinScreenState extends State<ForgotPinScreen> {
 
                           SizedBox(height: 24),
                           CommonButton(
+                            loadingWidget: LoadingAnimationWidget.threeRotatingDots(
+                              size: 20,
+                              color: AppColors.whiteColor,
+                            ),
                             isLoading: provider.isLoading,
                             title: getButtonTitle(provider: provider),
                             onTap: () {
+                              FocusScope.of(context).requestFocus(FocusNode());
                               if (provider.currentState == ForgotPassState.init) {
                                 provider.requestOtp();
                               } else if (provider.currentState == ForgotPassState.verifyOtp) {

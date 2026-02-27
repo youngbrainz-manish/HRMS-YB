@@ -8,6 +8,7 @@ import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
 import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 
@@ -108,6 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 36),
                       CommonButton(
+                        loadingWidget: LoadingAnimationWidget.threeRotatingDots(size: 20, color: AppColors.whiteColor),
                         isLoading: provider.isLoading,
                         title: "Login",
                         onTap: () async {
@@ -126,7 +128,7 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
 
                           if (data == true) {
-                            if (provider.userModel!.roleId == 1) {
+                            if (provider.userModel!.role?.roleId == 1) {
                               // ignore: use_build_context_synchronously
                               GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute);
                             } else {

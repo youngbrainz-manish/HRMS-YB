@@ -85,7 +85,7 @@ class HrProfileScreen extends StatelessWidget {
                           context: context,
                           title: "Personal Information",
                           children: [
-                            InfoTile(title: "Employee ID", value: "HR-000${AuthenticationData.userModel?.empId}"),
+                            InfoTile(title: "Employee ID", value: "HR-000${AuthenticationData.userModel?.userId}"),
                             InfoTile(title: "Department", value: "${AuthenticationData.userModel?.department}"),
                             InfoTile(
                               title: "Joining Date",
