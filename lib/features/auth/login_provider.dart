@@ -16,8 +16,8 @@ class LoginProvider extends ChangeNotifier {
   UserModel? userModel;
   bool isLoading = false;
 
-  TextEditingController emailController = TextEditingController();
-  TextEditingController pinController = TextEditingController();
+  TextEditingController emailController = TextEditingController(text: "youngbrainz.hr@gmail.com");
+  TextEditingController pinController = TextEditingController(text: "Abc@1234");
 
   bool hidePass = true;
 

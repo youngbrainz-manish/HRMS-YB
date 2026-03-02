@@ -39,7 +39,7 @@ class HrProfileScreen extends StatelessWidget {
               /// ===== PERSONAL INFO =====
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
+                  padding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -111,26 +111,68 @@ class HrProfileScreen extends StatelessWidget {
                         SizedBox(height: AppSize.verticalWidgetSpacing),
 
                         /// ===== ACTIONS =====
-                        _actionTile(
-                          Icons.edit,
-                          "Edit Profile",
+                        /// Edit Profile
+                        CommonWidget.butoonWithImageAndText(
                           onTap: () async {
                             var data = await GoRouter.of(context).push(AppRouter.editProfileScreenRoute);
                             if (data == true) {
                               provider.getProfileData();
                             }
                           },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.edit, color: AppColors.primaryColor),
+                              SizedBox(width: 10),
+                              Text(
+                                "Edit Profile",
+                                style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                              ),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                            ],
+                          ),
                         ),
                         SizedBox(height: AppSize.verticalWidgetSpacing),
-                        _actionTile(Icons.lock, "Change Password"), SizedBox(height: AppSize.verticalWidgetSpacing),
-                        _actionTile(
-                          Icons.logout,
-                          "Logout",
+
+                        /// Company Structure
+                        CommonWidget.butoonWithImageAndText(
+                          onTap: () async {
+                            await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.account_tree, color: AppColors.primaryColor),
+                              SizedBox(width: 10),
+                              Text(
+                                "Company Structure",
+                                style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                              ),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                            ],
+                          ),
+                        ),
+                        SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                        /// Log Out
+                        CommonWidget.butoonWithImageAndText(
                           onTap: () async {
                             if (context.mounted) {
                               await CommonMethod().errageAllDataAndGotoLogin(context: context);
                             }
                           },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Icon(Icons.logout, color: AppColors.primaryColor),
+                              SizedBox(width: 10),
+                              Text("Logout", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                              Spacer(),
+                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                            ],
+                          ),
                         ),
                         SizedBox(height: AppSize.verticalWidgetSpacing),
                       ],
@@ -156,19 +198,6 @@ class HrProfileScreen extends StatelessWidget {
             ...children,
           ],
         ),
-      ),
-    );
-  }
-
-  /// ---------- ACTION TILE ----------
-  static Widget _actionTile(IconData icon, String title, {VoidCallback? onTap}) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      child: ListTile(
-        leading: Icon(icon, color: AppColors.primaryColor),
-        title: Text(title),
-        trailing: const Icon(Icons.arrow_forward_ios, size: 16),
-        onTap: onTap,
       ),
     );
   }

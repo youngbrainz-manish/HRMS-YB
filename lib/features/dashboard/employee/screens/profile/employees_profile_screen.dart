@@ -161,7 +161,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
 
-                  /// UPDATE PIN
+                  /// Company Structure
                   CommonWidget.butoonWithImageAndText(
                     onTap: () async {
                       await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);

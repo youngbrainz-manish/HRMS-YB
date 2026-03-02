@@ -27,21 +27,31 @@ class HrProfileProvider extends ChangeNotifier {
     notifyListeners();
     String employeeId = AuthenticationData.userModel?.userId.toString() ?? '';
     String url = "${DioApiServices.getUserById}/$employeeId";
-    var response = await DioApiRequest().getCommonApiCall(url);
-    if (response != null && response.data?['success'] == true) {
-      AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
-      employee = AuthenticationData.userModel;
-      notifyListeners();
-    } else {
+    try {
+      var response = await DioApiRequest().getCommonApiCall(url);
+      if (response != null && response.data?['success'] == true) {
+        AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+        employee = AuthenticationData.userModel;
+        notifyListeners();
+      } else {
+        CommonWidget.customSnackbar(
+          context: context, // ignore: use_build_context_synchronously
+          description: response?.data?['message'],
+          type: SnackbarType.error,
+        );
+        if (context.mounted) {
+          await CommonMethod().errageAllDataAndGotoLogin(context: context);
+        }
+      }
+    } catch (e) {
       CommonWidget.customSnackbar(
         context: context, // ignore: use_build_context_synchronously
-        description: response?.data?['message'],
+        description: "Something went wrong! Try again.",
         type: SnackbarType.error,
       );
-      if (context.mounted) {
-        await CommonMethod().errageAllDataAndGotoLogin(context: context);
-      }
+      debugPrint("object route => GET PROFIOLE EXCEPTION");
     }
+
     isLoading = false;
     notifyListeners();
   }
