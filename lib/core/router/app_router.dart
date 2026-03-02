@@ -5,7 +5,6 @@ import 'package:hrms_yb/features/auth/login_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/holiday/emp_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/pay_slip/employees_pay_slip_screen.dart';
@@ -19,8 +18,8 @@ import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_s
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/add_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/details/employee_details_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/holiday/hr_holiday_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday/add_holiday_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/holiday/holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
@@ -67,13 +66,10 @@ class AppRouter {
   static const editAdvanceScreenRoute = '/editAdvanceScreen';
   static const notificationScreenRoute = '/notificationScreen';
   static const hrProfileScreenRoute = '/hrProfileScreen';
-  static const hrHolidayScreenRoute = '/hrHolidayScreen';
+  static const holidayScreenRoute = '/holidayScreen';
   static const editProfileScreenRoute = '/editProfileScreen';
   static const addHolidayScreenRoute = '/addHolidayScreen';
   static const hierarchyScreenRoute = '/hierarchyScreen';
-
-  //Emp
-  static String holidayScreenRoute = '/holidayScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -102,9 +98,6 @@ class AppRouter {
       GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
       GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
       GoRoute(path: hierarchyScreenRoute, builder: (context, state) => const HierarchyScreen()),
-
-      ///Emp
-      GoRoute(path: holidayScreenRoute, builder: (context, state) => const HolidayScreen()),
 
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
@@ -205,10 +198,10 @@ class AppRouter {
             },
           ),
           GoRoute(
-            name: 'Hr Holiday Screen',
-            path: hrHolidayScreenRoute,
+            name: 'Holiday Screen',
+            path: holidayScreenRoute,
             builder: (BuildContext context, GoRouterState state) {
-              return HrHolidayScreen();
+              return HolidayScreen();
             },
           ),
         ],

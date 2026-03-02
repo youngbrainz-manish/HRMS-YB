@@ -4,6 +4,7 @@ import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 enum SnackbarType { success, error, other }
@@ -129,7 +130,16 @@ class CommonWidget {
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(6),
                           ),
-                          child: Center(child: Text(confirmText)),
+                          child: Center(
+                            child: Text(
+                              confirmText,
+                              style: AppTextStyle().titleTextStyle(
+                                context: context,
+                                fontSize: 14,
+                                color: AppColors.whiteColor,
+                              ),
+                            ),
+                          ),
                         ),
                       ),
                     ],
@@ -211,5 +221,9 @@ class CommonWidget {
         ),
       ),
     );
+  }
+
+  static Widget buttonLoader() {
+    return Center(child: LoadingAnimationWidget.threeRotatingDots(size: 20, color: AppColors.whiteColor));
   }
 }

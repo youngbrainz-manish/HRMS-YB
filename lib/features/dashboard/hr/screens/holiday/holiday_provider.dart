@@ -4,10 +4,10 @@ import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/holiday_model.dart';
 
-class HrHolidayProvider extends ChangeNotifier {
+class HolidayProvider extends ChangeNotifier {
   final BuildContext context;
 
-  HrHolidayProvider({required this.context}) {
+  HolidayProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });
@@ -132,5 +132,16 @@ class HrHolidayProvider extends ChangeNotifier {
   void dispose() {
     scrollController.dispose();
     super.dispose();
+  }
+
+  void replaceHoliday({required HolidayModel updatedHoliday}) {
+    final index = holidays.indexWhere((holiday) => holiday.holidayId == updatedHoliday.holidayId);
+    if (index < 0) return;
+    holidays[index] = updatedHoliday;
+    notifyListeners();
+  }
+
+  void updateState() {
+    notifyListeners();
   }
 }

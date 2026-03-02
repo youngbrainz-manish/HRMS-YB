@@ -233,11 +233,11 @@ class DioApiRequest {
         options.contentType = 'multipart/form-data';
       }
 
-      /// DEBUG CURL LOG
-      if (kDebugMode) {
-        String cURL = generateCurlFromFormData(url, data, options);
-        log("route PUT cURL : $cURL");
-      }
+      // /// DEBUG CURL LOG
+      // if (kDebugMode) {
+      //   String cURL = generateCurlFromFormData(url, data, options);
+      //   log("route PUT cURL : $cURL");
+      // }
 
       /// PUT REQUEST
       var response = await dio.put(url, data: data, options: options);

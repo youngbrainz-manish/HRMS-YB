@@ -262,7 +262,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         Navigator.pop(context);
                         if (provider.title == "Holidays") return;
                         provider.changeTitle("Holidays");
-                        GoRouter.of(context).push(AppRouter.hrHolidayScreenRoute);
+                        GoRouter.of(context).push(AppRouter.holidayScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),

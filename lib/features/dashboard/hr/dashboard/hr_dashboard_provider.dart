@@ -33,7 +33,7 @@ class HrDashboardProvider extends ChangeNotifier {
       case 4:
         GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrPayrollScreenRoute);
       case 5:
-        GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrHolidayScreenRoute);
+        GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.holidayScreenRoute);
     }
     currentIndex = index;
     notifyListeners();
