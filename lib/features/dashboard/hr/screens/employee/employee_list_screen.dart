@@ -35,9 +35,12 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                 borderRadius: BorderRadius.circular(12),
               ),
               onPressed: () async {
-                await GoRouter.of(
+                bool? retvalue = await GoRouter.of(
                   context,
                 ).push(AppRouter.addEmployeeScreenRoute);
+                if (retvalue == true) {
+                  provider.getEmployeeData(isInitial: true);
+                }
               },
               child: Icon(Icons.add, color: AppColors.whiteColor),
             ),
@@ -339,7 +342,6 @@ class EmployeeCard extends StatelessWidget {
                     // if (holidayModel != null) {
                     //   // provider.replaceHoliday(updatedHoliday: holidayModel);
                     // }
-                    print("object route => $value");
                   } else if (value == 2) {
                     final confirm = await CommonWidget.showConfirmDialog(
                       context: context,
