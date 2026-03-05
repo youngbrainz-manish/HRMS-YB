@@ -22,6 +22,7 @@ class DioApiServices {
   static String deleteEmployee = "employees";
   static String getRoles = "getrole";
   static String createEmployee = "createEmployee";
+  static String updateEmployee = "employees";
 
   ///EMPLOYEE
 }

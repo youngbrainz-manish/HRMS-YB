@@ -60,8 +60,10 @@ class EditProfileProvider extends ChangeNotifier {
     lastNameController.text = AuthenticationData.userModel?.lastName ?? '';
     emailController.text = AuthenticationData.userModel?.email ?? '';
     phoneController.text = AuthenticationData.userModel?.mobileNo ?? '';
-    departmentController.text = AuthenticationData.userModel?.department?.deptName ?? '';
-    designationController.text = AuthenticationData.userModel?.department?.designation ?? '';
+    departmentController.text =
+        AuthenticationData.userModel?.department?.deptName ?? '';
+    designationController.text =
+        AuthenticationData.userModel?.department?.designation ?? '';
     dobController.text = AuthenticationData.userModel?.birthday ?? '';
     imagePath = AuthenticationData.userModel?.profilePhoto;
     if ((AuthenticationData.userModel?.addresses ?? []).isNotEmpty) {
@@ -138,7 +140,10 @@ class EditProfileProvider extends ChangeNotifier {
       "permanent_address": jsonEncode(checkBoxStatus ? cAdress : pAdress),
       if (imageFile != null) ...{
         if ((imageFile?.path ?? '').isNotEmpty)
-          "profile_photo": await MultipartFile.fromFile(imageFile!.path, filename: imageFile!.path.split('/').last),
+          "profile_photo": await MultipartFile.fromFile(
+            imageFile!.path,
+            filename: imageFile!.path.split('/').last,
+          ),
       } else if ((imagePath ?? "").isNotEmpty) ...{
         "profile_photo": imagePath,
       },

@@ -52,7 +52,7 @@ class EmployeeListProvider extends ChangeNotifier {
   String designation = "All Designations";
   String status = "All Status";
 
-  List<EmployeeDetailsModel> employeesList = [];
+  List<EmployeeModel> employeesList = [];
 
   bool isLoadingFullScreen = false;
 
@@ -145,7 +145,7 @@ class EmployeeListProvider extends ChangeNotifier {
           response?.data,
         );
 
-        List<EmployeeDetailsModel> newList =
+        List<EmployeeModel> newList =
             model.employeesData?.employeeDetailsList ?? [];
 
         if (isInitial) {

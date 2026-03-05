@@ -65,15 +65,31 @@ class AddEmployeeScreen extends StatelessWidget {
                             width: double.infinity,
                             child: GestureDetector(
                               onTap: provider.pickImage,
-                              child: CircleAvatar(
-                                radius: 45,
-                                backgroundColor: AppColors.borderGrey,
-                                backgroundImage: provider.profilePhoto != null
-                                    ? FileImage(provider.profilePhoto!)
-                                    : null,
-                                child: provider.profilePhoto == null
-                                    ? const Icon(Icons.camera_alt)
-                                    : null,
+                              child: Container(
+                                decoration: BoxDecoration(
+                                  border: Border.all(
+                                    color: AppColors.successSecondary,
+                                    width: 3,
+                                  ),
+                                  shape: BoxShape.circle,
+                                ),
+                                padding: EdgeInsets.all(1),
+                                child: CircleAvatar(
+                                  radius: 55,
+                                  backgroundColor: AppColors.borderGrey,
+                                  backgroundImage: provider.profilePhoto != null
+                                      ? FileImage(provider.profilePhoto!)
+                                      : NetworkImage(
+                                          provider.profileImagePath ?? '',
+                                        ),
+                                  child: provider.profilePhoto != null
+                                      ? Image.file(provider.profilePhoto!)
+                                      : 1 == 1
+                                      ? SizedBox()
+                                      : Image.network(
+                                          provider.profileImagePath ?? '',
+                                        ),
+                                ),
                               ),
                             ),
                           ),
@@ -817,26 +833,27 @@ class AddEmployeeScreen extends StatelessWidget {
                       ),
                     )
                     .toList(),
-
                 onChanged: (role) {
                   provider.selectedRole = role;
                   provider.updateState();
                 },
               ),
             ),
-            const SizedBox(height: AppSize.verticalWidgetSpacing),
-            CommonTextField(
-              onChanged: (v) => provider.onChanged(),
-              headingText: "Create Temporary Password *",
-              controller: provider.password,
-              hintText: "Enter password",
-              validator: (value) {
-                if (value == null || value.trim().isEmpty) {
-                  return "";
-                }
-                return null;
-              },
-            ),
+            if (provider.employeeModel == null) ...[
+              const SizedBox(height: AppSize.verticalWidgetSpacing),
+              CommonTextField(
+                onChanged: (v) => provider.onChanged(),
+                headingText: "Create Temporary Password *",
+                controller: provider.password,
+                hintText: "Enter password",
+                validator: (value) {
+                  if (value == null || value.trim().isEmpty) {
+                    return "";
+                  }
+                  return null;
+                },
+              ),
+            ],
           ],
         ),
       ),
@@ -859,7 +876,9 @@ class AddEmployeeScreen extends StatelessWidget {
         ),
         width: MediaQuery.of(context).size.width,
         child: CommonButton(
-          title: "Create Employee",
+          title: provider.employeeModel == null
+              ? "Create Employee"
+              : "Update Employee",
           onTap: provider.createEmployee,
         ),
       ),

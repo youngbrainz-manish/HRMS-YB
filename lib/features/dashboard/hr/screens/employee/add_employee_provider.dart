@@ -6,6 +6,7 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_response_model.dart';
 import 'package:hrms_yb/shared/models/role_model.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -13,9 +14,14 @@ import 'package:image_picker/image_picker.dart';
 class AddEmployeeProvider extends ChangeNotifier {
   final BuildContext context;
   final GlobalKey<FormState> formKey = GlobalKey<FormState>();
+  EmployeeModel? employeeModel;
+  EmployeeDetailsModel? employeeDetailsModel;
 
   AddEmployeeProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      Map<String, dynamic>? data =
+          GoRouter.of(context).state.extra as Map<String, dynamic>;
+      employeeModel = data['employeeModel'];
       _init();
     });
   }
@@ -31,7 +37,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     "Other",
   ];
   String? selectedInstitutionType;
-
+  String? profileImagePath;
   List<String> employmentType = ["Full-Time", "Part-Time"];
   String? selectedEmploymentType;
 
@@ -94,13 +100,21 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   bool isAddingUser = false;
 
-  void _init() {
-    getRoles();
+  Future<void> _init() async {
+    isLoading = true;
+    notifyListeners();
+    await getRoles();
+    if (employeeModel?.userId != null) {
+      await getEmployeeDetail(id: employeeModel?.userId ?? 0);
+      setInitFormData();
+    }
+    Future.delayed(Duration(seconds: 2), () {
+      isLoading = false;
+      notifyListeners();
+    });
   }
 
   Future<void> getRoles() async {
-    isLoading = true;
-    notifyListeners();
     String rolesUrl = DioApiServices.getRoles;
     try {
       var response = await DioApiRequest().getCommonApiCall(rolesUrl);
@@ -112,8 +126,6 @@ class AddEmployeeProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("object route => Eception Get Roles => $e");
     }
-    isLoading = false;
-    notifyListeners();
   }
 
   void updateState() {
@@ -161,7 +173,10 @@ class AddEmployeeProvider extends ChangeNotifier {
       );
       return;
     }
-    String url = DioApiServices.createEmployee;
+    String url = employeeModel == null
+        ? DioApiServices.createEmployee
+        : "${DioApiServices.updateEmployee}/${employeeDetailsModel?.userId}";
+
     try {
       isAddingUser = true;
       notifyListeners();
@@ -231,18 +246,26 @@ class AddEmployeeProvider extends ChangeNotifier {
             : jsonEncode(permanentAddress),
         "education": jsonEncode(education),
         "department": jsonEncode(departmentData),
-
-        "password": password.text,
         "role_id": selectedRole?.roleId ?? '',
-
-        if (profilePhoto != null)
+        if (profilePhoto != null) ...{
           "profile_photo": await MultipartFile.fromFile(
             profilePhoto!.path,
             filename: profilePhoto!.path.split('/').last,
           ),
+        } else ...{
+          "profile_photo": profileImagePath ?? '',
+        },
       });
+      if (employeeModel == null) {
+        formData.fields.add(MapEntry("password", password.text));
+      }
 
-      final response = await DioApiRequest().postCommonApiCall(formData, url);
+      dynamic response;
+      if (employeeModel == null) {
+        response = await DioApiRequest().postCommonApiCall(formData, url);
+      } else {
+        response = await DioApiRequest().putCommonApiCall(formData, url);
+      }
 
       if (response.data['success'] == true) {
         CommonWidget.customSnackbar(
@@ -315,5 +338,91 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   void onChanged() {
     formKey.currentState?.validate();
+  }
+
+  Future<void> getEmployeeDetail({required int id}) async {
+    String url = "${DioApiServices.getUserById}/$id";
+
+    try {
+      var response = await DioApiRequest().getCommonApiCall(url);
+      if (response?.data['data'] != null && response?.data['success'] == true) {
+        employeeDetailsModel = EmployeeDetailsModel.fromJson(
+          response?.data['data'],
+        );
+      }
+    } catch (e) {
+      debugPrint("object route => get employee exception $e");
+    }
+    notifyListeners();
+  }
+
+  void setInitFormData() {
+    profileImagePath = employeeDetailsModel?.profilePhoto;
+    firstName.text = employeeDetailsModel?.firstName ?? '';
+    lastName.text = employeeDetailsModel?.lastName ?? '';
+    email.text = employeeDetailsModel?.email ?? '';
+    gender = employeeDetailsModel?.gender == "male"
+        ? "Male"
+        : employeeDetailsModel?.gender == 'female'
+        ? "Female"
+        : null;
+    birthday.text = employeeDetailsModel?.birthday ?? '';
+    age.text = (employeeDetailsModel?.age ?? "").toString();
+    bloodGroup.text = employeeDetailsModel?.bloodGroup ?? '';
+    countryCode.text = employeeDetailsModel?.countryCode ?? '+91';
+    mobile.text = employeeDetailsModel?.mobileNo ?? '';
+    if ((employeeDetailsModel?.addresses ?? []).isNotEmpty) {
+      for (var address in employeeDetailsModel!.addresses!) {
+        if (address.addressType?.toLowerCase() == "Current".toLowerCase()) {
+          currentStreet.text = address.street ?? '';
+          currentCity.text = address.city ?? '';
+          currentState.text = address.state ?? '';
+          currentPincode.text = address.pincode ?? '';
+          currentEmergencyContact.text = address.emergencyContact ?? '';
+          currentEmergencyName.text = address.emergencyContactName ?? '';
+        }
+        if (address.addressType?.toLowerCase() == "Permanent".toLowerCase()) {
+          permanentStreet.text = address.street ?? '';
+          permanentCity.text = address.city ?? '';
+          permanentState.text = address.state ?? '';
+          permanentPincode.text = address.pincode ?? '';
+          permanentEmergencyContact.text = address.emergencyContact ?? '';
+          permanentEmergencyName.text = address.emergencyContactName ?? '';
+        }
+      }
+    }
+
+    if ((employeeDetailsModel?.education ?? []).isNotEmpty) {
+      Education education = employeeDetailsModel!.education!.first;
+      institutionName.text = education.institutionName ?? '';
+      selectedInstitutionType = education.typeOfInstitution ?? '';
+      degree.text = education.degree ?? '';
+      specialization.text = education.specialization ?? '';
+      grade.text = education.grade ?? '';
+      yearOfPassing.text = (education.yearOfPassing ?? '').toString();
+    }
+
+    if (employeeDetailsModel?.department != null) {
+      Department dep = employeeDetailsModel!.department!;
+
+      department.text = dep.deptName ?? '';
+      designation.text = dep.designation ?? '';
+      joiningDate.text = dep.joiningDate ?? '';
+      salary.text = (dep.salary ?? '').toString();
+      selectedEmploymentType = dep.employementType ?? '';
+      probationStart.text = (dep.probationStart ?? '').toString();
+      probationEnd.text = (dep.probationEnd ?? '').toString();
+    }
+
+    if (employeeDetailsModel?.role != null) {
+      RoleModel relectedRole = RoleModel.fromJson(
+        employeeDetailsModel!.role!.toJson(),
+      );
+      selectedRole =
+          roles.where((data) => data.roleId == relectedRole.roleId).isNotEmpty
+          ? roles.firstWhere((data) => data.roleId == relectedRole.roleId)
+          : null;
+      notifyListeners();
+    }
   }
 }

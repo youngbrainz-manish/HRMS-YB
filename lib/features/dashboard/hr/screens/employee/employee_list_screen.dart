@@ -114,7 +114,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
                                       );
                                     }
 
-                                    EmployeeDetailsModel employeeModel =
+                                    EmployeeModel employeeModel =
                                         provider.employeesList[index];
 
                                     return GestureDetector(
@@ -226,7 +226,7 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
 }
 
 class EmployeeCard extends StatelessWidget {
-  final EmployeeDetailsModel employeeModel;
+  final EmployeeModel employeeModel;
   final EmployeeListProvider provider;
 
   const EmployeeCard({
@@ -262,9 +262,10 @@ class EmployeeCard extends StatelessWidget {
                         : AppColors.lightGrey,
                     borderRadius: BorderRadius.circular(10),
                   ),
-                  child: const Icon(
-                    Icons.person_outline,
-                    color: AppColors.primaryColor,
+                  clipBehavior: Clip.antiAlias,
+                  child: Image.network(
+                    employeeModel.profilePhoto ?? '',
+                    fit: BoxFit.cover,
                   ),
                 ),
 
@@ -336,12 +337,13 @@ class EmployeeCard extends StatelessWidget {
                 ],
                 onSelected: (value) async {
                   if (value == 1) {
-                    // HolidayModel? holidayModel = await GoRouter.of(
-                    //   context,
-                    // ).push(AppRouter.addHolidayScreenRoute, extra: {"holiday": holiday});
-                    // if (holidayModel != null) {
-                    //   // provider.replaceHoliday(updatedHoliday: holidayModel);
-                    // }
+                    var holidayModel = await GoRouter.of(context).push(
+                      AppRouter.addEmployeeScreenRoute,
+                      extra: {"employeeModel": employeeModel},
+                    );
+                    if (holidayModel != null) {
+                      provider.getEmployeeData(isInitial: true);
+                    }
                   } else if (value == 2) {
                     final confirm = await CommonWidget.showConfirmDialog(
                       context: context,
