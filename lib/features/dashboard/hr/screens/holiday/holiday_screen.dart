@@ -168,7 +168,11 @@ class HolidayCard extends StatelessWidget {
               ///Menu
               Visibility(
                 visible: (AuthenticationData.userModel?.department?.deptName?.toLowerCase() == "hr"),
-                child: CommonPopupMenu(
+                child: CommonWidget.commonPopupMenu(
+                  menuItem: const [
+                    PopupMenuItem(value: 1, child: Text('Edit')),
+                    PopupMenuItem(value: 2, child: Text('Delete')),
+                  ],
                   onSelected: (value) async {
                     if (value == 1) {
                       HolidayModel? holidayModel = await GoRouter.of(
@@ -190,6 +194,7 @@ class HolidayCard extends StatelessWidget {
                   },
                 ),
               ),
+              SizedBox(width: 12),
             ],
           ),
         ),
@@ -214,23 +219,5 @@ class HolidayCard extends StatelessWidget {
     const months = ["JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC"];
 
     return months[date.month - 1];
-  }
-}
-
-class CommonPopupMenu extends StatelessWidget {
-  final Function(int) onSelected;
-
-  const CommonPopupMenu({super.key, required this.onSelected});
-
-  @override
-  Widget build(BuildContext context) {
-    return PopupMenuButton<int>(
-      icon: Icon(Icons.more_vert_rounded),
-      onSelected: onSelected,
-      itemBuilder: (context) => const [
-        PopupMenuItem(value: 1, child: Text('Edit')),
-        PopupMenuItem(value: 2, child: Text('Delete')),
-      ],
-    );
   }
 }

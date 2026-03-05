@@ -17,7 +17,7 @@ import 'package:hrms_yb/features/dashboard/hr/screens/attendance/correction/atte
 import 'package:hrms_yb/features/dashboard/hr/screens/attendance/hr_attendance_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/add_employee_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/details/employee_details_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/employee/hr_employee_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_list_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday/add_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
@@ -53,7 +53,7 @@ class AppRouter {
   static const leaveRoute = '/leave';
   static const attendanceRoute = '/attendance';
 
-  static const hrEmployeeScreenRoute = '/hrEmployeeScreen';
+  static const employeeListScreenRoute = '/employeeListScreen';
   static const hrAttendanceScreenRoute = '/hrAttendanceScreen';
   static const hrLeaveScreenRoute = '/hrLeaveScreen';
   static const hrPayrollScreenRoute = '/hrPayrollScreen';
@@ -170,10 +170,10 @@ class AppRouter {
             },
           ),
           GoRoute(
-            name: 'Hr Employee Screen',
-            path: hrEmployeeScreenRoute,
+            name: 'Employee List Screen',
+            path: employeeListScreenRoute,
             builder: (BuildContext context, GoRouterState state) {
-              return const HrEmployeeScreen();
+              return const EmployeeListScreen();
             },
           ),
           GoRoute(

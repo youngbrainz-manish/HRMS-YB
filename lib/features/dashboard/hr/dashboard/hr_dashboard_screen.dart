@@ -147,12 +147,12 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
                       leading: Icon(Icons.people, size: 22, color: AppColors.primaryColor),
-                      title: Text("Employees"),
+                      title: Text("All Employees"),
                       onTap: () {
                         Navigator.pop(context);
-                        if (provider.title == "Employees") return;
-                        provider.changeTitle("Employees");
-                        GoRouter.of(context).push(AppRouter.hrEmployeeScreenRoute);
+                        if (provider.title == "All Employees") return;
+                        provider.changeTitle("All Employees");
+                        GoRouter.of(context).push(AppRouter.employeeListScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),

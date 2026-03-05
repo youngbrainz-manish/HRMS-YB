@@ -17,6 +17,9 @@ class DioApiServices {
   static String addHoliday = "Holiday/createHoliday";
   static const String deleteHoliday = 'holiday/deleteHoliday';
   static String updateHoliday = "Holiday/updateHoliday";
+  static String getAllEmployee = "employees";
+
+  static String deleteEmployee = "employees";
 
   ///EMPLOYEE
 }

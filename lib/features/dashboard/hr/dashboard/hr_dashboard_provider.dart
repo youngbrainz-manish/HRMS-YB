@@ -25,7 +25,7 @@ class HrDashboardProvider extends ChangeNotifier {
       case 0:
         GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrDashboardRoute);
       case 1:
-        GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrEmployeeScreenRoute);
+        GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.employeeListScreenRoute);
       case 2:
         GoRouter.of(rootNavigatorKey.currentState!.context).go(AppRouter.hrAttendanceScreenRoute);
       case 3:
