@@ -119,9 +119,19 @@ class _EmployeeListScreenState extends State<EmployeeListScreen> {
 
                                     return GestureDetector(
                                       onTap: () async {
-                                        await GoRouter.of(context).push(
-                                          AppRouter.employeeDetailsScreenRoute,
-                                        );
+                                        var data = await GoRouter.of(context)
+                                            .push(
+                                              AppRouter
+                                                  .employeeDetailsScreenRoute,
+                                              extra: {
+                                                "employeeModel": employeeModel,
+                                              },
+                                            );
+                                        if (data == true) {
+                                          provider.getEmployeeData(
+                                            isInitial: true,
+                                          );
+                                        }
                                       },
                                       child: EmployeeCard(
                                         employeeModel: employeeModel,
@@ -244,7 +254,7 @@ class EmployeeCard extends StatelessWidget {
           left: 12,
           top: 10,
           right: 12,
-          bottom: 16,
+          bottom: 12,
         ),
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -275,18 +285,19 @@ class EmployeeCard extends StatelessWidget {
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
-                      vertical: 2,
+                      vertical: 0,
                     ),
                     decoration: BoxDecoration(
                       color:
                           (employeeModel.status ?? "").toLowerCase() == "active"
-                          ? AppColors.successPrimary.withValues(alpha: 0.43)
-                          : AppColors.errorColor.withValues(alpha: 0.5),
+                          ? AppColors.successPrimary
+                          : AppColors.errorColor,
                       borderRadius: BorderRadius.circular(20),
                     ),
                     child: Text(
                       employeeModel.status ?? '',
                       style: AppTextStyle().lableTextStyle(
+                        fontSize: 10,
                         context: context,
                         color:
                             (employeeModel.status ?? "").toLowerCase() ==

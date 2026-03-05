@@ -160,10 +160,11 @@ class EmployeeListProvider extends ChangeNotifier {
         }
       } else {
         CommonWidget.customSnackbar(
-          context: context,
+          context: context, // ignore: use_build_context_synchronously
           description: response?.data?['message'],
           type: SnackbarType.error,
         );
+        // ignore: use_build_context_synchronously
         await CommonMethod().errageAllDataAndGotoLogin(context: context);
       }
     } catch (e) {

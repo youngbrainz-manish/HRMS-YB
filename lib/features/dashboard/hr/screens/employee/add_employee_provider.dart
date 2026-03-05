@@ -8,6 +8,7 @@ import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_response_model.dart';
 import 'package:hrms_yb/shared/models/role_model.dart';
+import 'package:hrms_yb/shared/widgets/common_image_picker.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -20,8 +21,8 @@ class AddEmployeeProvider extends ChangeNotifier {
   AddEmployeeProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Map<String, dynamic>? data =
-          GoRouter.of(context).state.extra as Map<String, dynamic>;
-      employeeModel = data['employeeModel'];
+          GoRouter.of(context).state.extra as Map<String, dynamic>?;
+      employeeModel = data?['employeeModel'];
       _init();
     });
   }
@@ -134,7 +135,7 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   /// PICK IMAGE
   Future pickImage() async {
-    final XFile? image = await picker.pickImage(source: ImageSource.gallery);
+    File? image = await CommonImagePicker.showImageSourcePicker(context);
 
     if (image != null) {
       profilePhoto = File(image.path);

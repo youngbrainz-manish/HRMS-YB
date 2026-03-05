@@ -25,7 +25,9 @@ class AddEmployeeScreen extends StatelessWidget {
                 onTap: () => GoRouter.of(context).pop(),
               ),
               title: Text(
-                "Add Employee",
+                provider.employeeModel == null
+                    ? "Add Employee"
+                    : "Edit Employee",
                 style: AppTextStyle().titleTextStyle(
                   context: context,
                   color: AppColors.whiteColor,
@@ -79,16 +81,21 @@ class AddEmployeeScreen extends StatelessWidget {
                                   backgroundColor: AppColors.borderGrey,
                                   backgroundImage: provider.profilePhoto != null
                                       ? FileImage(provider.profilePhoto!)
+                                      : (provider.profileImagePath ?? '')
+                                            .isEmpty
+                                      ? null
                                       : NetworkImage(
                                           provider.profileImagePath ?? '',
                                         ),
-                                  child: provider.profilePhoto != null
-                                      ? Image.file(provider.profilePhoto!)
-                                      : 1 == 1
-                                      ? SizedBox()
-                                      : Image.network(
-                                          provider.profileImagePath ?? '',
-                                        ),
+                                  child:
+                                      (provider.profilePhoto == null &&
+                                          provider.profileImagePath == null)
+                                      ? Icon(
+                                          Icons.camera_alt,
+                                          size: 40,
+                                          color: AppColors.primaryColor,
+                                        )
+                                      : SizedBox(),
                                 ),
                               ),
                             ),
