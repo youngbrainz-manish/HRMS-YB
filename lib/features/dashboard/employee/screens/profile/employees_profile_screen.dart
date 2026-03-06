@@ -189,55 +189,60 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Institution Name",
-                        value:
-                            provider
-                                .employee!
-                                .education
-                                ?.first
-                                .institutionName ??
-                            "NA",
+                        value: (provider.employee?.education ?? []).isNotEmpty
+                            ? provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .institutionName ??
+                                  "NA"
+                            : "NA",
                       ),
                       InfoTile(
                         icon: Icons.school_outlined,
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Institution Type",
-                        value:
-                            provider
-                                .employee!
-                                .education
-                                ?.first
-                                .typeOfInstitution ??
-                            "NA",
+                        value: (provider.employee?.education ?? []).isNotEmpty
+                            ? provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .typeOfInstitution ??
+                                  "NA"
+                            : "NA",
                       ),
                       InfoTile(
                         icon: Icons.menu_book_outlined,
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Degree",
-                        value:
-                            provider.employee!.education?.first.degree ?? "NA",
+                        value: (provider.employee?.education ?? []).isNotEmpty
+                            ? provider.employee!.education?.first.degree ?? "NA"
+                            : "NA",
                       ),
                       InfoTile(
                         icon: Icons.workspace_premium_outlined,
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Specialization",
-                        value:
-                            provider
-                                .employee!
-                                .education
-                                ?.first
-                                .specialization ??
-                            "NA",
+                        value: (provider.employee?.education ?? []).isNotEmpty
+                            ? provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .specialization ??
+                                  "NA"
+                            : "NA",
                       ),
                       InfoTile(
                         icon: Icons.percent,
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Grade",
-                        value:
-                            provider.employee!.education?.first.grade ?? "NA",
+                        value: (provider.employee?.education ?? []).isNotEmpty
+                            ? provider.employee!.education?.first.grade ?? "NA"
+                            : "NA",
                       ),
                     ],
                   ),
@@ -288,7 +293,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                         bgColor: AppColors.primaryColor.withValues(alpha: 0.1),
                         iconColor: AppColors.primaryColor,
                         title: "Dept Name",
-                        value: provider.employee!.department?.deptName ?? "NA",
+                        value: provider.employee?.department?.deptName ?? "NA",
                       ),
                       InfoTile(
                         icon: Icons.badge_outlined,
@@ -296,7 +301,7 @@ class _EmployeesProfileScreenState extends State<EmployeesProfileScreen> {
                         iconColor: AppColors.primaryColor,
                         title: "Designation",
                         value:
-                            provider.employee!.department?.designation ?? "NA",
+                            provider.employee?.department?.designation ?? "NA",
                       ),
                       InfoTile(
                         icon: Icons.work_outline,
