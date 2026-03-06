@@ -30,7 +30,9 @@ class HrProfileProvider extends ChangeNotifier {
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
       if (response != null && response.data?['success'] == true) {
-        AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
+        AuthenticationData.userModel = UserModel.fromJson(
+          response.data['data'],
+        );
         employee = AuthenticationData.userModel;
         notifyListeners();
       } else {

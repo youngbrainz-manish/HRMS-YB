@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/widgets/common_image_picker.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
@@ -42,6 +43,17 @@ class EditProfileProvider extends ChangeNotifier {
   bool checkBoxStatus = false;
   bool isProfileUpdated = false;
 
+  List<String> genderList = ['Male', 'Female', 'Other'];
+  String? gender;
+  List<String> maritalStatusList = [
+    "Married",
+    "Unmarried",
+    "Divorced",
+    "Widowed",
+  ];
+  String? selectedMaritalStatus;
+  TextEditingController ageTextController = TextEditingController();
+
   EditProfileProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
@@ -65,6 +77,13 @@ class EditProfileProvider extends ChangeNotifier {
     designationController.text =
         AuthenticationData.userModel?.department?.designation ?? '';
     dobController.text = AuthenticationData.userModel?.birthday ?? '';
+    ageTextController.text = (AuthenticationData.userModel?.age ?? '')
+        .toString();
+    selectedMaritalStatus = AuthenticationData.userModel?.maritialStatus;
+    gender = AuthenticationData.userModel?.gender;
+    if (gender != null && gender!.isNotEmpty) {
+      gender = gender![0].toUpperCase() + gender!.substring(1);
+    }
     imagePath = AuthenticationData.userModel?.profilePhoto;
     if ((AuthenticationData.userModel?.addresses ?? []).isNotEmpty) {
       for (var address in AuthenticationData.userModel!.addresses!) {
@@ -131,11 +150,11 @@ class EditProfileProvider extends ChangeNotifier {
       "first_name": firstNameController.text.trim(),
       "last_name": lastNameController.text.trim(),
       "email": emailController.text.trim(),
-      "gender": "male",
-      "age": "23",
+      "gender": gender?.toLowerCase(),
+      "age": ageTextController.text.trim(),
       "mobile_no": phoneController.text.trim(),
       "birthday": dobController.text.trim(),
-      "maritial_status": "Married",
+      "maritial_status": selectedMaritalStatus,
       "current_address": jsonEncode(cAdress),
       "permanent_address": jsonEncode(checkBoxStatus ? cAdress : pAdress),
       if (imageFile != null) ...{
@@ -197,6 +216,67 @@ class EditProfileProvider extends ChangeNotifier {
           pAddEmergContactName.text = address.emergencyContactName ?? '';
         }
       }
+    }
+    notifyListeners();
+  }
+
+  InputDecoration dropDownDecoration() {
+    return InputDecoration(
+      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
+
+      // hide error text
+      errorStyle: const TextStyle(height: 2, fontSize: 0),
+
+      border: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
+      ),
+
+      enabledBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
+      ),
+
+      focusedBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.primaryColor, width: 1),
+      ),
+
+      // red border when validation fails
+      errorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
+      ),
+
+      focusedErrorBorder: OutlineInputBorder(
+        borderRadius: BorderRadius.circular(12),
+        borderSide: const BorderSide(color: AppColors.errorColor, width: 1.5),
+      ),
+    );
+  }
+
+  void setMaritalStatus({required String value}) {
+    selectedMaritalStatus = value;
+    notifyListeners();
+  }
+
+  /// Select Date
+  Future<void> selectDate({
+    required TextEditingController controller,
+    required DateTime initialDate,
+    required DateTime firstDate,
+    required DateTime lastDate,
+  }) async {
+    final date = await showDatePicker(
+      context: context,
+      initialDate: initialDate,
+      firstDate: firstDate,
+      lastDate: lastDate,
+    );
+
+    if (date != null) {
+      controller.text =
+          "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
     }
     notifyListeners();
   }
