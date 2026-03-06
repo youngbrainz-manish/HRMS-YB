@@ -114,7 +114,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
-                    SizedBox(height: 40),
+                    SizedBox(height: 60),
                     CircleAvatar(
                       radius: 45,
                       backgroundColor: AppColors.whiteColor,
@@ -360,11 +360,16 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                           fontSize: 14,
                         ),
                       ),
-                      onTap: () {
+                      onTap: () async {
                         Navigator.pop(context);
                         if (provider.title == "Holidays") return;
                         provider.changeTitle("Holidays");
-                        GoRouter.of(context).push(AppRouter.holidayScreenRoute);
+                        await GoRouter.of(
+                          context,
+                        ).push(AppRouter.holidayScreenRoute);
+                        provider.changeTitle("Home");
+                        // ignore: use_build_context_synchronously
+                        GoRouter.of(context).push(AppRouter.hrDashboardRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),

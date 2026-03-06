@@ -32,9 +32,15 @@ import 'package:hrms_yb/shared/notification/notification_screen.dart';
 import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_screen.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
-final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'root',
+);
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
+  debugLabel: 'shell',
+);
+final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(
+  debugLabel: 'shell',
+);
 
 class AppRouter {
   static const splashRoute = '/';
@@ -86,25 +92,70 @@ class AppRouter {
         path: loginScreenRoute,
         pageBuilder: slideTransitionPageBuider(child: LoginScreen()),
       ),
-      GoRoute(path: forgotPinRoute, builder: (context, state) => const ForgotPinScreen()),
-      GoRoute(path: leaveFormScreenRoute, builder: (context, state) => const LeaveFormScreen()),
-      GoRoute(path: addEmployeeScreenRoute, builder: (context, state) => const AddEmployeeScreen()),
-      GoRoute(path: employeeDetailsScreenRoute, builder: (context, state) => const EmployeeDetailsScreen()),
-      GoRoute(path: attendanceCorrectionScreenRoute, builder: (context, state) => const AttendanceCorrectionScreen()),
-      GoRoute(path: attendanceAuditLogScreenRoute, builder: (context, state) => const AuditLogScreen()),
-      GoRoute(path: replyLeaveScreenRoute, builder: (context, state) => const ReplyLeaveScreen()),
-      GoRoute(path: editAdvanceScreenRoute, builder: (context, state) => const EditAdvanceScreen()),
-      GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
-      GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
-      GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
-      GoRoute(path: hierarchyScreenRoute, builder: (context, state) => const HierarchyScreen()),
+      GoRoute(
+        path: forgotPinRoute,
+        builder: (context, state) => const ForgotPinScreen(),
+      ),
+      GoRoute(
+        path: leaveFormScreenRoute,
+        builder: (context, state) => const LeaveFormScreen(),
+      ),
+      GoRoute(
+        path: addEmployeeScreenRoute,
+        builder: (context, state) => const AddEmployeeScreen(),
+      ),
+      GoRoute(
+        path: employeeDetailsScreenRoute,
+        builder: (context, state) => const EmployeeDetailsScreen(),
+      ),
+      GoRoute(
+        path: attendanceCorrectionScreenRoute,
+        builder: (context, state) => const AttendanceCorrectionScreen(),
+      ),
+      GoRoute(
+        path: attendanceAuditLogScreenRoute,
+        builder: (context, state) => const AuditLogScreen(),
+      ),
+      GoRoute(
+        path: replyLeaveScreenRoute,
+        builder: (context, state) => const ReplyLeaveScreen(),
+      ),
+      GoRoute(
+        path: editAdvanceScreenRoute,
+        builder: (context, state) => const EditAdvanceScreen(),
+      ),
+      GoRoute(
+        path: notificationScreenRoute,
+        builder: (context, state) => const NotificationScreen(),
+      ),
+      GoRoute(
+        path: editProfileScreenRoute,
+        builder: (context, state) => EditProfileScreen(),
+      ),
+      GoRoute(
+        path: addHolidayScreenRoute,
+        builder: (context, state) => const AddHolidayScreen(),
+      ),
+      GoRoute(
+        path: hierarchyScreenRoute,
+        builder: (context, state) => const HierarchyScreen(),
+      ),
+      GoRoute(
+        name: 'Holiday Screen',
+        path: holidayScreenRoute,
+        builder: (BuildContext context, GoRouterState state) {
+          return HolidayScreen();
+        },
+      ),
 
       ShellRoute(
         navigatorKey: _shellNavigatorKey,
         builder: (BuildContext context, GoRouterState state, Widget? child) {
           return ChangeNotifierProvider<EmployeeDashboardProvider>(
             create: (_) => EmployeeDashboardProvider(context: context),
-            child: EmployeeDashboardScreen(widget: child ?? EmployeeHomeScreen()),
+            child: EmployeeDashboardScreen(
+              widget: child ?? EmployeeHomeScreen(),
+            ),
           );
         },
         routes: [
@@ -197,21 +248,13 @@ class AppRouter {
               return HrPayrollScreen();
             },
           ),
-          GoRoute(
-            name: 'Holiday Screen',
-            path: holidayScreenRoute,
-            builder: (BuildContext context, GoRouterState state) {
-              return HolidayScreen();
-            },
-          ),
         ],
       ),
     ],
   );
 
-  static CustomTransitionPage Function(dynamic context, dynamic state) slideTransitionPageBuider({
-    required Widget child,
-  }) {
+  static CustomTransitionPage Function(dynamic context, dynamic state)
+  slideTransitionPageBuider({required Widget child}) {
     return (context, state) {
       return CustomTransitionPage(
         transitionDuration: Duration(milliseconds: 200),
@@ -219,7 +262,10 @@ class AppRouter {
         key: state.pageKey,
         child: child,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
+          final curvedAnimation = CurvedAnimation(
+            parent: animation,
+            curve: Curves.easeInOut,
+          );
 
           return FadeTransition(opacity: curvedAnimation, child: child);
         },
