@@ -20,7 +20,8 @@ class AddHolidayProvider extends ChangeNotifier {
 
   AddHolidayProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Map<String, dynamic>? data = GoRouterState.of(context).extra as Map<String, dynamic>?;
+      Map<String, dynamic>? data =
+          GoRouterState.of(context).extra as Map<String, dynamic>?;
       holidayModel = data?['holiday'];
       _init();
     });
@@ -43,20 +44,24 @@ class AddHolidayProvider extends ChangeNotifier {
   Future<void> selectDate({String? initDate}) async {
     final date = await showDatePicker(
       context: context,
-      initialDate: (initDate ?? "").isNotEmpty ? DateTime.parse(initDate!) : DateTime.now(),
+      initialDate: (initDate ?? "").isNotEmpty
+          ? DateTime.parse(initDate!)
+          : DateTime.now(),
       firstDate: DateTime.now(),
       lastDate: DateTime(2035),
     );
 
     if (date != null) {
       dateController.text =
-          "${date.year}/${date.month.toString().padLeft(2, '0')}/${date.day.toString().padLeft(2, '0')}";
+          "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
     }
   }
 
   Future<void> submitHoliday() async {
     if (dateController.text.isEmpty || titleController.text.isEmpty) {
-      ScaffoldMessenger.of(context).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
+      ScaffoldMessenger.of(
+        context,
+      ).showSnackBar(const SnackBar(content: Text("Please fill all fields")));
       return;
     }
     isLoading = true;
@@ -82,7 +87,10 @@ class AddHolidayProvider extends ChangeNotifier {
   /// Add Holiday Form
   Future<void> addHoliday({required Map<String, dynamic> requestData}) async {
     try {
-      var response = await DioApiRequest().postCommonApiCall(requestData, DioApiServices.addHoliday);
+      var response = await DioApiRequest().postCommonApiCall(
+        requestData,
+        DioApiServices.addHoliday,
+      );
 
       if (response?.data != null && response?.data['success'] == true) {
         if (context.mounted) {
@@ -91,10 +99,14 @@ class AddHolidayProvider extends ChangeNotifier {
           ).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.successPrimary,
-              content: Text(response?.data['message'] ?? "Holiday Added Successfully"),
+              content: Text(
+                response?.data['message'] ?? "Holiday Added Successfully",
+              ),
             ),
           );
-          HolidayModel holidayModel = HolidayModel.fromJson(response?.data['data']);
+          HolidayModel holidayModel = HolidayModel.fromJson(
+            response?.data['data'],
+          );
           GoRouter.of(context).pop(holidayModel);
         } else {
           ScaffoldMessenger.of(
@@ -102,7 +114,9 @@ class AddHolidayProvider extends ChangeNotifier {
           ).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.errorColor,
-              content: Text(response?.data['message'] ?? "Failed to add holiday"),
+              content: Text(
+                response?.data['message'] ?? "Failed to add holiday",
+              ),
             ),
           );
         }
@@ -113,7 +127,9 @@ class AddHolidayProvider extends ChangeNotifier {
   }
 
   /// Update Holiday Form
-  Future<void> updateHoliday({required Map<String, dynamic> requestData}) async {
+  Future<void> updateHoliday({
+    required Map<String, dynamic> requestData,
+  }) async {
     String url = "${DioApiServices.updateHoliday}/${holidayModel?.holidayId}";
     try {
       // FormData formData = FormData.fromMap(requestData);
@@ -126,10 +142,14 @@ class AddHolidayProvider extends ChangeNotifier {
           ).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.successPrimary,
-              content: Text(response?.data['message'] ?? "Holiday Update Successfully"),
+              content: Text(
+                response?.data['message'] ?? "Holiday Update Successfully",
+              ),
             ),
           );
-          HolidayModel holidayModel = HolidayModel.fromJson(response?.data['data']);
+          HolidayModel holidayModel = HolidayModel.fromJson(
+            response?.data['data'],
+          );
           GoRouter.of(context).pop(holidayModel);
         } else {
           ScaffoldMessenger.of(
@@ -137,7 +157,9 @@ class AddHolidayProvider extends ChangeNotifier {
           ).showSnackBar(
             SnackBar(
               backgroundColor: AppColors.errorColor,
-              content: Text(response?.data['message'] ?? "Failed to update holiday"),
+              content: Text(
+                response?.data['message'] ?? "Failed to update holiday",
+              ),
             ),
           );
         }
@@ -147,7 +169,9 @@ class AddHolidayProvider extends ChangeNotifier {
         ).showSnackBar(
           SnackBar(
             backgroundColor: AppColors.errorColor,
-            content: Text(response?.data['message'] ?? "Failed to update holiday"),
+            content: Text(
+              response?.data['message'] ?? "Failed to update holiday",
+            ),
           ),
         );
       }

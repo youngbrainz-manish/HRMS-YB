@@ -12,6 +12,7 @@ class DioApiServices {
   static const String getUserById = 'employees';
   static const String getHolidays = 'Holiday/GetHolidays';
   static String updateProfile = "employeesPersonalDets";
+  static String leaveSummary = "user_leaves/leaveSummary";
 
   ///HR
   static String addHoliday = "Holiday/createHoliday";

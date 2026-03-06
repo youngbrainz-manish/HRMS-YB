@@ -291,7 +291,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         color: AppColors.primaryColor,
                       ),
                       title: Text(
-                        "Leave",
+                        "Leave Management",
                         style: AppTextStyle().titleTextStyle(
                           context: context,
                           fontSize: 14,
@@ -299,8 +299,8 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                       ),
                       onTap: () {
                         Navigator.pop(context);
-                        if (provider.title == "Leave") return;
-                        provider.changeTitle("Leave");
+                        if (provider.title == "Leave Management") return;
+                        provider.changeTitle("Leave Management");
                         GoRouter.of(context).push(AppRouter.hrLeaveScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
