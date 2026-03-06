@@ -3,6 +3,8 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/info_tile.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/profile/section_dard.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/profile/hr_profile_provider.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
@@ -56,7 +58,7 @@ class HrProfileScreen extends StatelessWidget {
                           child: Container(
                             width: double.infinity,
                             padding: const EdgeInsets.symmetric(
-                              vertical: 26,
+                              // vertical: 26,
                               horizontal: 16,
                             ),
                             child: Row(
@@ -93,64 +95,300 @@ class HrProfileScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
+                                Spacer(),
+                                Column(
+                                  mainAxisAlignment: MainAxisAlignment.end,
+                                  children: [
+                                    SizedBox(height: 60),
+                                    GestureDetector(
+                                      onTap: () async {
+                                        var data = await GoRouter.of(context)
+                                            .push(
+                                              AppRouter.editProfileScreenRoute,
+                                            );
+                                        if (data == true) {
+                                          provider.getProfileData();
+                                        }
+                                      },
+                                      child: Container(
+                                        padding: EdgeInsets.symmetric(
+                                          horizontal: 9,
+                                        ),
+                                        decoration: BoxDecoration(
+                                          border: Border.all(
+                                            color: AppColors.primaryColor,
+                                          ),
+                                          borderRadius: BorderRadius.circular(
+                                            4,
+                                          ),
+                                        ),
+                                        child: Row(
+                                          children: [
+                                            Icon(
+                                              Icons.edit_note_outlined,
+                                              color: AppColors.primaryColor,
+                                            ),
+                                            SizedBox(width: 8),
+                                            Text(
+                                              "Edit",
+                                              style: AppTextStyle()
+                                                  .subTitleTextStyle(
+                                                    context: context,
+                                                    color:
+                                                        AppColors.primaryColor,
+                                                  ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    ),
+                                    SizedBox(height: 8),
+                                  ],
+                                ),
                               ],
                             ),
                           ),
                         ),
                         SizedBox(height: AppSize.verticalWidgetSpacing),
 
-                        /// ===== PERSONAL INFO =====
-                        _infoCard(
-                          context: context,
-                          title: "Personal Information",
+                        /// PERSONAL DETAILS
+                        SectionCard(
+                          title: "Personal Details",
                           children: [
                             InfoTile(
-                              title: "Employee ID",
+                              icon: Icons.person_outline,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Full Name",
                               value:
-                                  "HR-000${AuthenticationData.userModel?.userId}",
+                                  "${provider.employee?.firstName ?? ''} ${provider.employee?.lastName ?? ''}",
                             ),
                             InfoTile(
-                              title: "Department",
-                              value:
-                                  "${AuthenticationData.userModel?.department}",
+                              icon: Icons.cake,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Birth Date",
+                              value: provider.employee?.birthday ?? '--',
                             ),
                             InfoTile(
-                              title: "Joining Date",
+                              icon: Icons.favorite_border,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Maritial Status",
+                              value: provider.employee?.maritialStatus ?? '--',
+                            ),
+                            InfoTile(
+                              icon: Icons.favorite_border,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Blood Group",
+                              value: provider.employee?.bloodGroup ?? '--',
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                        /// ===== Education INFO =====
+                        SectionCard(
+                          title: "Education Details",
+                          children: [
+                            InfoTile(
+                              icon: Icons.account_balance_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Institution Name",
                               value:
-                                  AuthenticationData
-                                      .userModel!
-                                      .department
-                                      ?.joiningDate ??
-                                  "N/A",
+                                  provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .institutionName ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.school_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Institution Type",
+                              value:
+                                  provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .typeOfInstitution ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.menu_book_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Degree",
+                              value:
+                                  provider.employee!.education?.first.degree ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.workspace_premium_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Specialization",
+                              value:
+                                  provider
+                                      .employee!
+                                      .education
+                                      ?.first
+                                      .specialization ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.percent,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Grade",
+                              value:
+                                  provider.employee!.education?.first.grade ??
+                                  "NA",
                             ),
                           ],
                         ),
                         SizedBox(height: AppSize.verticalWidgetSpacing),
 
                         /// ===== CONTACT INFO =====
-                        _infoCard(
-                          context: context,
-                          title: "Contact Information",
+                        SectionCard(
+                          title: "Contact Details",
                           children: [
                             InfoTile(
+                              icon: Icons.call_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Mobile",
+                              value: provider.employee?.mobileNo ?? "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.email_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
                               title: "Email",
-                              value:
-                                  AuthenticationData.userModel?.email ?? "N/A",
+                              value: provider.employee?.email ?? "NA",
                             ),
                             InfoTile(
-                              title: "Phone",
-                              value:
-                                  "+91 ${AuthenticationData.userModel?.mobileNo}",
+                              icon: Icons.pin_drop,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Current Address",
+                              value: provider.currentAddress ?? "NA",
                             ),
                             InfoTile(
-                              title: "Location",
+                              icon: Icons.location_city,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Permanent Address",
+                              value: provider.permanentAddress ?? "NA",
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                        /// ===== DEPARTMENT INFO =====
+                        SectionCard(
+                          title: "Work Details",
+                          children: [
+                            InfoTile(
+                              icon: Icons.apartment_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Dept Name",
                               value:
-                                  AuthenticationData
-                                      .userModel
-                                      ?.addresses
-                                      ?.first
-                                      .city ??
-                                  "N/A",
+                                  provider.employee!.department?.deptName ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.badge_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Designation",
+                              value:
+                                  provider.employee!.department?.designation ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.work_outline,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Employement Type",
+                              value:
+                                  provider
+                                      .employee
+                                      ?.department
+                                      ?.employmentType ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.groups_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Employement Category",
+                              value:
+                                  provider.employee?.department?.categoryName ??
+                                  "NA",
+                            ),
+                            InfoTile(
+                              icon: Icons.currency_bitcoin,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Salary",
+                              value:
+                                  (provider.employee?.department?.salary ??
+                                          "NA")
+                                      .toString(),
+                            ),
+                            InfoTile(
+                              icon: Icons.calendar_month,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Joining Date",
+                              value:
+                                  (provider.employee?.department?.joiningDate ??
+                                          "NA")
+                                      .toString(),
                             ),
                           ],
                         ),
@@ -228,55 +466,5 @@ class HrProfileScreen extends StatelessWidget {
               ),
             ],
           );
-  }
-
-  /// ---------- INFO CARD ----------
-  static Widget _infoCard({
-    required BuildContext context,
-    required String title,
-    required List<Widget> children,
-  }) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTextStyle().titleTextStyle(context: context)),
-            const Divider(),
-            ...children,
-          ],
-        ),
-      ),
-    );
-  }
-}
-
-/// ---------- INFO TILE ----------
-class InfoTile extends StatelessWidget {
-  final String title;
-  final String value;
-
-  const InfoTile({super.key, required this.title, required this.value});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 6),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          Text(title, style: AppTextStyle().lableTextStyle(context: context)),
-          Text(
-            value,
-            style: AppTextStyle().titleTextStyle(
-              context: context,
-              fontSize: 15,
-            ),
-          ),
-        ],
-      ),
-    );
   }
 }

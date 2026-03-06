@@ -27,20 +27,39 @@ class InfoTile extends StatelessWidget {
           Container(
             height: 40,
             width: 40,
-            decoration: BoxDecoration(color: bgColor, borderRadius: BorderRadius.circular(10)),
+            decoration: BoxDecoration(
+              color: bgColor,
+              borderRadius: BorderRadius.circular(10),
+            ),
             child: Icon(icon, color: iconColor),
           ),
           const SizedBox(width: 12),
-          Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                title,
-                style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
-              ),
-              const SizedBox(height: 2),
-              Text(value, style: AppTextStyle().titleTextStyle(context: context)),
-            ],
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  title,
+                  style: AppTextStyle().subTitleTextStyle(
+                    context: context,
+                    color: AppColors.greyColor,
+                  ),
+                ),
+                const SizedBox(height: 2),
+                Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        value,
+                        style: AppTextStyle().subTitleTextStyle(
+                          context: context,
+                        ),
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
           ),
         ],
       ),

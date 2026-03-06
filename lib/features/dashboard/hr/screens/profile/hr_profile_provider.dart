@@ -11,14 +11,31 @@ class HrProfileProvider extends ChangeNotifier {
   bool isLoading = false;
   UserModel? employee;
 
+  String? currentAddress;
+
+  String? permanentAddress;
+
   HrProfileProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });
   }
 
-  void _init() {
-    getProfileData();
+  Future<void> _init() async {
+    await getProfileData();
+    if ((employee?.addresses ?? []).isNotEmpty) {
+      for (var address in employee!.addresses!) {
+        if (address.addressType?.toLowerCase() == "Current".toLowerCase()) {
+          currentAddress =
+              "${address.street}, ${address.city}, ${address.state} - ${address.pincode}";
+        }
+        if (address.addressType?.toLowerCase() == "Permanent".toLowerCase()) {
+          permanentAddress =
+              "${address.street}, ${address.city}, ${address.state} - ${address.pincode}";
+        }
+      }
+    }
+    // currentAddress
     notifyListeners();
   }
 
