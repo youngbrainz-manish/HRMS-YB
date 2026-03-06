@@ -10,6 +10,8 @@ class EmployeesProfileProvider extends ChangeNotifier {
   final BuildContext context;
   bool isLoading = false;
   UserModel? employee;
+  String? currentAddress;
+  String? permanentAddress;
 
   EmployeesProfileProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -17,9 +19,25 @@ class EmployeesProfileProvider extends ChangeNotifier {
     });
   }
 
-  void _init() {
-    getProfileData();
+  Future<void> _init() async {
+    await getProfileData();
+    setAddress();
     notifyListeners();
+  }
+
+  setAddress() {
+    if ((employee?.addresses ?? []).isNotEmpty) {
+      for (var address in employee!.addresses!) {
+        if (address.addressType?.toLowerCase() == "Current".toLowerCase()) {
+          currentAddress =
+              "${address.street}, ${address.city}, ${address.state} - ${address.pincode}";
+        }
+        if (address.addressType?.toLowerCase() == "Permanent".toLowerCase()) {
+          permanentAddress =
+              "${address.street}, ${address.city}, ${address.state} - ${address.pincode}";
+        }
+      }
+    }
   }
 
   Future<void> getProfileData() async {
@@ -28,7 +46,9 @@ class EmployeesProfileProvider extends ChangeNotifier {
     String employeeId = AuthenticationData.userModel?.userId.toString() ?? '';
     String url = "${DioApiServices.getUserById}/$employeeId";
     var response = await DioApiRequest().getCommonApiCall(url);
-    if (response != null && response.data?['success'] == true && response.data?['data'] != null) {
+    if (response != null &&
+        response.data?['success'] == true &&
+        response.data?['data'] != null) {
       AuthenticationData.userModel = UserModel.fromJson(response.data?['data']);
       employee = AuthenticationData.userModel;
       notifyListeners();

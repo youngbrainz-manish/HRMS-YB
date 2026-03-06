@@ -175,7 +175,17 @@ class HrProfileScreen extends StatelessWidget {
                               value: provider.employee?.birthday ?? '--',
                             ),
                             InfoTile(
-                              icon: Icons.favorite_border,
+                              icon: Icons.transgender_outlined,
+                              bgColor: AppColors.primaryColor.withValues(
+                                alpha: 0.1,
+                              ),
+                              iconColor: AppColors.primaryColor,
+                              title: "Gender",
+                              value: (provider.employee?.gender ?? '--')
+                                  .toUpperCase(),
+                            ),
+                            InfoTile(
+                              icon: Icons.wc_outlined,
                               bgColor: AppColors.primaryColor.withValues(
                                 alpha: 0.1,
                               ),
@@ -184,7 +194,7 @@ class HrProfileScreen extends StatelessWidget {
                               value: provider.employee?.maritialStatus ?? '--',
                             ),
                             InfoTile(
-                              icon: Icons.favorite_border,
+                              icon: Icons.bloodtype,
                               bgColor: AppColors.primaryColor.withValues(
                                 alpha: 0.1,
                               ),
