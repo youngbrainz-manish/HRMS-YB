@@ -31,7 +31,10 @@ class HrProfileScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({required BuildContext context, required HrProfileProvider provider}) {
+  Widget _buildBody({
+    required BuildContext context,
+    required HrProfileProvider provider,
+  }) {
     return provider.isLoading
         ? CommonWidget.defaultLoader()
         : Column(
@@ -39,7 +42,9 @@ class HrProfileScreen extends StatelessWidget {
               /// ===== PERSONAL INFO =====
               Expanded(
                 child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: AppSize.verticalWidgetSpacing,
+                  ),
                   child: SingleChildScrollView(
                     child: Column(
                       children: [
@@ -50,14 +55,20 @@ class HrProfileScreen extends StatelessWidget {
                           margin: EdgeInsets.all(0),
                           child: Container(
                             width: double.infinity,
-                            padding: const EdgeInsets.symmetric(vertical: 26, horizontal: 16),
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 26,
+                              horizontal: 16,
+                            ),
                             child: Row(
                               children: [
                                 CircleAvatar(
                                   radius: 30,
                                   backgroundColor: AppColors.lightGrey,
                                   backgroundImage: NetworkImage(
-                                    AuthenticationData.userModel?.profilePhoto ?? "https://i.pravatar.cc/300",
+                                    AuthenticationData
+                                            .userModel
+                                            ?.profilePhoto ??
+                                        "https://i.pravatar.cc/300",
                                   ),
                                 ),
                                 const SizedBox(width: 16),
@@ -66,11 +77,19 @@ class HrProfileScreen extends StatelessWidget {
                                   children: [
                                     Text(
                                       "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
-                                      style: AppTextStyle().titleTextStyle(context: context),
+                                      style: AppTextStyle().titleTextStyle(
+                                        context: context,
+                                      ),
                                     ),
                                     Text(
-                                      AuthenticationData.userModel?.department?.designation ?? 'N/A',
-                                      style: AppTextStyle().lableTextStyle(context: context),
+                                      AuthenticationData
+                                              .userModel
+                                              ?.department
+                                              ?.designation ??
+                                          'N/A',
+                                      style: AppTextStyle().lableTextStyle(
+                                        context: context,
+                                      ),
                                     ),
                                   ],
                                 ),
@@ -85,11 +104,24 @@ class HrProfileScreen extends StatelessWidget {
                           context: context,
                           title: "Personal Information",
                           children: [
-                            InfoTile(title: "Employee ID", value: "HR-000${AuthenticationData.userModel?.userId}"),
-                            InfoTile(title: "Department", value: "${AuthenticationData.userModel?.department}"),
+                            InfoTile(
+                              title: "Employee ID",
+                              value:
+                                  "HR-000${AuthenticationData.userModel?.userId}",
+                            ),
+                            InfoTile(
+                              title: "Department",
+                              value:
+                                  "${AuthenticationData.userModel?.department}",
+                            ),
                             InfoTile(
                               title: "Joining Date",
-                              value: AuthenticationData.userModel!.department?.joiningDate ?? "N/A",
+                              value:
+                                  AuthenticationData
+                                      .userModel!
+                                      .department
+                                      ?.joiningDate ??
+                                  "N/A",
                             ),
                           ],
                         ),
@@ -100,11 +132,25 @@ class HrProfileScreen extends StatelessWidget {
                           context: context,
                           title: "Contact Information",
                           children: [
-                            InfoTile(title: "Email", value: AuthenticationData.userModel?.email ?? "N/A"),
-                            InfoTile(title: "Phone", value: "+91 ${AuthenticationData.userModel?.mobileNo}"),
+                            InfoTile(
+                              title: "Email",
+                              value:
+                                  AuthenticationData.userModel?.email ?? "N/A",
+                            ),
+                            InfoTile(
+                              title: "Phone",
+                              value:
+                                  "+91 ${AuthenticationData.userModel?.mobileNo}",
+                            ),
                             InfoTile(
                               title: "Location",
-                              value: AuthenticationData.userModel?.addresses?.first.city ?? "N/A",
+                              value:
+                                  AuthenticationData
+                                      .userModel
+                                      ?.addresses
+                                      ?.first
+                                      .city ??
+                                  "N/A",
                             ),
                           ],
                         ),
@@ -114,7 +160,9 @@ class HrProfileScreen extends StatelessWidget {
                         /// Edit Profile
                         CommonWidget.butoonWithImageAndText(
                           onTap: () async {
-                            var data = await GoRouter.of(context).push(AppRouter.editProfileScreenRoute);
+                            var data = await GoRouter.of(
+                              context,
+                            ).push(AppRouter.editProfileScreenRoute);
                             if (data == true) {
                               provider.getProfileData();
                             }
@@ -126,31 +174,17 @@ class HrProfileScreen extends StatelessWidget {
                               SizedBox(width: 10),
                               Text(
                                 "Edit Profile",
-                                style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                                style: AppTextStyle().titleTextStyle(
+                                  context: context,
+                                  fontSize: 14,
+                                ),
                               ),
                               Spacer(),
-                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
-                            ],
-                          ),
-                        ),
-                        SizedBox(height: AppSize.verticalWidgetSpacing),
-
-                        /// Company Structure
-                        CommonWidget.butoonWithImageAndText(
-                          onTap: () async {
-                            await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);
-                          },
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.start,
-                            children: [
-                              Icon(Icons.account_tree, color: AppColors.primaryColor),
-                              SizedBox(width: 10),
-                              Text(
-                                "Company Structure",
-                                style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 20,
+                                color: AppColors.primaryColor,
                               ),
-                              Spacer(),
-                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
                             ],
                           ),
                         ),
@@ -160,7 +194,9 @@ class HrProfileScreen extends StatelessWidget {
                         CommonWidget.butoonWithImageAndText(
                           onTap: () async {
                             if (context.mounted) {
-                              await CommonMethod().errageAllDataAndGotoLogin(context: context);
+                              await CommonMethod().errageAllDataAndGotoLogin(
+                                context: context,
+                              );
                             }
                           },
                           child: Row(
@@ -168,9 +204,19 @@ class HrProfileScreen extends StatelessWidget {
                             children: [
                               Icon(Icons.logout, color: AppColors.primaryColor),
                               SizedBox(width: 10),
-                              Text("Logout", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
+                              Text(
+                                "Logout",
+                                style: AppTextStyle().titleTextStyle(
+                                  context: context,
+                                  fontSize: 14,
+                                ),
+                              ),
                               Spacer(),
-                              Icon(Icons.arrow_forward_ios_rounded, size: 20, color: AppColors.primaryColor),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 20,
+                                color: AppColors.primaryColor,
+                              ),
                             ],
                           ),
                         ),
@@ -185,7 +231,11 @@ class HrProfileScreen extends StatelessWidget {
   }
 
   /// ---------- INFO CARD ----------
-  static Widget _infoCard({required BuildContext context, required String title, required List<Widget> children}) {
+  static Widget _infoCard({
+    required BuildContext context,
+    required String title,
+    required List<Widget> children,
+  }) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
@@ -218,7 +268,13 @@ class InfoTile extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
           Text(title, style: AppTextStyle().lableTextStyle(context: context)),
-          Text(value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 15)),
+          Text(
+            value,
+            style: AppTextStyle().titleTextStyle(
+              context: context,
+              fontSize: 15,
+            ),
+          ),
         ],
       ),
     );

@@ -1,10 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/models/hierarchy_model.dart';
 import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_provider.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
+import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
+// =============================================================================
+// HierarchyScreen
+// =============================================================================
 class HierarchyScreen extends StatelessWidget {
   const HierarchyScreen({super.key});
 
@@ -26,258 +32,247 @@ class HierarchyScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({required BuildContext context, required HierarchyProvider provider}) {
-    return provider.isLoading
-        ? CommonWidget.defaultLoader()
-        : ListView.builder(
-            padding: const EdgeInsets.all(12),
-            itemCount: provider.hierarchy.length,
-            itemBuilder: (context, index) {
-              return HierarchyTile(model: provider.hierarchy[index], level: 0);
-            },
-          );
-  }
-}
+  Widget _buildBody({
+    required BuildContext context,
+    required HierarchyProvider provider,
+  }) {
+    if (provider.isLoading) {
+      return SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: CommonWidget.defaultLoader(),
+      );
+    }
+    if (provider.hierarchy.isEmpty) {
+      return SizedBox(
+        height: double.infinity,
+        width: double.infinity,
+        child: const Center(child: Text("No hierarchy found")),
+      );
+    }
 
-class HierarchyTile extends StatefulWidget {
-  final HierarchyModel model;
-  final int level;
-
-  const HierarchyTile({super.key, required this.model, required this.level});
-
-  @override
-  State<HierarchyTile> createState() => _HierarchyTileState();
-}
-
-class _HierarchyTileState extends State<HierarchyTile> {
-  bool isExpanded = false;
-
-  @override
-  Widget build(BuildContext context) {
-    final hasChildren = widget.model.children.isNotEmpty;
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Padding(
-          padding: EdgeInsets.only(left: widget.level * 25),
-          child: GestureDetector(
-            onTap: hasChildren
-                ? () {
-                    setState(() {
-                      isExpanded = !isExpanded;
-                    });
-                  }
-                : () {},
-            child: Card(
-              elevation: 2,
-              child: ListTile(
-                leading: CircleAvatar(backgroundImage: NetworkImage(widget.model.profilePhoto)),
-                title: Text(widget.model.name, style: const TextStyle(fontWeight: FontWeight.w600)),
-                subtitle: Text("${widget.model.designation} • ${widget.model.roleName}"),
-                trailing: hasChildren
-                    ? IconButton(
-                        icon: Icon(isExpanded ? Icons.expand_less : Icons.expand_more),
-                        onPressed: () {
-                          setState(() {
-                            isExpanded = !isExpanded;
-                          });
-                        },
-                      )
-                    : null,
-              ),
+    return SizedBox.expand(
+      child: Container(
+        alignment: Alignment.topCenter,
+        child: SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          physics: const BouncingScrollPhysics(),
+          child: SingleChildScrollView(
+            scrollDirection: Axis.vertical,
+            physics: const BouncingScrollPhysics(),
+            padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisSize: MainAxisSize.min,
+              children: provider.hierarchy
+                  .map((item) => HierarchyTreeNode(node: item))
+                  .toList(),
             ),
           ),
         ),
-
-        /// CHILDREN
-        if (hasChildren && isExpanded)
-          ...widget.model.children.map((child) => HierarchyTile(model: child, level: widget.level + 1)),
-      ],
+      ),
     );
   }
 }
 
-// import 'package:flutter/material.dart';
-// import 'package:go_router/go_router.dart';
-// import 'package:hrms_yb/models/hierarchy_model.dart';
-// import 'package:hrms_yb/shared/widgets/common_widget.dart';
-// import 'package:provider/provider.dart';
-// import 'hierarchy_provider.dart';
+// =============================================================================
+// HierarchyTreeNode  –  recursive, collapsible tree card
+// =============================================================================
+class HierarchyTreeNode extends StatefulWidget {
+  final HierarchyModel node;
 
-// class HierarchyScreen extends StatelessWidget {
-//   const HierarchyScreen({super.key});
+  const HierarchyTreeNode({super.key, required this.node});
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return ChangeNotifierProvider(
-//       create: (_) => HierarchyProvider(context: context),
-//       child: const _HierarchyView(),
-//     );
-//   }
-// }
+  @override
+  State<HierarchyTreeNode> createState() => _HierarchyTreeNodeState();
+}
 
-// class _HierarchyView extends StatelessWidget {
-//   const _HierarchyView();
+class _HierarchyTreeNodeState extends State<HierarchyTreeNode> {
+  bool _expanded = false;
 
-//   @override
-//   Widget build(BuildContext context) {
-//     final provider = context.watch<HierarchyProvider>();
+  bool get _hasChildren => widget.node.children.isNotEmpty;
 
-//     return Scaffold(
-//       appBar: AppBar(
-//         leading: CommonWidget.backButton(onTap: () => context.pop()),
-//         title: const Text("Organization Hierarchy"),
-//         centerTitle: true,
-//       ),
-//       body: provider.isLoading
-//           ? const Center(child: CircularProgressIndicator())
-//           : provider.hierarchy.isEmpty
-//           ? const Center(child: Text("No hierarchy found"))
-//           : SingleChildScrollView(
-//               padding: const EdgeInsets.all(16),
-//               child: HierarchyTree(root: provider.hierarchy.first),
-//             ),
-//     );
-//   }
-// }
+  @override
+  Widget build(BuildContext context) {
+    final colorScheme = Theme.of(context).colorScheme;
 
-// class HierarchyTree extends StatelessWidget {
-//   final HierarchyModel root;
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.start,
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        // ── CARD ─────────────────────────────────────────────────────────
+        _NodeCard(
+          node: widget.node,
+          hasChildren: _hasChildren,
+          expanded: _expanded,
+          colorScheme: colorScheme,
+          onTap: () {
+            if (_hasChildren) setState(() => _expanded = !_expanded);
+          },
+        ),
 
-//   const HierarchyTree({super.key, required this.root});
+        // ── CONNECTORS + CHILDREN ─────────────────────────────────────
+        if (_hasChildren && _expanded) ...[
+          // ↓ vertical line dropping from the parent card
+          SizedBox(height: 4),
+          _verticalLine(colorScheme.outline),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Column(
-//       children: [
-//         /// TOP PERSON
-//         EmployeeCard(model: root, isPrimary: false),
+          // Horizontal bridge + children row kept together inside
+          // IntrinsicWidth so the line always matches the row width exactly.
+          IntrinsicWidth(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                // Horizontal bridge (only when > 1 child)
+                if (widget.node.children.length > 1)
+                  Container(
+                    height: 2,
+                    color: colorScheme.outline,
+                    //Remove margin if horizontal line is not enough for child
+                    margin: EdgeInsets.symmetric(horizontal: 94),
+                  ),
 
-//         const VerticalConnector(),
+                // Children row
+                Row(
+                  mainAxisSize: MainAxisSize.min,
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: widget.node.children.map((child) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          // ↓ vertical line dropping to each child
+                          _verticalLine(colorScheme.outline),
+                          HierarchyTreeNode(node: child),
+                        ],
+                      ),
+                    );
+                  }).toList(),
+                ),
+              ],
+            ),
+          ),
+        ],
+      ],
+    );
+  }
 
-//         /// SECOND LEVEL (Manager Highlight)
-//         if (root.children.isNotEmpty) EmployeeCard(model: root.children.first, isPrimary: true),
+  Widget _verticalLine(Color color) =>
+      Container(width: 2, height: 25, color: color);
+}
 
-//         const SizedBox(height: 10),
+// =============================================================================
+// _NodeCard  –  the visual card for a single employee
+// =============================================================================
+class _NodeCard extends StatelessWidget {
+  const _NodeCard({
+    required this.node,
+    required this.hasChildren,
+    required this.expanded,
+    required this.colorScheme,
+    required this.onTap,
+  });
 
-//         if (root.children.isNotEmpty)
-//           Text(
-//             "${root.children.first.children.length} Direct Reports",
-//             style: const TextStyle(fontWeight: FontWeight.w600, color: Colors.grey),
-//           ),
+  final HierarchyModel node;
+  final bool hasChildren;
+  final bool expanded;
+  final ColorScheme colorScheme;
+  final VoidCallback onTap;
 
-//         const SizedBox(height: 12),
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Stack(
+        clipBehavior: Clip.none,
+        alignment: Alignment.bottomCenter,
+        children: [
+          // Card body
+          Card(
+            margin: EdgeInsets.zero,
+            child: Container(
+              constraints: const BoxConstraints(minWidth: 150),
+              padding: EdgeInsets.fromLTRB(14, 14, 14, hasChildren ? 28 : 14),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  // Avatar
+                  CircleAvatar(
+                    radius: 25,
+                    backgroundImage: NetworkImage(node.profilePhoto),
+                  ),
+                  const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
 
-//         /// GRID REPORTS
-//         if (root.children.isNotEmpty)
-//           GridView.builder(
-//             shrinkWrap: true,
-//             physics: const NeverScrollableScrollPhysics(),
-//             itemCount: root.children.first.children.length,
-//             gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-//               crossAxisCount: 2,
-//               mainAxisExtent: 95,
-//               crossAxisSpacing: 10,
-//               mainAxisSpacing: 10,
-//             ),
-//             itemBuilder: (_, index) {
-//               final emp = root.children.first.children[index];
-//               return EmployeeSmallCard(model: emp);
-//             },
-//           ),
-//       ],
-//     );
-//   }
-// }
+                  // Name
+                  Text(
+                    node.name,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle().titleTextStyle(context: context),
+                  ),
 
-// class VerticalConnector extends StatelessWidget {
-//   const VerticalConnector({super.key});
+                  // Designation
+                  Text(
+                    node.designation,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle().lableTextStyle(
+                      context: context,
+                      color: AppColors.greyColor,
+                      fontSize: 11,
+                    ),
+                  ),
 
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       margin: const EdgeInsets.symmetric(vertical: 12),
-//       width: 2,
-//       height: 30,
-//       color: Colors.grey.shade400,
-//     );
-//   }
-// }
+                  // Role name
+                  Text(
+                    node.roleName,
+                    textAlign: TextAlign.center,
+                    style: AppTextStyle().lableTextStyle(
+                      context: context,
+                      color: AppColors.greyColor,
+                      fontSize: 11,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
 
-// class EmployeeCard extends StatelessWidget {
-//   final HierarchyModel model;
-//   final bool isPrimary;
-
-//   const EmployeeCard({super.key, required this.model, required this.isPrimary});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       width: 320,
-//       padding: const EdgeInsets.all(14),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(14),
-//         border: isPrimary ? Border.all(color: Colors.blue.shade200, width: 2) : null,
-//         boxShadow: [BoxShadow(blurRadius: 8, color: Colors.black.withValues(alpha: .05))],
-//       ),
-//       child: Row(
-//         children: [
-//           CircleAvatar(radius: 28, backgroundImage: NetworkImage(model.profilePhoto)),
-//           const SizedBox(width: 12),
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               children: [
-//                 Text(model.name, style: const TextStyle(fontWeight: FontWeight.bold, fontSize: 15)),
-//                 Text(model.designation),
-//                 Text(model.roleName, style: const TextStyle(color: Colors.grey)),
-//               ],
-//             ),
-//           ),
-//         ],
-//       ),
-//     );
-//   }
-// }
-
-// class EmployeeSmallCard extends StatelessWidget {
-//   final HierarchyModel model;
-
-//   const EmployeeSmallCard({super.key, required this.model});
-
-//   @override
-//   Widget build(BuildContext context) {
-//     return Container(
-//       padding: const EdgeInsets.all(10),
-//       decoration: BoxDecoration(
-//         color: Colors.white,
-//         borderRadius: BorderRadius.circular(12),
-//         boxShadow: [BoxShadow(blurRadius: 6, color: Colors.black.withValues(alpha: .05))],
-//       ),
-//       child: Row(
-//         children: [
-//           CircleAvatar(radius: 20, backgroundImage: NetworkImage(model.profilePhoto)),
-//           const SizedBox(width: 8),
-//           Expanded(
-//             child: Column(
-//               crossAxisAlignment: CrossAxisAlignment.start,
-//               mainAxisAlignment: MainAxisAlignment.center,
-//               children: [
-//                 Text(
-//                   model.name,
-//                   maxLines: 1,
-//                   overflow: TextOverflow.ellipsis,
-//                   style: const TextStyle(fontWeight: FontWeight.w600),
-//                 ),
-//                 Text(model.designation, style: const TextStyle(fontSize: 12, color: Colors.grey)),
-//               ],
-//             ),
-//           ),
-//           const Icon(Icons.chevron_right),
-//         ],
-//       ),
-//     );
-//   }
-// }
+          // Expand / collapse chevron badge
+          if (hasChildren)
+            Positioned(
+              bottom: -4,
+              child: GestureDetector(
+                onTap: onTap,
+                child: Card(
+                  margin: EdgeInsets.zero,
+                  color: AppColors.errorColor,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 10,
+                      vertical: 2,
+                    ),
+                    child: Icon(
+                      expanded
+                          ? Icons.keyboard_arrow_up
+                          : Icons.keyboard_arrow_down,
+                      size: 20,
+                      color: colorScheme.onPrimary,
+                    ),
+                  ),
+                ),
+              ),
+            ),
+        ],
+      ),
+    );
+  }
+}
