@@ -1,3 +1,5 @@
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_model.dart';
+
 class LeaveSummaryModel {
   final bool? success;
   final String? message;
@@ -34,15 +36,15 @@ class LeaveSummaryModel {
 
 class LeaveSummaryData {
   final List<LeaveBalance>? leaveBalance;
-  final List<PastLeave>? pastLeaves;
-  final List<PastLeave>? upcomingLeaves;
+  final List<UpcomingAndPastLeaveModel>? pastLeaves;
+  final List<UpcomingAndPastLeaveModel>? upcomingLeaves;
 
   LeaveSummaryData({this.leaveBalance, this.pastLeaves, this.upcomingLeaves});
 
   LeaveSummaryData copyWith({
     List<LeaveBalance>? leaveBalance,
-    List<PastLeave>? pastLeaves,
-    List<PastLeave>? upcomingLeaves,
+    List<UpcomingAndPastLeaveModel>? pastLeaves,
+    List<UpcomingAndPastLeaveModel>? upcomingLeaves,
   }) {
     return LeaveSummaryData(
       leaveBalance: leaveBalance ?? this.leaveBalance,
@@ -60,13 +62,17 @@ class LeaveSummaryData {
             ),
       pastLeaves: json["pastLeaves"] == null
           ? []
-          : List<PastLeave>.from(
-              json["pastLeaves"].map((x) => PastLeave.fromJson(x)),
+          : List<UpcomingAndPastLeaveModel>.from(
+              json["pastLeaves"].map(
+                (x) => UpcomingAndPastLeaveModel.fromJson(x),
+              ),
             ),
       upcomingLeaves: json["upcomingLeaves"] == null
           ? []
-          : List<PastLeave>.from(
-              json["upcomingLeaves"].map((x) => PastLeave.fromJson(x)),
+          : List<UpcomingAndPastLeaveModel>.from(
+              json["upcomingLeaves"].map(
+                (x) => UpcomingAndPastLeaveModel.fromJson(x),
+              ),
             ),
     );
   }
@@ -126,18 +132,104 @@ class LeaveBalance {
   }
 }
 
-class PastLeave {
-  PastLeave();
+class UpcomingAndPastLeaveModel {
+  final int? userAppliedLeavesId;
+  final int? userId;
+  final String? startDate;
+  final String? endDate;
+  final int? totalDays;
+  final String? reason;
+  final int? approvedBy;
+  final String? managerComment;
+  final int? leavePlanTypeId;
+  final String? status;
+  final String? createdAt;
+  final String? updatedAt;
+  final LeavePlanType? leavePlanType;
 
-  PastLeave copyWith() {
-    return PastLeave();
-  }
+  UpcomingAndPastLeaveModel({
+    this.userAppliedLeavesId,
+    this.userId,
+    this.startDate,
+    this.endDate,
+    this.totalDays,
+    this.reason,
+    this.approvedBy,
+    this.managerComment,
+    this.leavePlanTypeId,
+    this.status,
+    this.createdAt,
+    this.updatedAt,
+    this.leavePlanType,
+  });
 
-  factory PastLeave.fromJson(Map<String, dynamic> json) {
-    return PastLeave();
+  factory UpcomingAndPastLeaveModel.fromJson(Map<String, dynamic> json) {
+    return UpcomingAndPastLeaveModel(
+      userAppliedLeavesId: json['user_applied_leaves_id'],
+      userId: json['user_id'],
+      startDate: json['start_date'],
+      endDate: json['end_date'],
+      totalDays: json['total_days'],
+      reason: json['reason'],
+      approvedBy: json['approved_by'],
+      managerComment: json['manager_comment'],
+      leavePlanTypeId: json['leave_plan_type_id'],
+      status: json['status'],
+      createdAt: json['created_at'],
+      updatedAt: json['updated_at'],
+      leavePlanType: json['leave_plan_type'] != null
+          ? LeavePlanType.fromJson(json['leave_plan_type'])
+          : null,
+    );
   }
 
   Map<String, dynamic> toJson() {
-    return {};
+    return {
+      'user_applied_leaves_id': userAppliedLeavesId,
+      'user_id': userId,
+      'start_date': startDate,
+      'end_date': endDate,
+      'total_days': totalDays,
+      'reason': reason,
+      'approved_by': approvedBy,
+      'manager_comment': managerComment,
+      'leave_plan_type_id': leavePlanTypeId,
+      'status': status,
+      'created_at': createdAt,
+      'updated_at': updatedAt,
+      'leave_plan_type': leavePlanType?.toJson(),
+    };
+  }
+
+  UpcomingAndPastLeaveModel copyWith({
+    int? userAppliedLeavesId,
+    int? userId,
+    String? startDate,
+    String? endDate,
+    int? totalDays,
+    String? reason,
+    int? approvedBy,
+    String? managerComment,
+    int? leavePlanTypeId,
+    String? status,
+    String? createdAt,
+    String? updatedAt,
+    LeavePlanType? leavePlanType,
+  }) {
+    return UpcomingAndPastLeaveModel(
+      userAppliedLeavesId: userAppliedLeavesId ?? this.userAppliedLeavesId,
+      userId: userId ?? this.userId,
+      startDate: startDate ?? this.startDate,
+      endDate: endDate ?? this.endDate,
+      totalDays: totalDays ?? this.totalDays,
+      reason: reason ?? this.reason,
+      approvedBy: approvedBy ?? this.approvedBy,
+      managerComment: managerComment ?? this.managerComment,
+      leavePlanTypeId: leavePlanTypeId ?? this.leavePlanTypeId,
+      status: status ?? this.status,
+      createdAt: createdAt ?? this.createdAt,
+      updatedAt: updatedAt ?? this.updatedAt,
+      leavePlanType: leavePlanType ?? this.leavePlanType,
+    );
   }
 }

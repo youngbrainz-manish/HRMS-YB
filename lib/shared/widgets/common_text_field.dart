@@ -82,7 +82,7 @@ class CommonTextField extends StatelessWidget {
                   color: context.read<AppThemeProvider>().isDarkMode
                       ? AppColors.whiteColor
                       : AppColors.primaryColor,
-                  fontSize: 15,
+                  fontSize: 14,
                 ),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon != null

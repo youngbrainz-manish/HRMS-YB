@@ -218,12 +218,15 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Institution Name",
                               value:
-                                  provider
-                                      .employee!
-                                      .education
-                                      ?.first
-                                      .institutionName ??
-                                  "NA",
+                                  ((provider.employee?.education ?? [])
+                                      .isNotEmpty)
+                                  ? provider
+                                            .employee!
+                                            .education!
+                                            .first
+                                            .institutionName ??
+                                        ''
+                                  : "NA",
                             ),
                             InfoTile(
                               icon: Icons.school_outlined,
@@ -233,12 +236,15 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Institution Type",
                               value:
-                                  provider
-                                      .employee!
-                                      .education
-                                      ?.first
-                                      .typeOfInstitution ??
-                                  "NA",
+                                  ((provider.employee?.education ?? [])
+                                      .isNotEmpty)
+                                  ? provider
+                                            .employee!
+                                            .education!
+                                            .first
+                                            .typeOfInstitution ??
+                                        ""
+                                  : "NA",
                             ),
                             InfoTile(
                               icon: Icons.menu_book_outlined,
@@ -248,8 +254,15 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Degree",
                               value:
-                                  provider.employee!.education?.first.degree ??
-                                  "NA",
+                                  ((provider.employee?.education ?? [])
+                                      .isNotEmpty)
+                                  ? provider
+                                            .employee!
+                                            .education!
+                                            .first
+                                            .degree ??
+                                        ''
+                                  : "NA",
                             ),
                             InfoTile(
                               icon: Icons.workspace_premium_outlined,
@@ -259,12 +272,15 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Specialization",
                               value:
-                                  provider
-                                      .employee!
-                                      .education
-                                      ?.first
-                                      .specialization ??
-                                  "NA",
+                                  ((provider.employee?.education ?? [])
+                                      .isNotEmpty)
+                                  ? provider
+                                            .employee!
+                                            .education!
+                                            .first
+                                            .specialization ??
+                                        ''
+                                  : "NA",
                             ),
                             InfoTile(
                               icon: Icons.percent,
@@ -274,8 +290,11 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Grade",
                               value:
-                                  provider.employee!.education?.first.grade ??
-                                  "NA",
+                                  ((provider.employee?.education ?? [])
+                                      .isNotEmpty)
+                                  ? provider.employee!.education!.first.grade ??
+                                        ''
+                                  : "NA",
                             ),
                           ],
                         ),
@@ -337,7 +356,7 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Dept Name",
                               value:
-                                  provider.employee!.department?.deptName ??
+                                  provider.employee?.department?.deptName ??
                                   "NA",
                             ),
                             InfoTile(
@@ -348,7 +367,7 @@ class HrProfileScreen extends StatelessWidget {
                               iconColor: AppColors.primaryColor,
                               title: "Designation",
                               value:
-                                  provider.employee!.department?.designation ??
+                                  provider.employee?.department?.designation ??
                                   "NA",
                             ),
                             InfoTile(

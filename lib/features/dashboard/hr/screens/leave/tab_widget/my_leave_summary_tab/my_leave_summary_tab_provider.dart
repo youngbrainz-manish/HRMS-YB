@@ -3,12 +3,12 @@ import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
 
-class LeaveSummaryTabProvider extends ChangeNotifier {
+class MyLeaveSummaryTabProvider extends ChangeNotifier {
   final BuildContext context;
   LeaveSummaryModel? leaveSummaryModel;
   bool isLoading = false;
 
-  LeaveSummaryTabProvider({required this.context}) {
+  MyLeaveSummaryTabProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });
@@ -28,7 +28,7 @@ class LeaveSummaryTabProvider extends ChangeNotifier {
       var response = await DioApiRequest().getCommonApiCall(url);
       leaveSummaryModel = LeaveSummaryModel.fromJson(response?.data);
     } catch (e) {
-      debugPrint("Object route => Eception gettung summary");
+      debugPrint("Object route => Eception getting summary");
     }
     isLoading = false;
     notifyListeners();

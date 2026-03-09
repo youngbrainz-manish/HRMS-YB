@@ -34,7 +34,10 @@ class EmployeeHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({required BuildContext context, required EmployeeHomeProvider provider}) {
+  Widget _buildBody({
+    required BuildContext context,
+    required EmployeeHomeProvider provider,
+  }) {
     bool isDarkMode = context.watch<AppThemeProvider>().isDarkMode;
     return Container(
       height: MediaQuery.of(context).size.height,
@@ -68,7 +71,11 @@ class EmployeeHomeScreen extends StatelessWidget {
                                     title: "09:00 AM",
                                     lable: "PUNCH OUT",
                                     titleColor: AppColors.errorColor,
-                                    icon: Icon(Icons.touch_app_outlined, size: 38, color: AppColors.errorColor),
+                                    icon: Icon(
+                                      Icons.touch_app_outlined,
+                                      size: 38,
+                                      color: AppColors.errorColor,
+                                    ),
                                     isDarkMode: isDarkMode,
                                     progress: 0.82,
                                     onTap: () {},
@@ -84,9 +91,17 @@ class EmployeeHomeScreen extends StatelessWidget {
                                   child: CommonButton(
                                     title: "You are currently punch in",
                                     onTap: () {},
-                                    color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
-                                    borderColor: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
-                                    style: AppTextStyle().subTitleTextStyle(context: context),
+                                    color: AppColors.successSecondary
+                                        .withValues(
+                                          alpha: isDarkMode ? 0.2 : 0.3,
+                                        ),
+                                    borderColor: AppColors.successSecondary
+                                        .withValues(
+                                          alpha: isDarkMode ? 0.2 : 0.3,
+                                        ),
+                                    style: AppTextStyle().subTitleTextStyle(
+                                      context: context,
+                                    ),
                                   ),
                                 ),
                                 SizedBox(width: 8),
@@ -95,11 +110,19 @@ class EmployeeHomeScreen extends StatelessWidget {
                                   child: CommonButton(
                                     title: "View all",
                                     onTap: () {
-                                      context.read<EmployeeDashboardProvider>().onItemTapped(1);
+                                      context
+                                          .read<EmployeeDashboardProvider>()
+                                          .onItemTapped(1);
                                     },
-                                    color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.8),
-                                    borderColor: AppColors.successPrimary.withValues(alpha: 0.3),
-                                    style: AppTextStyle().subTitleTextStyle(context: context),
+                                    color: AppColors.successSecondary
+                                        .withValues(
+                                          alpha: isDarkMode ? 0.2 : 0.8,
+                                        ),
+                                    borderColor: AppColors.successPrimary
+                                        .withValues(alpha: 0.3),
+                                    style: AppTextStyle().subTitleTextStyle(
+                                      context: context,
+                                    ),
                                   ),
                                 ),
                               ],
@@ -111,7 +134,10 @@ class EmployeeHomeScreen extends StatelessWidget {
                     // SizedBox(height: AppSize.verticalWidgetSpacing),
                     // _todayAttendanceWidget(context, isDarkMode),
                     SizedBox(height: AppSize.verticalWidgetSpacing),
-                    Text("Quick Actions", style: AppTextStyle().titleTextStyle(context: context)),
+                    Text(
+                      "Quick Actions",
+                      style: AppTextStyle().titleTextStyle(context: context),
+                    ),
                     SizedBox(height: 4),
                     _quickActionWidget(context),
                     SizedBox(height: AppSize.verticalWidgetSpacing),
@@ -170,15 +196,24 @@ class EmployeeHomeScreen extends StatelessWidget {
           children: [
             Text(
               "Welcome back,",
-              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
+              style: AppTextStyle().subTitleTextStyle(
+                context: context,
+                color: AppColors.whiteColor,
+              ),
             ),
             Text(
               "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName}",
-              style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
+              style: AppTextStyle().titleTextStyle(
+                context: context,
+                color: AppColors.whiteColor,
+              ),
             ),
             Text(
               "EMP000${AuthenticationData.userModel?.userId}",
-              style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
+              style: AppTextStyle().subTitleTextStyle(
+                context: context,
+                color: AppColors.whiteColor,
+              ),
             ),
           ],
         ),
@@ -198,7 +233,10 @@ class EmployeeHomeScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text("Today's Attendance", style: AppTextStyle().titleTextStyle(context: context)),
+                Text(
+                  "Today's Attendance",
+                  style: AppTextStyle().titleTextStyle(context: context),
+                ),
                 Spacer(),
                 CommonWidget.buildSvgImage(
                   path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
@@ -211,16 +249,24 @@ class EmployeeHomeScreen extends StatelessWidget {
             SizedBox(height: 8),
             Row(
               children: [
-                Text("Punch In", style: AppTextStyle().subTitleTextStyle(context: context)),
+                Text(
+                  "Punch In",
+                  style: AppTextStyle().subTitleTextStyle(context: context),
+                ),
                 Spacer(),
-                Text("09:12 AM", style: AppTextStyle().titleTextStyle(context: context)),
+                Text(
+                  "09:12 AM",
+                  style: AppTextStyle().titleTextStyle(context: context),
+                ),
               ],
             ),
             SizedBox(height: 16),
             CommonButton(
               title: "You are currently clocked in",
               onTap: () {},
-              color: AppColors.successSecondary.withValues(alpha: isDarkMode ? 0.2 : 0.3),
+              color: AppColors.successSecondary.withValues(
+                alpha: isDarkMode ? 0.2 : 0.3,
+              ),
               borderColor: AppColors.successSecondary,
               style: AppTextStyle().subTitleTextStyle(context: context),
             ),
@@ -249,16 +295,25 @@ class EmployeeHomeScreen extends StatelessWidget {
                   children: [
                     Card(
                       shadowColor: AppColors.transparantColor,
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       color: AppColors.successSecondary.withValues(alpha: 0.8),
                       margin: EdgeInsets.all(0),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
-                        child: Icon(Icons.login_outlined, size: 26, color: AppColors.successPrimary),
+                        child: Icon(
+                          Icons.login_outlined,
+                          size: 26,
+                          color: AppColors.successPrimary,
+                        ),
                       ),
                     ),
                     Spacer(),
-                    Text("Punch In/Out", style: AppTextStyle().subTitleTextStyle(context: context)),
+                    Text(
+                      "Punch In/Out",
+                      style: AppTextStyle().subTitleTextStyle(context: context),
+                    ),
                   ],
                 ),
               ),
@@ -281,21 +336,27 @@ class EmployeeHomeScreen extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Card(
-                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(8),
+                      ),
                       color: AppColors.secondaryPurpleColor,
                       shadowColor: AppColors.transparantColor,
                       margin: EdgeInsets.all(0),
                       child: Padding(
                         padding: const EdgeInsets.all(8),
                         child: CommonWidget.buildSvgImage(
-                          path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
+                          path:
+                              "assets/svg-icons/dashboard-icons/leave-icon.svg",
                           height: 26,
                           color: AppColors.primaryPurpleColor,
                         ),
                       ),
                     ),
                     Spacer(),
-                    Text("Apply Leave", style: AppTextStyle().subTitleTextStyle(context: context)),
+                    Text(
+                      "Apply Leave",
+                      style: AppTextStyle().subTitleTextStyle(context: context),
+                    ),
                   ],
                 ),
               ),
@@ -306,7 +367,11 @@ class EmployeeHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _leaveBalanceWidget(BuildContext context, EmployeeHomeProvider provider, bool isDarkMode) {
+  Widget _leaveBalanceWidget(
+    BuildContext context,
+    EmployeeHomeProvider provider,
+    bool isDarkMode,
+  ) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
@@ -315,7 +380,10 @@ class EmployeeHomeScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Leave Balance", style: AppTextStyle().titleTextStyle(context: context)),
+            Text(
+              "Leave Balance",
+              style: AppTextStyle().titleTextStyle(context: context),
+            ),
             SizedBox(height: 8),
             GridView.builder(
               shrinkWrap: true,
@@ -328,7 +396,8 @@ class EmployeeHomeScreen extends StatelessWidget {
                 childAspectRatio: 2.4,
               ),
               itemBuilder: (context, index) {
-                Map<String, dynamic> leaveData = provider.leaveDetailsList[index];
+                Map<String, dynamic> leaveData =
+                    provider.leaveDetailsList[index];
                 return Card(
                   margin: EdgeInsets.all(0),
                   child: Container(
@@ -343,10 +412,18 @@ class EmployeeHomeScreen extends StatelessWidget {
                       children: [
                         Text(
                           leaveData['name'],
-                          style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
+                          style: AppTextStyle().subTitleTextStyle(
+                            context: context,
+                            color: AppColors.greyColor,
+                          ),
                         ),
                         Spacer(),
-                        Text("${leaveData['days']} days", style: AppTextStyle().titleTextStyle(context: context)),
+                        Text(
+                          "${leaveData['days']} days",
+                          style: AppTextStyle().titleTextStyle(
+                            context: context,
+                          ),
+                        ),
                         Spacer(),
                       ],
                     ),
@@ -358,7 +435,9 @@ class EmployeeHomeScreen extends StatelessWidget {
             CommonButton(
               title: "1 leave request pending approval",
               onTap: () {},
-              color: AppColors.warningColor.withValues(alpha: isDarkMode ? 0.1 : 0.2),
+              color: AppColors.warningColor.withValues(
+                alpha: isDarkMode ? 0.1 : 0.2,
+              ),
               borderColor: AppColors.warningColor,
               style: AppTextStyle().subTitleTextStyle(context: context),
             ),
@@ -380,7 +459,10 @@ class EmployeeHomeScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text("Latest PaySlip", style: AppTextStyle().titleTextStyle(context: context)),
+                Text(
+                  "Latest PaySlip",
+                  style: AppTextStyle().titleTextStyle(context: context),
+                ),
                 Spacer(),
                 CommonWidget.buildSvgImage(
                   path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
@@ -395,9 +477,15 @@ class EmployeeHomeScreen extends StatelessWidget {
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    Text("Latest PaySlip", style: AppTextStyle().subTitleTextStyle(context: context)),
+                    Text(
+                      "Latest PaySlip",
+                      style: AppTextStyle().subTitleTextStyle(context: context),
+                    ),
                     SizedBox(height: 8),
-                    Text("₹89,000", style: AppTextStyle().titleTextStyle(context: context)),
+                    Text(
+                      "₹89,000",
+                      style: AppTextStyle().titleTextStyle(context: context),
+                    ),
                   ],
                 ),
                 Spacer(),
@@ -417,7 +505,10 @@ class EmployeeHomeScreen extends StatelessWidget {
     );
   }
 
-  Widget _latestNotificationWidget(BuildContext context, EmployeeHomeProvider provider) {
+  Widget _latestNotificationWidget(
+    BuildContext context,
+    EmployeeHomeProvider provider,
+  ) {
     return Card(
       margin: EdgeInsets.all(0),
       child: Container(
@@ -428,11 +519,17 @@ class EmployeeHomeScreen extends StatelessWidget {
           children: [
             Row(
               children: [
-                Text("Latest Notification", style: AppTextStyle().titleTextStyle(context: context)),
+                Text(
+                  "Latest Notification",
+                  style: AppTextStyle().titleTextStyle(context: context),
+                ),
                 Spacer(),
                 Text(
                   "View All",
-                  style: AppTextStyle().titleTextStyle(context: context, color: AppColors.textButtonColor),
+                  style: AppTextStyle().titleTextStyle(
+                    context: context,
+                    color: AppColors.textButtonColor,
+                  ),
                 ),
               ],
             ),
@@ -443,15 +540,22 @@ class EmployeeHomeScreen extends StatelessWidget {
               physics: NeverScrollableScrollPhysics(),
               itemCount: provider.notificationList.length,
               itemBuilder: (context, index) {
-                Map<String, dynamic> notificationData = provider.notificationList[index];
+                Map<String, dynamic> notificationData =
+                    provider.notificationList[index];
                 return ListTile(
                   contentPadding: EdgeInsets.all(0),
                   leading: Container(
                     height: 14,
                     width: 14,
-                    decoration: BoxDecoration(shape: BoxShape.circle, color: Colors.red),
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      color: Colors.red,
+                    ),
                   ),
-                  title: Text(notificationData['title'], style: AppTextStyle().titleTextStyle(context: context)),
+                  title: Text(
+                    notificationData['title'],
+                    style: AppTextStyle().titleTextStyle(context: context),
+                  ),
                   subtitle: Text(
                     notificationData['description'],
                     style: AppTextStyle().lableTextStyle(context: context),

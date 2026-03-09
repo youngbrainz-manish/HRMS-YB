@@ -13,6 +13,9 @@ class DioApiServices {
   static const String getHolidays = 'Holiday/GetHolidays';
   static String updateProfile = "employeesPersonalDets";
   static String leaveSummary = "user_leaves/leaveSummary";
+  static String getMyLeavePlan = "leave/getMyLeavePlan";
+  static String userLeavesApply = "user_leaves/apply";
+  static String getMyLeaveRequesta = "user_leaves/getMyLeaves";
 
   ///HR
   static String addHoliday = "Holiday/createHoliday";

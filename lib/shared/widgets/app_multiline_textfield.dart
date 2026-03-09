@@ -39,11 +39,14 @@ class AppMultilineTextField extends StatelessWidget {
           keyboardType: TextInputType.multiline,
           textInputAction: TextInputAction.newline,
           decoration: InputDecoration(
-            hintStyle: AppTextStyle().lableTextStyle(context: context, fontSize: 16, color: AppColors.greyColor),
+            hintStyle: AppTextStyle().lableTextStyle(
+              context: context,
+              color: AppColors.greyColor,
+            ),
             labelText: label,
             hintText: hint,
             alignLabelWithHint: true,
-            contentPadding: const EdgeInsets.all(16),
+            contentPadding: const EdgeInsets.all(8),
             border: OutlineInputBorder(borderRadius: BorderRadius.circular(12)),
             enabledBorder: OutlineInputBorder(
               borderRadius: BorderRadius.circular(12),

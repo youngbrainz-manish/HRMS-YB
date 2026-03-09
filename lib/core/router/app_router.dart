@@ -21,6 +21,7 @@ import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_list_scr
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday/add_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/add_update_leave/add_update_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/advance/edit_advance_screen.dart';
@@ -76,6 +77,7 @@ class AppRouter {
   static const editProfileScreenRoute = '/editProfileScreen';
   static const addHolidayScreenRoute = '/addHolidayScreen';
   static const hierarchyScreenRoute = '/hierarchyScreen';
+  static const addUpdateLeaveScreenRoute = '/addUpdateLeaveScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -145,6 +147,13 @@ class AppRouter {
         path: holidayScreenRoute,
         builder: (BuildContext context, GoRouterState state) {
           return HolidayScreen();
+        },
+      ),
+      GoRoute(
+        name: 'Add Update Leave Screen',
+        path: addUpdateLeaveScreenRoute,
+        builder: (BuildContext context, GoRouterState state) {
+          return AddUpdateLeaveScreen();
         },
       ),
 

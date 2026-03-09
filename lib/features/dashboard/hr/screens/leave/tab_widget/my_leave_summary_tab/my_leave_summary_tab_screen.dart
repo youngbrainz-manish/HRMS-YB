@@ -3,20 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/leave_summary_tab/leave_summary_tab_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_summary_tab/my_leave_summary_tab_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
-class LeaveSummaryTabScreen extends StatelessWidget {
-  const LeaveSummaryTabScreen({super.key});
+class MyLeaveSummaryTabScreen extends StatelessWidget {
+  const MyLeaveSummaryTabScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => LeaveSummaryTabProvider(context: context),
-      child: Consumer<LeaveSummaryTabProvider>(
+      create: (_) => MyLeaveSummaryTabProvider(context: context),
+      child: Consumer<MyLeaveSummaryTabProvider>(
         builder: (context, provider, child) {
           return Scaffold(
             body: SafeArea(
@@ -35,7 +35,7 @@ class LeaveSummaryTabScreen extends StatelessWidget {
 
   Widget _buildBody({
     required BuildContext context,
-    required LeaveSummaryTabProvider provider,
+    required MyLeaveSummaryTabProvider provider,
   }) {
     return provider.isLoading
         ? Center(child: CommonWidget.defaultLoader())
@@ -51,29 +51,32 @@ class LeaveSummaryTabScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(
                 horizontal: AppSize.verticalWidgetSpacing,
               ),
-              child: ListView(
-                children: [
-                  SizedBox(height: AppSize.verticalWidgetSpacing),
-                  _leaveBalanceGrid(
-                    context: context,
-                    leaveBalances:
-                        provider.leaveSummaryModel?.data?.leaveBalance ?? [],
-                  ),
+              child: provider.leaveSummaryModel == null
+                  ? Center(child: Text("Something went wronge! Try again"))
+                  : ListView(
+                      children: [
+                        SizedBox(height: AppSize.verticalWidgetSpacing),
+                        _leaveBalanceGrid(
+                          context: context,
+                          leaveBalances:
+                              provider.leaveSummaryModel?.data?.leaveBalance ??
+                              [],
+                        ),
 
-                  leaveSection(
-                    context: context,
-                    title: "Upcoming Leaves",
-                    leaves: [],
-                  ),
-                  const SizedBox(height: AppSize.verticalWidgetSpacing),
+                        leaveSection(
+                          context: context,
+                          title: "Upcoming Leaves",
+                          leaves: [],
+                        ),
+                        const SizedBox(height: AppSize.verticalWidgetSpacing),
 
-                  leaveSection(
-                    context: context,
-                    title: "Past Leaves",
-                    leaves: [],
-                  ),
-                ],
-              ),
+                        leaveSection(
+                          context: context,
+                          title: "Past Leaves",
+                          leaves: [],
+                        ),
+                      ],
+                    ),
             ),
           );
   }
