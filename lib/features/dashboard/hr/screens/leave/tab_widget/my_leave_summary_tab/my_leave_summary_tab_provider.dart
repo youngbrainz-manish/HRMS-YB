@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
+import 'package:intl/intl.dart';
 
 class MyLeaveSummaryTabProvider extends ChangeNotifier {
   final BuildContext context;
@@ -32,5 +33,10 @@ class MyLeaveSummaryTabProvider extends ChangeNotifier {
     }
     isLoading = false;
     notifyListeners();
+  }
+
+  String formatDate(String date) {
+    final parsedDate = DateTime.parse(date).toLocal();
+    return DateFormat('dd MMM yyyy, hh:mm a').format(parsedDate);
   }
 }

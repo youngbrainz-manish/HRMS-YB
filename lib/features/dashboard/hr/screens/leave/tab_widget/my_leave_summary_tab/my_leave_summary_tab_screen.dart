@@ -1,7 +1,6 @@
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_summary_tab/my_leave_summary_tab_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
@@ -21,11 +20,6 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
           return Scaffold(
             body: SafeArea(
               child: _buildBody(context: context, provider: provider),
-            ),
-            floatingActionButton: FloatingActionButton.extended(
-              onPressed: () {},
-              label: const Text("Apply Leave"),
-              icon: const Icon(Icons.add),
             ),
           );
         },
@@ -66,7 +60,13 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
                         leaveSection(
                           context: context,
                           title: "Upcoming Leaves",
-                          leaves: [],
+                          leaves:
+                              provider
+                                  .leaveSummaryModel
+                                  ?.data
+                                  ?.upcomingLeaves ??
+                              [],
+                          provider: provider,
                         ),
                         const SizedBox(height: AppSize.verticalWidgetSpacing),
 
@@ -74,7 +74,9 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
                           context: context,
                           title: "Past Leaves",
                           leaves: [],
+                          provider: provider,
                         ),
+                        const SizedBox(height: AppSize.verticalWidgetSpacing),
                       ],
                     ),
             ),
@@ -199,7 +201,8 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
   Widget leaveSection({
     required BuildContext context,
     required String title,
-    required List<LeaveRequest> leaves,
+    required List<UpcomingAndPastLeaveModel> leaves,
+    required MyLeaveSummaryTabProvider provider,
   }) {
     return Card(
       margin: EdgeInsets.all(0),
@@ -229,7 +232,11 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
             )
           else
             ...leaves.map(
-              (leave) => leaveApprovalCard(leave: leave, context: context),
+              (leave) => leaveApprovalCard(
+                leave: leave,
+                context: context,
+                provider: provider,
+              ),
             ),
 
           SizedBox(height: AppSize.verticalWidgetSpacing),
@@ -239,10 +246,13 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
   }
 
   Widget leaveApprovalCard({
-    required LeaveRequest leave,
+    required UpcomingAndPastLeaveModel leave,
     required BuildContext context,
+    required MyLeaveSummaryTabProvider provider,
   }) {
     return Card(
+      elevation: 2,
+      shadowColor: AppColors.greyColor,
       margin: EdgeInsets.all(0),
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: Padding(
@@ -251,36 +261,27 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// HEADER
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                /// EMPLOYEE INFO
-                Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      leave.employeeName,
-                      style: AppTextStyle().titleTextStyle(context: context),
-                    ),
-                    const SizedBox(height: 4),
-                    Text(
-                      leave.department,
-                      style: AppTextStyle().lableTextStyle(context: context),
-                    ),
-                  ],
-                ),
-
-                /// STATUS CHIP
-                _statusChip(context: context, leave: leave),
-              ],
-            ),
-
-            const SizedBox(height: 14),
+            // Row(
+            //   mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            //   children: [
+            //     /// EMPLOYEE INFO
+            //     // Text(
+            //     //   leave.leavePlanType?.leaveType ?? '',
+            //     //   style: AppTextStyle().titleTextStyle(context: context),
+            //     // ),
+            //     _statusChip(context: context, leave: leave),
+            //   ],
+            // ),
+            const SizedBox(height: AppSize.verticalWidgetSpacing),
 
             /// LEAVE DETAILS
-            _detailRow(context, "Leave Type", leave.leaveType),
-            _detailRow(context, "Dates", leave.dates),
-            _detailRow(context, "Days", leave.days),
+            _detailRow(
+              context,
+              "Leave Type",
+              leave.leavePlanType?.leaveType ?? '',
+            ),
+            _detailRow(context, "Start Date", leave.startDate ?? ''),
+            _detailRow(context, "Days", (leave.totalDays ?? '').toString()),
 
             const SizedBox(height: 12),
 
@@ -293,15 +294,15 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Text(
-                "Reason: ${leave.reason}",
+                "Reason: ${leave.reason ?? "Not provided"}",
                 style: AppTextStyle().subTitleTextStyle(context: context),
               ),
             ),
 
-            const SizedBox(height: 12),
+            const SizedBox(height: AppSize.verticalWidgetSpacing),
 
             /// HR NOTES
-            if (leave.hrNotes != null)
+            if (leave.managerComment != null)
               Container(
                 width: double.infinity,
                 padding: const EdgeInsets.all(12),
@@ -310,7 +311,7 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
                   borderRadius: BorderRadius.circular(10),
                 ),
                 child: Text(
-                  "HR Notes: ${leave.hrNotes}",
+                  "Manager Notes: ${leave.managerComment}",
                   style: AppTextStyle().subTitleTextStyle(context: context),
                 ),
               ),
@@ -318,9 +319,15 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
             const SizedBox(height: 10),
 
             /// APPLIED DATE
-            Text(
-              "Applied: ${leave.appliedDate}",
-              style: AppTextStyle().lableTextStyle(context: context),
+            Row(
+              children: [
+                Text(
+                  "Applied on : ${provider.formatDate(leave.createdAt ?? "")}",
+                  style: AppTextStyle().lableTextStyle(context: context),
+                ),
+                Spacer(),
+                _statusChip(context: context, leave: leave),
+              ],
             ),
           ],
         ),
@@ -331,11 +338,11 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
   /// STATUS CHIP
   Widget _statusChip({
     required BuildContext context,
-    required LeaveRequest leave,
+    required UpcomingAndPastLeaveModel leave,
   }) {
     Color color;
 
-    switch (leave.status.toLowerCase()) {
+    switch ((leave.status ?? '').toLowerCase()) {
       case "approved":
         color = AppColors.successPrimary;
         break;
@@ -349,13 +356,14 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
     }
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 5),
+      padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 3),
       decoration: BoxDecoration(
         color: color.withValues(alpha: 0.2),
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(8),
+        border: Border.all(color: color),
       ),
       child: Text(
-        leave.status,
+        leave.status ?? '',
         style: AppTextStyle().lableTextStyle(context: context),
       ),
     );
@@ -368,11 +376,11 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: [
+          Text(title, style: AppTextStyle().lableTextStyle(context: context)),
           Text(
-            title,
+            value,
             style: AppTextStyle().subTitleTextStyle(context: context),
           ),
-          Text(value, style: const TextStyle(fontWeight: FontWeight.w600)),
         ],
       ),
     );
