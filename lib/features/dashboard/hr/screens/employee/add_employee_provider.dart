@@ -7,7 +7,9 @@ import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_response_model.dart';
+import 'package:hrms_yb/shared/models/reporting_user_model.dart';
 import 'package:hrms_yb/shared/models/role_model.dart';
+import 'package:hrms_yb/shared/models/user_category_model.dart';
 import 'package:hrms_yb/shared/widgets/common_image_picker.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:image_picker/image_picker.dart';
@@ -29,6 +31,15 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   bool isLoading = false;
   List<RoleModel> roles = [];
+  List<ReportingUserModel> reportingUserList = [];
+  List<UserCategoryModel> userCategoryList = [];
+
+  final ExpansibleController personalController = ExpansibleController();
+  final ExpansibleController educationController = ExpansibleController();
+  final ExpansibleController addressController = ExpansibleController();
+  final ExpansibleController employeementController = ExpansibleController();
+  final ExpansibleController accountController = ExpansibleController();
+
   RoleModel? selectedRole;
   List<String> institutionType = [
     "School",
@@ -40,7 +51,6 @@ class AddEmployeeProvider extends ChangeNotifier {
   String? selectedInstitutionType;
   String? profileImagePath;
   List<String> employmentType = ["Full-Time", "Part-Time"];
-  String? selectedEmploymentType;
 
   /// PERSONAL
   final firstName = TextEditingController();
@@ -84,27 +94,28 @@ class AddEmployeeProvider extends ChangeNotifier {
   final designation = TextEditingController();
   final joiningDate = TextEditingController();
   final salary = TextEditingController();
-
-  final reportingTo = TextEditingController();
   final probationStart = TextEditingController();
   final probationEnd = TextEditingController();
+  String? selectedEmploymentType;
+  ReportingUserModel? selectedReportingToUser;
+  UserCategoryModel? selectedUserCategory;
+  TextEditingController lastWorkingDayController = TextEditingController();
 
   /// ACCOUNT
-  final password = TextEditingController();
+  final password = TextEditingController(text: "Abc@1234");
 
   /// IMAGE
   File? profilePhoto;
-
   final ImagePicker picker = ImagePicker();
-
   bool isAddressSame = false;
-
   bool isAddingUser = false;
 
   Future<void> _init() async {
     isLoading = true;
     notifyListeners();
     await getRoles();
+    await getReportingUsers();
+    await getUserCategory();
     if (employeeModel?.userId != null) {
       await getEmployeeDetail(id: employeeModel?.userId ?? 0);
       setInitFormData();
@@ -126,6 +137,34 @@ class AddEmployeeProvider extends ChangeNotifier {
           : [];
     } catch (e) {
       debugPrint("object route => Eception Get Roles => $e");
+    }
+  }
+
+  Future<void> getReportingUsers() async {
+    String url = DioApiServices.getRoleForReporting;
+    try {
+      var response = await DioApiRequest().getCommonApiCall(url);
+      reportingUserList = response?.data['data'] != null
+          ? List<ReportingUserModel>.from(
+              response?.data['data'].map((x) => ReportingUserModel.fromJson(x)),
+            )
+          : [];
+    } catch (e) {
+      debugPrint("object route => Eception Get ReportingUserModel => $e");
+    }
+  }
+
+  Future<void> getUserCategory() async {
+    String url = DioApiServices.getUserCategory;
+    try {
+      var response = await DioApiRequest().getCommonApiCall(url);
+      userCategoryList = response?.data['data'] != null
+          ? List<UserCategoryModel>.from(
+              response?.data['data'].map((x) => UserCategoryModel.fromJson(x)),
+            )
+          : [];
+    } catch (e) {
+      debugPrint("object route => Eception Get UserCategoryModel => $e");
     }
   }
 
@@ -166,14 +205,24 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   /// CREATE EMPLOYEE API
   Future createEmployee() async {
+    personalController.expand();
+    addressController.expand();
+    educationController.expand();
+    employeementController.expand();
+    await Future.delayed(Duration(seconds: 1), () {});
     if (!(formKey.currentState?.validate() ?? false)) {
       CommonWidget.customSnackbar(
-        context: context,
+        context: context, // ignore: use_build_context_synchronously
         description: "Please fill all required field",
         type: SnackbarType.error,
       );
       return;
     }
+    personalController.collapse();
+    addressController.collapse();
+    educationController.collapse();
+    employeementController.collapse();
+
     String url = employeeModel == null
         ? DioApiServices.createEmployee
         : "${DioApiServices.updateEmployee}/${employeeDetailsModel?.userId}";
@@ -222,10 +271,10 @@ class AddEmployeeProvider extends ChangeNotifier {
         "salary": salary.text,
         "employement_type": selectedEmploymentType,
         "last_working_day": "",
-        "reporting_to": reportingTo.text,
+        "reporting_to": selectedReportingToUser?.userId,
         "probation_start": probationStart.text,
         "probation_end": probationEnd.text,
-        "user_category_id": 1,
+        "user_category_id": selectedUserCategory?.userCategoryId ?? 1,
       };
 
       FormData formData = FormData.fromMap({
@@ -338,7 +387,7 @@ class AddEmployeeProvider extends ChangeNotifier {
   }
 
   void onChanged() {
-    formKey.currentState?.validate();
+    // formKey.currentState?.validate();
   }
 
   Future<void> getEmployeeDetail({required int id}) async {

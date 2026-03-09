@@ -22,6 +22,8 @@ class DioApiServices {
   static const String deleteHoliday = 'holiday/deleteHoliday';
   static String updateHoliday = "Holiday/updateHoliday";
   static String getAllEmployee = "employees";
+  static String getRoleForReporting = "fetchRoleForReporting";
+  static String getUserCategory = "getUserCategory";
 
   static String deleteEmployee = "employees";
   static String getRoles = "getrole";

@@ -60,12 +60,14 @@ class CommonTextField extends StatelessWidget {
             height: height ?? 45,
             color: Colors.transparent,
             child: TextFormField(
+              onTap: onTap,
               onChanged: onChanged,
               style: AppTextStyle().subTitleTextStyle(
                 context: context,
                 fontSize: 13,
               ),
-              enabled: isEnable,
+              // enabled: isEnable,
+              readOnly: !(isEnable ?? false),
               controller: controller,
               obscureText: obscureText,
               keyboardType: keyboardType,
@@ -76,7 +78,7 @@ class CommonTextField extends StatelessWidget {
                 hintStyle: context.textTheme.bodyLarge?.copyWith(
                   color: Colors.grey,
                   height: 1.3,
-                  fontSize: 14,
+                  fontSize: 12,
                 ),
                 labelStyle: context.textTheme.bodyLarge?.copyWith(
                   color: context.read<AppThemeProvider>().isDarkMode
