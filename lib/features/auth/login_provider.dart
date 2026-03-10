@@ -16,7 +16,9 @@ class LoginProvider extends ChangeNotifier {
   UserModel? userModel;
   bool isLoading = false;
 
-  TextEditingController emailController = TextEditingController(text: "youngbrainz.hr@gmail.com");
+  TextEditingController emailController = TextEditingController(
+    text: "youngbrainz.hr@gmail.com",
+  );
   TextEditingController pinController = TextEditingController(text: "Abc@1234");
 
   bool hidePass = true;
@@ -33,7 +35,8 @@ class LoginProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences =
+          await SharedPreferences.getInstance();
       var response = await DioApiRequest().postCommonApiCall({
         "email": email,
         "password": password,
@@ -44,7 +47,9 @@ class LoginProvider extends ChangeNotifier {
       if (commonResponse.success == true) {
         AuthenticationData.token = response.data['data']['token'];
 
-        List<Role> roles = (response.data['data']['role'] as List).map((e) => Role.fromJson(e)).toList();
+        List<Role> roles = (response.data['data']['role'] as List)
+            .map((e) => Role.fromJson(e))
+            .toList();
         AuthenticationData.userModel = UserModel(
           userId: response.data['data']['user_id'],
           firstName: response.data['data']['first_name'],
@@ -58,7 +63,10 @@ class LoginProvider extends ChangeNotifier {
         userModel = AuthenticationData.userModel;
         String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
         await sharedPreferences.setString(AppConstants.userDetails, userJson);
-        await sharedPreferences.setString(AppConstants.token, AuthenticationData.token);
+        await sharedPreferences.setString(
+          AppConstants.token,
+          AuthenticationData.token,
+        );
         notifyListeners();
         isLoading = false;
         notifyListeners();

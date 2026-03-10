@@ -21,16 +21,23 @@ class AddUpdateLeaveScreen extends StatelessWidget {
       create: (_) => AddUpdateLeaveProvider(context: context),
       child: Consumer<AddUpdateLeaveProvider>(
         builder: (context, provider, child) {
-          return Scaffold(
-            appBar: AppBar(
-              leading: CommonWidget.backButton(
-                onTap: () => GoRouter.of(context).pop(),
+          return Stack(
+            children: [
+              Scaffold(
+                appBar: AppBar(
+                  leading: CommonWidget.backButton(
+                    onTap: () => GoRouter.of(context).pop(),
+                  ),
+                  title: Text("Add Update Leave"),
+                ),
+                body: SafeArea(
+                  child: _buildBody(context: context, provider: provider),
+                ),
               ),
-              title: Text("Add Update Leave"),
-            ),
-            body: SafeArea(
-              child: _buildBody(context: context, provider: provider),
-            ),
+              if (provider.isSubmittingLeave) ...[
+                CommonWidget.fullScreenLoader(),
+              ],
+            ],
           );
         },
       ),
@@ -44,167 +51,179 @@ class AddUpdateLeaveScreen extends StatelessWidget {
     return SizedBox(
       height: double.infinity,
       width: double.infinity,
-      // child: Center(child: Text("data")),
-      child: Padding(
-        padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
-          crossAxisAlignment: CrossAxisAlignment.center,
-          children: [
-            SizedBox(height: AppSize.verticalWidgetSpacing),
-            Card(
-              margin: EdgeInsets.all(0),
-              child: Padding(
-                padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
-                child: Column(
-                  children: [
-                    /// Leave Type
-                    Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        SizedBox(
-                          height: 47,
-                          child: DropdownButtonFormField<LeaveType>(
-                            padding: EdgeInsets.zero,
-                            initialValue: provider.selectedLeaveType,
-                            hint: const Text("Select Leave Type"),
-                            validator: (value) {
-                              if (value == null) {
-                                return ""; // triggers red border but hides text
-                              }
-                              return null;
-                            },
-                            decoration: dropDownDecoration(),
-                            items: provider.leaveTypes
-                                .map(
-                                  (e) => DropdownMenuItem(
-                                    value: e,
-                                    child: Text(e.leaveType ?? ''),
-                                  ),
-                                )
-                                .toList(),
-                            onChanged: (v) {
-                              provider.selectedLeaveType = v;
-                              provider.updateState();
-                            },
-                          ),
-                        ),
-                        Positioned(
-                          top: -6,
-                          left: 10,
-                          child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 4),
-                            decoration: BoxDecoration(
-                              color: context.read<AppThemeProvider>().isDarkMode
-                                  ? AppColors.blackColor
-                                  : AppColors.whiteColor,
-                            ),
-                            child: Text(
-                              "Select Leave Type *",
-                              style: AppTextStyle().lableTextStyle(
-                                context: provider.context,
-                                color:
-                                    context.read<AppThemeProvider>().isDarkMode
-                                    ? AppColors.lightGrey
-                                    : AppColors.primaryColor,
-                              ),
-                            ),
-                          ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: AppSize.verticalWidgetSpacing),
-
-                    ///Start and End Date
-                    Row(
-                      children: [
-                        Expanded(
-                          child: CommonTextField(
-                            isEnable: false,
-                            controller: provider.startDateController,
-                            hintText: "Start Date *",
-                            labelText: "Start Date *",
-                            suffixIcon: Icons.date_range_outlined,
-                            onTap: () async {
-                              await provider.selectDate(
-                                context: context,
-                                controller: provider.startDateController,
-                                initialDate:
-                                    provider.startDateController.text.isNotEmpty
-                                    ? DateTime.parse(
-                                        provider.startDateController.text,
+      child: provider.isLoading
+          ? CommonWidget.defaultLoader()
+          : Padding(
+              padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+                  Card(
+                    margin: EdgeInsets.all(0),
+                    child: Padding(
+                      padding: const EdgeInsets.all(
+                        AppSize.verticalWidgetSpacing,
+                      ),
+                      child: Column(
+                        children: [
+                          /// Leave Type
+                          Stack(
+                            clipBehavior: Clip.none,
+                            children: [
+                              SizedBox(
+                                height: 47,
+                                child: DropdownButtonFormField<LeaveType>(
+                                  padding: EdgeInsets.zero,
+                                  initialValue: provider.selectedLeaveType,
+                                  hint: const Text("Select Leave Type"),
+                                  validator: (value) {
+                                    if (value == null) {
+                                      return ""; // triggers red border but hides text
+                                    }
+                                    return null;
+                                  },
+                                  decoration: dropDownDecoration(),
+                                  items: provider.leaveTypes
+                                      .map(
+                                        (e) => DropdownMenuItem(
+                                          value: e,
+                                          child: Text(e.leaveType ?? ''),
+                                        ),
                                       )
-                                    : DateTime.now(),
-                                firstDate: DateTime.now(),
-                                lastDate: DateTime(2035),
-                              );
-                              provider.endDateController.text = '';
-                              provider.updateState();
-                            },
+                                      .toList(),
+                                  onChanged: (v) {
+                                    provider.selectedLeaveType = v;
+                                    provider.updateState();
+                                  },
+                                ),
+                              ),
+                              Positioned(
+                                top: -6,
+                                left: 10,
+                                child: Container(
+                                  padding: EdgeInsets.symmetric(horizontal: 4),
+                                  decoration: BoxDecoration(
+                                    color:
+                                        context
+                                            .read<AppThemeProvider>()
+                                            .isDarkMode
+                                        ? AppColors.blackColor
+                                        : AppColors.whiteColor,
+                                  ),
+                                  child: Text(
+                                    "Select Leave Type *",
+                                    style: AppTextStyle().lableTextStyle(
+                                      context: provider.context,
+                                      color:
+                                          context
+                                              .read<AppThemeProvider>()
+                                              .isDarkMode
+                                          ? AppColors.lightGrey
+                                          : AppColors.primaryColor,
+                                    ),
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                        SizedBox(width: AppSize.verticalWidgetSpacing),
-                        Expanded(
-                          child: CommonTextField(
-                            isEnable: false,
-                            controller: provider.endDateController,
-                            hintText: "End Date *",
-                            labelText: "End Date *",
-                            suffixIcon: Icons.date_range_outlined,
-                            onTap: () {
-                              provider.selectEndDate();
-                            },
+                          SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                          ///Start and End Date
+                          Row(
+                            children: [
+                              Expanded(
+                                child: CommonTextField(
+                                  isEnable: false,
+                                  controller: provider.startDateController,
+                                  hintText: "Start Date *",
+                                  labelText: "Start Date *",
+                                  suffixIcon: Icons.date_range_outlined,
+                                  onTap: () async {
+                                    await provider.selectDate(
+                                      context: context,
+                                      controller: provider.startDateController,
+                                      initialDate:
+                                          provider
+                                              .startDateController
+                                              .text
+                                              .isNotEmpty
+                                          ? DateTime.parse(
+                                              provider.startDateController.text,
+                                            )
+                                          : DateTime.now(),
+                                      firstDate: DateTime.now(),
+                                      lastDate: DateTime(2035),
+                                    );
+                                    provider.endDateController.text = '';
+                                    provider.updateState();
+                                  },
+                                ),
+                              ),
+                              SizedBox(width: AppSize.verticalWidgetSpacing),
+                              Expanded(
+                                child: CommonTextField(
+                                  isEnable: false,
+                                  controller: provider.endDateController,
+                                  hintText: "End Date *",
+                                  labelText: "End Date *",
+                                  suffixIcon: Icons.date_range_outlined,
+                                  onTap: () {
+                                    provider.selectEndDate();
+                                  },
+                                ),
+                              ),
+                            ],
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: AppSize.verticalWidgetSpacing),
-                    AppMultilineTextField(
-                      hint: "Describe reason for leave.....",
-                      controller: provider.descriptionTextController,
-                    ),
-                    SizedBox(height: AppSize.verticalWidgetSpacing),
-                    Row(
-                      children: [
-                        Text(
-                          "Leave applying for : ${provider.totalDays} days",
-                          style: AppTextStyle().lableTextStyle(
-                            context: context,
+                          SizedBox(height: AppSize.verticalWidgetSpacing),
+                          AppMultilineTextField(
+                            hint: "Describe reason for leave.....",
+                            controller: provider.descriptionTextController,
                           ),
-                        ),
-                      ],
+                          SizedBox(height: AppSize.verticalWidgetSpacing),
+                          Row(
+                            children: [
+                              Text(
+                                "Leave applying for : ${provider.totalDays} days",
+                                style: AppTextStyle().lableTextStyle(
+                                  context: context,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
-                  ],
-                ),
+                  ),
+                  SizedBox(height: AppSize.verticalWidgetSpacing * 2),
+                  Row(
+                    children: [
+                      Expanded(
+                        child: CommonButton(
+                          title: "Cancel",
+                          onTap: () => GoRouter.of(context).pop(),
+                          color: AppColors.transparantColor,
+                          titleColor:
+                              context.read<AppThemeProvider>().isDarkMode
+                              ? AppColors.whiteColor
+                              : AppColors.blackColor,
+                        ),
+                      ),
+                      SizedBox(width: AppSize.verticalWidgetSpacing),
+                      Expanded(
+                        child: CommonButton(
+                          title: "Submit",
+                          onTap: () {
+                            provider.submitLeave();
+                          },
+                        ),
+                      ),
+                    ],
+                  ),
+                ],
               ),
             ),
-            SizedBox(height: AppSize.verticalWidgetSpacing * 2),
-            Row(
-              children: [
-                Expanded(
-                  child: CommonButton(
-                    title: "Cancel",
-                    onTap: () => GoRouter.of(context).pop(),
-                    color: AppColors.transparantColor,
-                    titleColor: context.read<AppThemeProvider>().isDarkMode
-                        ? AppColors.whiteColor
-                        : AppColors.blackColor,
-                  ),
-                ),
-                SizedBox(width: AppSize.verticalWidgetSpacing),
-                Expanded(
-                  child: CommonButton(
-                    title: "Submit",
-                    onTap: () {
-                      provider.submitLeave();
-                    },
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
     );
   }
 

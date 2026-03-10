@@ -2,7 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
+import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_plan_data_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/team_requests_tab/team_requests_tab_screen.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_button.dart';
@@ -17,184 +22,458 @@ class EmployeeLeaveScreen extends StatelessWidget {
       create: (_) => EmployeeLeaveProvider(context: context),
       child: Consumer<EmployeeLeaveProvider>(
         builder: (context, provider, child) {
-          return Scaffold(body: _buildBody(provider: provider));
+          return DefaultTabController(
+            length: 2,
+            child: Scaffold(
+              body: NestedScrollView(
+                headerSliverBuilder: (context, innerBoxIsScrolled) {
+                  return [
+                    SliverToBoxAdapter(
+                      child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 16),
+                        child: Column(
+                          children: [
+                            const SizedBox(
+                              height: AppSize.verticalWidgetSpacing,
+                            ),
+
+                            /// My Leave Plan
+                            Card(
+                              margin: EdgeInsets.zero,
+                              child: Theme(
+                                data: Theme.of(
+                                  context,
+                                ).copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  title: Text(
+                                    "My Leave Plan",
+                                    style: AppTextStyle().titleTextStyle(
+                                      context: context,
+                                    ),
+                                  ),
+                                  children: [
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(
+                                    //     horizontal:
+                                    //         AppSize.verticalWidgetSpacing,
+                                    //   ),
+                                    //   child: _leaveBalanceGrid(
+                                    //     context: context,
+                                    //     leaveBalances:
+                                    //         provider
+                                    //             .leaveSummaryModel
+                                    //             ?.data
+                                    //             ?.leaveBalance ??
+                                    //         [],
+                                    //   ),
+                                    // ),
+                                    if (provider.leavePlanDataModel !=
+                                        null) ...[
+                                      SizedBox(
+                                        height: MediaQuery.of(
+                                          context,
+                                        ).size.width,
+                                        child: LeavePlanDetailsScreen(
+                                          leavePlanDataModel:
+                                              provider.leavePlanDataModel!,
+                                        ),
+                                      ),
+                                    ],
+                                  ],
+                                ),
+                              ),
+                            ),
+                            SizedBox(height: AppSize.verticalWidgetSpacing),
+
+                            /// My Leave Balance
+                            Card(
+                              margin: EdgeInsets.zero,
+                              child: Theme(
+                                data: Theme.of(
+                                  context,
+                                ).copyWith(dividerColor: Colors.transparent),
+                                child: ExpansionTile(
+                                  title: Text(
+                                    "My Leave Balance",
+                                    style: AppTextStyle().titleTextStyle(
+                                      context: context,
+                                    ),
+                                  ),
+                                  children: [
+                                    Padding(
+                                      padding: const EdgeInsets.symmetric(
+                                        horizontal:
+                                            AppSize.verticalWidgetSpacing,
+                                      ),
+                                      child: _leaveBalanceGrid(
+                                        context: context,
+                                        leaveBalances:
+                                            provider
+                                                .leaveSummaryModel
+                                                ?.data
+                                                ?.leaveBalance ??
+                                            [],
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+
+                            const SizedBox(
+                              height: AppSize.verticalWidgetSpacing,
+                            ),
+
+                            /// Apply Leave Button
+                            CommonButton(
+                              title: "+ Apply for leave",
+                              onTap: () async {
+                                var data = await GoRouter.of(
+                                  context,
+                                ).push(AppRouter.addUpdateLeaveScreenRoute);
+                                if (data == true) {
+                                  provider.refreshPage();
+                                }
+                              },
+                            ),
+                          ],
+                        ),
+                      ),
+                    ),
+
+                    /// TabBar
+                    SliverPersistentHeader(
+                      pinned: true,
+                      delegate: _SliverAppBarDelegate(
+                        TabBar(
+                          tabAlignment: TabAlignment.center,
+                          dividerColor: Colors.transparent,
+                          isScrollable: true,
+                          labelColor: AppColors.primaryColor,
+                          tabs: const [
+                            Tab(text: "My Leave Requests"),
+                            Tab(text: "Team Requests"),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ];
+                },
+
+                /// Tab Views
+                body: const TabBarView(
+                  children: [
+                    MyLeaveRequestsTabScreen(hideFloatingButton: true),
+                    TeamRequestsTabScreen(),
+                  ],
+                ),
+              ),
+            ),
+          );
         },
       ),
     );
   }
 
-  Widget _buildBody({required EmployeeLeaveProvider provider}) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.all(16),
-      child: Column(
-        children: [
-          leaveBalanceCard(provider: provider),
-          SizedBox(height: AppSize.verticalWidgetSpacing),
-          CommonButton(
-            title: "+ Apply for leave",
-            onTap: () async {
-              await GoRouter.of(provider.context).push(AppRouter.leaveFormScreenRoute);
-            },
+  /// Leave Balance Grid
+  Widget _leaveBalanceGrid({
+    required List<LeaveBalance> leaveBalances,
+    required BuildContext context,
+  }) {
+    return Column(
+      children: [
+        for (int i = 0; i < leaveBalances.length; i += 2) ...[
+          Row(
+            children: [
+              Expanded(
+                child: leaveCard(
+                  title: leaveBalances[i].leaveType ?? "",
+                  available: "${leaveBalances[i].balance ?? 0}",
+                  used: "${leaveBalances[i].usedLeaves ?? 0}",
+                  context: context,
+                ),
+              ),
+              if (i + 1 < leaveBalances.length) ...[
+                const SizedBox(width: AppSize.verticalWidgetSpacing),
+                Expanded(
+                  child: leaveCard(
+                    title: leaveBalances[i + 1].leaveType ?? "",
+                    available: "${leaveBalances[i + 1].balance ?? 0}",
+                    used: "${leaveBalances[i + 1].usedLeaves ?? 0}",
+                    context: context,
+                  ),
+                ),
+              ],
+            ],
           ),
-          SizedBox(height: AppSize.verticalWidgetSpacing),
-          myLeaveRequestCard(provider: provider),
+          const SizedBox(height: AppSize.verticalWidgetSpacing),
+        ],
+      ],
+    );
+  }
+
+  /// Leave Card
+  Widget leaveCard({
+    required String title,
+    required String available,
+    required String used,
+    required BuildContext context,
+  }) {
+    return Card(
+      color: context.read<AppThemeProvider>().isDarkMode
+          ? AppColors.darkGrey
+          : AppColors.lightGrey,
+      margin: EdgeInsets.zero,
+      child: Container(
+        padding: const EdgeInsets.all(16),
+        height: 120,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                const CircleAvatar(
+                  radius: 14,
+                  child: Icon(Icons.assignment_outlined, size: 18),
+                ),
+                const SizedBox(width: 8),
+                Expanded(
+                  child: Text(
+                    title,
+                    style: AppTextStyle().titleTextStyle(
+                      context: context,
+                      fontSize: 14,
+                    ),
+                    overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                  ),
+                ),
+              ],
+            ),
+            const Spacer(),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Available",
+                  style: AppTextStyle().subTitleTextStyle(context: context),
+                ),
+                Text(
+                  available,
+                  style: AppTextStyle().subTitleTextStyle(
+                    context: context,
+                    color: AppColors.successPrimary,
+                  ),
+                ),
+              ],
+            ),
+            const SizedBox(height: 4),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Text(
+                  "Used",
+                  style: AppTextStyle().subTitleTextStyle(context: context),
+                ),
+                Text(
+                  used,
+                  style: AppTextStyle().subTitleTextStyle(
+                    context: context,
+                    color: AppColors.errorColor,
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+/// Sticky TabBar Delegate
+class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
+  final TabBar tabBar;
+
+  _SliverAppBarDelegate(this.tabBar);
+
+  @override
+  double get minExtent => tabBar.preferredSize.height;
+
+  @override
+  double get maxExtent => tabBar.preferredSize.height;
+
+  @override
+  Widget build(context, shrinkOffset, overlapsContent) {
+    return Container(
+      color: Theme.of(context).scaffoldBackgroundColor,
+      child: tabBar,
+    );
+  }
+
+  @override
+  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
+    return false;
+  }
+}
+
+class LeavePlanDetailsScreen extends StatelessWidget {
+  final LeavePlanDataModel leavePlanDataModel;
+
+  const LeavePlanDetailsScreen({super.key, required this.leavePlanDataModel});
+
+  @override
+  Widget build(BuildContext context) {
+    // final plan = data["data"];
+    // final leaveTypes = plan["leave_types"] as List;
+
+    return SingleChildScrollView(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          /// PLAN INFO CARD
+          Card(
+            color: context.read<AppThemeProvider>().isDarkMode
+                ? AppColors.darkGrey
+                : AppColors.lightGrey,
+            margin: EdgeInsets.all(0),
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(12),
+            ),
+            elevation: 3,
+            child: Padding(
+              padding: const EdgeInsets.all(16),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    leavePlanDataModel.planName ?? "",
+                    style: AppTextStyle().titleTextStyle(
+                      context: context,
+                      fontSize: 14,
+                    ),
+                  ),
+
+                  const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+
+                  _infoRow(
+                    "Category",
+                    leavePlanDataModel.userCategoryName,
+                    context: context,
+                  ),
+                  _infoRow(
+                    "Start Date",
+                    leavePlanDataModel.planStartDate,
+                    context: context,
+                  ),
+                  _infoRow(
+                    "End Date",
+                    leavePlanDataModel.planEndDate,
+                    context: context,
+                  ),
+                ],
+              ),
+            ),
+          ),
+
+          const SizedBox(height: AppSize.verticalWidgetSpacing),
+
+          Card(
+            color: context.read<AppThemeProvider>().isDarkMode
+                ? AppColors.darkGrey
+                : AppColors.lightGrey,
+            margin: EdgeInsets.all(0),
+            child: Padding(
+              padding: const EdgeInsets.symmetric(
+                horizontal: AppSize.verticalWidgetSpacing,
+                vertical: AppSize.verticalWidgetSpacing / 2,
+              ),
+              child: ListView.builder(
+                padding: EdgeInsets.all(0),
+                itemCount: leavePlanDataModel.leaveTypes?.length,
+                shrinkWrap: true,
+                physics: const NeverScrollableScrollPhysics(),
+                itemBuilder: (context, index) {
+                  final leave = leavePlanDataModel.leaveTypes?[index];
+
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+
+                      /// Leave Type Name
+                      Text(
+                        leave?.leaveType ?? '',
+                        style: AppTextStyle().titleTextStyle(
+                          context: context,
+                          fontSize: 14,
+                          color: AppColors.primaryColor,
+                        ),
+                      ),
+
+                      const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+
+                      _infoRow(
+                        "Total Leaves",
+                        leave?.leaveCount.toString(),
+                        context: context,
+                      ),
+                      _infoRow(
+                        "Paid Leave",
+                        leave?.isPaid == true ? "Yes" : "No",
+                        context: context,
+                      ),
+                      _infoRow(
+                        "Carry Forward",
+                        leave?.carryForward == true ? "Yes" : "No",
+                        context: context,
+                      ),
+
+                      if (leave?.carryForward == true)
+                        _infoRow(
+                          "Max Carry Forward",
+                          (leave?.maxCarryForward ?? 0).toString(),
+                          context: context,
+                        ),
+                      const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+                    ],
+                  );
+                },
+              ),
+            ),
+          ),
+          // const SizedBox(height: AppSize.verticalWidgetSpacing),
         ],
       ),
     );
   }
 
-  Widget leaveBalanceCard({required EmployeeLeaveProvider provider}) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      child: Container(
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("Leave Balance", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            SizedBox(height: 8),
-            GridView.builder(
-              shrinkWrap: true,
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: provider.leaveDetailsList.length,
-              gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 2,
-                mainAxisSpacing: 10,
-                crossAxisSpacing: 10,
-                childAspectRatio: 1.9,
-              ),
-              itemBuilder: (_, i) {
-                Map<String, dynamic> leaves = provider.leaveDetailsList[i];
-                return leaveBalanceItemWidget(
-                  context: provider.context,
-                  title: leaves['name'].toString(),
-                  days: leaves['days'].toString(),
-                );
-              },
-            ),
-          ],
+  /// Reusable Info Row
+  Widget _infoRow(
+    String title,
+    String? value, {
+    required BuildContext context,
+  }) {
+    return Row(
+      children: [
+        Expanded(
+          flex: 3,
+          child: Text(
+            title,
+            style: AppTextStyle().lableTextStyle(context: context, height: 1.2),
+          ),
         ),
-      ),
-    );
-  }
-
-  Widget leaveBalanceItemWidget({required BuildContext context, required String title, required String days}) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      child: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        decoration: BoxDecoration(
-          color: AppColors.greyColor.withValues(alpha: 0.2),
-          borderRadius: BorderRadius.circular(12),
+        Text(
+          value ?? "-",
+          style: AppTextStyle().subTitleTextStyle(
+            context: context,
+            height: 1,
+            fontSize: 12,
+          ),
         ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text(title, style: AppTextStyle().subTitleTextStyle(context: context)),
-            Spacer(),
-            Text(days, style: AppTextStyle().titleTextStyle(context: context, fontSize: 20)),
-            Spacer(),
-            Text(
-              "days left",
-              style: AppTextStyle().lableTextStyle(context: context, color: AppColors.greyColor),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Widget myLeaveRequestCard({required EmployeeLeaveProvider provider}) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      child: Container(
-        width: double.infinity,
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          borderRadius: BorderRadius.circular(16),
-          boxShadow: [BoxShadow(blurRadius: 12, color: Colors.black.withValues(alpha: .05))],
-        ),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Text("My Leave Requests", style: TextStyle(fontSize: 18, fontWeight: FontWeight.w600)),
-            ListView.builder(
-              shrinkWrap: true,
-              physics: NeverScrollableScrollPhysics(),
-              itemCount: 4,
-              itemBuilder: (contex, index) {
-                return Container(
-                  margin: EdgeInsets.only(top: 8),
-                  padding: EdgeInsets.symmetric(horizontal: 12, vertical: 12),
-                  width: double.infinity,
-                  decoration: BoxDecoration(
-                    border: Border.all(color: AppColors.borderGrey),
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text("Casual Leave", style: AppTextStyle().titleTextStyle(context: provider.context)),
-                          Spacer(),
-                          Container(
-                            padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-                            decoration: BoxDecoration(
-                              color: AppColors.leaveColor.withValues(alpha: 0.5),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                            child: Text(
-                              "Pending",
-                              style: AppTextStyle().subTitleTextStyle(context: provider.context, fontSize: 13),
-                            ),
-                          ),
-                        ],
-                      ),
-                      Text(
-                        "Dec 23 - Dec 24, 2024",
-                        style: AppTextStyle().lableTextStyle(context: provider.context, fontSize: 15),
-                      ),
-                      SizedBox(height: 12),
-                      Container(
-                        padding: EdgeInsets.all(8),
-                        width: double.infinity,
-                        decoration: BoxDecoration(
-                          color: AppColors.greyColor.withValues(alpha: 0.2),
-                          borderRadius: BorderRadius.circular(8),
-                        ),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          mainAxisSize: MainAxisSize.min,
-                          children: [
-                            Text(
-                              "Reason:",
-                              style: AppTextStyle().lableTextStyle(context: provider.context, fontSize: 16),
-                            ),
-                            Text(
-                              "Family function",
-                              style: AppTextStyle().subTitleTextStyle(context: provider.context, fontSize: 13),
-                            ),
-                          ],
-                        ),
-                      ),
-                      SizedBox(height: 12),
-                      Row(
-                        children: [
-                          Text("2 days", style: AppTextStyle().lableTextStyle(context: provider.context)),
-                          Spacer(),
-                          Text("Applied: Dec 18", style: AppTextStyle().lableTextStyle(context: provider.context)),
-                        ],
-                      ),
-                    ],
-                  ),
-                );
-              },
-            ),
-          ],
-        ),
-      ),
+      ],
     );
   }
 }

@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
+import 'package:hrms_yb/shared/common_method.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:intl/intl.dart';
 
 class MyLeaveSummaryTabProvider extends ChangeNotifier {
@@ -27,7 +29,19 @@ class MyLeaveSummaryTabProvider extends ChangeNotifier {
 
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
-      leaveSummaryModel = LeaveSummaryModel.fromJson(response?.data);
+
+      if (response?.data['success'] == true) {
+        leaveSummaryModel = LeaveSummaryModel.fromJson(response?.data);
+      } else {
+        if (context.mounted) {
+          CommonWidget.customSnackbar(
+            context: context,
+            description: "Something went wrong! Try again.",
+            type: SnackbarType.error,
+          );
+          CommonMethod().errageAllDataAndGotoLogin(context: context);
+        }
+      }
     } catch (e) {
       debugPrint("Object route => Eception getting summary");
     }

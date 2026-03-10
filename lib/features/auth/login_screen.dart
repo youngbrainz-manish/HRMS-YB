@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/auth/login_provider.dart';
@@ -44,7 +45,10 @@ class _LoginScreenState extends State<LoginScreen> {
     );
   }
 
-  Widget _buildBody({required BuildContext context, required LoginProvider provider}) {
+  Widget _buildBody({
+    required BuildContext context,
+    required LoginProvider provider,
+  }) {
     bool isDarkMode = context.watch<AppThemeProvider>().isDarkMode;
     return Container(
       // color: isDarkMode ? AppColors.appScreenDark : AppColors.appScreenLight,
@@ -58,20 +62,41 @@ class _LoginScreenState extends State<LoginScreen> {
               SizedBox(height: AppSize.verticalWidgetSpacing),
               Container(
                 padding: EdgeInsets.all(12),
-                decoration: BoxDecoration(shape: BoxShape.circle, color: isDarkMode ? Colors.black : Colors.white),
-                child: Image.asset("assets/images/transparant_logo.png", height: 120, width: 120),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: isDarkMode ? Colors.black : Colors.white,
+                ),
+                child: Image.asset(
+                  "assets/images/transparant_logo.png",
+                  height: 120,
+                  width: 120,
+                ),
               ),
               SizedBox(height: 8),
-              Text("HRMS YB", style: AppTextStyle().headingTextStyle(context: context, fontSize: 36)),
+              Text(
+                "HRMS YB",
+                style: AppTextStyle().headingTextStyle(
+                  context: context,
+                  fontSize: 36,
+                ),
+              ),
               Text(
                 "Sign in to continue",
-                style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
+                style: AppTextStyle().subTitleTextStyle(
+                  context: context,
+                  color: AppColors.greyColor,
+                ),
               ),
               SizedBox(height: 32),
               Card(
                 margin: EdgeInsets.all(0),
                 child: Container(
-                  padding: EdgeInsets.only(left: 24, top: 32, right: 24, bottom: 16),
+                  padding: EdgeInsets.only(
+                    left: 24,
+                    top: 32,
+                    right: 24,
+                    bottom: 16,
+                  ),
                   child: Column(
                     children: [
                       CommonTextField(
@@ -95,7 +120,9 @@ class _LoginScreenState extends State<LoginScreen> {
                         prefixIcon: Icon(Icons.lock_outline),
                         keyboardType: TextInputType.visiblePassword,
                         obscureText: provider.hidePass,
-                        suffixIcon: provider.hidePass ? Icons.visibility_off : Icons.visibility,
+                        suffixIcon: provider.hidePass
+                            ? Icons.visibility_off
+                            : Icons.visibility,
                         onSuffixTap: () {
                           provider.hidePass = !provider.hidePass;
                           provider.updateState();
@@ -109,12 +136,16 @@ class _LoginScreenState extends State<LoginScreen> {
                       ),
                       SizedBox(height: 36),
                       CommonButton(
-                        loadingWidget: LoadingAnimationWidget.threeRotatingDots(size: 20, color: AppColors.whiteColor),
+                        loadingWidget: LoadingAnimationWidget.threeRotatingDots(
+                          size: 20,
+                          color: AppColors.whiteColor,
+                        ),
                         isLoading: provider.isLoading,
                         title: "Login",
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          if (provider.emailController.text.isEmpty || provider.pinController.text.isEmpty) {
+                          if (provider.emailController.text.isEmpty ||
+                              provider.pinController.text.isEmpty) {
                             CommonWidget.customSnackbar(
                               context: context,
                               description: "Please fill all fields",
@@ -128,12 +159,28 @@ class _LoginScreenState extends State<LoginScreen> {
                           );
 
                           if (data == true) {
-                            if (provider.userModel!.role?.roleId == 1) {
-                              // ignore: use_build_context_synchronously
-                              GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute);
+                            // if (provider.userModel!.role?.roleId == 1) {
+                            //   // ignore: use_build_context_synchronously
+                            //   GoRouter.of(
+                            //     context,
+                            //   ).go(AppRouter.employeeshomeScreenRoute);
+                            // } else {
+                            //   // ignore: use_build_context_synchronously
+                            //   GoRouter.of(
+                            //     context,
+                            //   ).go(AppRouter.hrDashboardRoute);
+                            // }
+                            if (AuthenticationData.userModel?.role?.roleName
+                                    .toString()
+                                    .toLowerCase() ==
+                                "hr".toLowerCase()) {
+                              GoRouter.of(
+                                context, // ignore: use_build_context_synchronously
+                              ).go(AppRouter.hrDashboardRoute);
                             } else {
-                              // ignore: use_build_context_synchronously
-                              GoRouter.of(context).go(AppRouter.hrDashboardRoute);
+                              GoRouter.of(
+                                context, // ignore: use_build_context_synchronously
+                              ).go(AppRouter.employeeshomeScreenRoute);
                             }
                           }
                         },
@@ -142,11 +189,14 @@ class _LoginScreenState extends State<LoginScreen> {
                       GestureDetector(
                         onTap: () async {
                           FocusScope.of(context).requestFocus(FocusNode());
-                          final result = await context.push(AppRouter.forgotPinRoute);
+                          final result = await context.push(
+                            AppRouter.forgotPinRoute,
+                          );
 
                           if (result == true) {
                             CommonWidget.customSnackbar(
-                              context: context, // ignore: use_build_context_synchronously
+                              context:
+                                  context, // ignore: use_build_context_synchronously
                               description: "Recovery email sent successfully",
                               type: SnackbarType.success,
                             );
@@ -154,7 +204,10 @@ class _LoginScreenState extends State<LoginScreen> {
                         },
                         child: Text(
                           "Forgot your PIN?",
-                          style: AppTextStyle().titleTextStyle(context: context, color: AppColors.textButtonColor),
+                          style: AppTextStyle().titleTextStyle(
+                            context: context,
+                            color: AppColors.textButtonColor,
+                          ),
                         ),
                       ),
                     ],

@@ -29,6 +29,7 @@ class DioApiServices {
   static String getRoles = "getrole";
   static String createEmployee = "createEmployee";
   static String updateEmployee = "employees";
+  static String getMyTeamLeaveRequest = "user_leaves/requestedLeaves";
 
   ///EMPLOYEE
 }

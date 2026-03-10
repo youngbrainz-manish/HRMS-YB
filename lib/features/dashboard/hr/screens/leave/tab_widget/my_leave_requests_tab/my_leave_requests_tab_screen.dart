@@ -10,7 +10,8 @@ import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
 class MyLeaveRequestsTabScreen extends StatelessWidget {
-  const MyLeaveRequestsTabScreen({super.key});
+  final bool? hideFloatingButton;
+  const MyLeaveRequestsTabScreen({super.key, this.hideFloatingButton});
 
   @override
   Widget build(BuildContext context) {
@@ -24,7 +25,8 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
                   ? CommonWidget.defaultLoader()
                   : buildBody(provider: provider),
             ),
-            floatingActionButton: provider.isLoading
+            floatingActionButton:
+                provider.isLoading || hideFloatingButton == true
                 ? const SizedBox()
                 : FloatingActionButton.extended(
                     onPressed: () async {

@@ -9,6 +9,9 @@ import 'package:intl/intl.dart';
 
 class AddUpdateLeaveProvider extends ChangeNotifier {
   final BuildContext context;
+
+  bool isLoading = false;
+  bool isSubmittingLeave = false;
   LeavePlanDataModel? leavePlanDataModel;
   List<LeaveType> leaveTypes = [];
   LeaveType? selectedLeaveType;
@@ -24,8 +27,11 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
     });
   }
 
-  void _init() {
-    getMyLeavePlan();
+  Future<void> _init() async {
+    isLoading = true;
+    notifyListeners();
+    await getMyLeavePlan();
+    isLoading = false;
     notifyListeners();
   }
 
@@ -113,6 +119,8 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
   }
 
   Future<void> submitLeave() async {
+    isSubmittingLeave = true;
+    notifyListeners();
     String url = DioApiServices.userLeavesApply;
     if (selectedLeaveType == null) {
       CommonWidget.customSnackbar(
@@ -146,7 +154,6 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
         "reason": descriptionTextController.text.trim(),
       };
       var response = await DioApiRequest().postCommonApiCall(data, url);
-      print("object route => ${response?.data}");
       if (response?.data['success'] == true) {
         if (context.mounted) {
           CommonWidget.customSnackbar(
@@ -155,7 +162,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
                 response?.data['message'] ?? "Leave applied successfully",
             type: SnackbarType.success,
           );
-          GoRouter.of(context).pop();
+          GoRouter.of(context).pop(true);
         }
       } else {
         if (context.mounted) {
@@ -171,5 +178,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("object route => APPLY LEAVE EXCEPTION => $e");
     }
+    isSubmittingLeave = false;
+    notifyListeners();
   }
 }
