@@ -6,23 +6,16 @@ import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
-class EmployeeLeaveProvider extends ChangeNotifier {
+class MyTeamsLeaveManagementProvider extends ChangeNotifier {
   final BuildContext context;
 
   bool isLoading = false;
 
   LeaveSummaryModel? leaveSummaryModel;
-  LeavePlanDataModel? leavePlanDataModel;
+  LeavePlanDataModel? teamsLeavePlanDataModel;
   List<LeaveType> leaveTypes = [];
 
-  List<Map<String, dynamic>> leaveDetailsList = [
-    {"name": "Casual Leave", "days": 10},
-    {"name": "Sick Leave", "days": 1},
-    {"name": "Earned Leave", "days": 4},
-    {"name": "Maternity Leave", "days": 9},
-  ];
-
-  EmployeeLeaveProvider({required this.context}) {
+  MyTeamsLeaveManagementProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       _init();
     });
@@ -32,7 +25,7 @@ class EmployeeLeaveProvider extends ChangeNotifier {
   }
 
   Future<void> _init() async {
-    await getMyLeavePlan();
+    await getMyTeamsLeavePlan();
     await getLeaveSummary();
 
     notifyListeners();
@@ -64,23 +57,23 @@ class EmployeeLeaveProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  getMyLeavePlan() async {
+  getMyTeamsLeavePlan() async {
     isLoading = true;
     notifyListeners();
-    String url = DioApiServices.getMyLeavePlan;
+    String url = DioApiServices.getMyTeamsLeavePlan;
 
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
 
       if (response?.data['success']) {
-        leavePlanDataModel = LeavePlanDataModel.fromJson(
+        teamsLeavePlanDataModel = LeavePlanDataModel.fromJson(
           response?.data['data'],
         );
 
-        leaveTypes.addAll(leavePlanDataModel?.leaveTypes ?? []);
+        leaveTypes.addAll(teamsLeavePlanDataModel?.leaveTypes ?? []);
       } else {
         // ignore: use_build_context_synchronously
-        CommonMethod().errageAllDataAndGotoLogin(context: context);
+        // CommonMethod().errageAllDataAndGotoLogin(context: context);
       }
     } catch (e) {
       debugPrint("object route => GET MY LEAVE PLAN EXCEPTION $e");

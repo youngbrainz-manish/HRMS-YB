@@ -6,10 +6,12 @@ import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/attendance/employee_attendace_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/home/employee_home_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/employee_leave_management_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/my_leave_management/my_leave_management_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/my_teams_leave_management/my_teams_leave_management_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/pay_slip/employees_pay_slip_screen.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/profile/employees_profile_screen.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/leave/leave_form/leave_form_screen.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/leave_form/leave_form_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/attendance/audit/audit_log_screen.dart';
@@ -78,12 +80,29 @@ class AppRouter {
   static const addHolidayScreenRoute = '/addHolidayScreen';
   static const hierarchyScreenRoute = '/hierarchyScreen';
   static const addUpdateLeaveScreenRoute = '/addUpdateLeaveScreen';
+  static const myLeaveManagementScreenRoute = '/myLeaveManagementScreen';
+  static const myTeamsLeaveManagementScreenRoute =
+      '/myTeamsLeaveManagementScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
     debugLogDiagnostics: true,
     initialLocation: splashRoute,
     routes: <RouteBase>[
+      GoRoute(
+        name: 'My Leave Management Screen',
+        path: myLeaveManagementScreenRoute,
+        pageBuilder: slideTransitionPageBuider(
+          child: MyLeaveManagementScreen(),
+        ),
+      ),
+      GoRoute(
+        name: 'My Teams Leave Management Screen',
+        path: myTeamsLeaveManagementScreenRoute,
+        pageBuilder: slideTransitionPageBuider(
+          child: MyTeamsLeaveManagementScreen(),
+        ),
+      ),
       GoRoute(
         name: 'Splash Screen',
         path: splashRoute,

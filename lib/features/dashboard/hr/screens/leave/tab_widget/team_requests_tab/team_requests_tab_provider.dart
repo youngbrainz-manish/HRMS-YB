@@ -47,7 +47,9 @@ class TeamRequestsTabProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("object route => GET MY TEAM LEAVE EXCEPTION => $e");
     }
-    isLoading = false;
-    notifyListeners();
+    if (context.mounted) {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

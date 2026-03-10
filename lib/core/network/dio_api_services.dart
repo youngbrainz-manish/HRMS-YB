@@ -14,6 +14,7 @@ class DioApiServices {
   static String updateProfile = "employeesPersonalDets";
   static String leaveSummary = "user_leaves/leaveSummary";
   static String getMyLeavePlan = "leave/getMyLeavePlan";
+  static String getMyTeamsLeavePlan = "leave/getAllLeavePlans";
   static String userLeavesApply = "user_leaves/apply";
   static String getMyLeaveRequesta = "user_leaves/getMyLeaves";
 

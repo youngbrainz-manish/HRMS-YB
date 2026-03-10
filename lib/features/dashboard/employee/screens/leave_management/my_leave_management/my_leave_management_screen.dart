@@ -3,176 +3,87 @@ import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/features/dashboard/employee/screens/leave/employee_leave_provider.dart';
+import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/my_leave_management/my_leave_management_provider.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_plan_data_model.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/team_requests_tab/team_requests_tab_screen.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
-import 'package:hrms_yb/shared/widgets/common_button.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
-class EmployeeLeaveScreen extends StatelessWidget {
-  const EmployeeLeaveScreen({super.key});
+class MyLeaveManagementScreen extends StatelessWidget {
+  const MyLeaveManagementScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
-      create: (_) => EmployeeLeaveProvider(context: context),
-      child: Consumer<EmployeeLeaveProvider>(
+      create: (_) => MyLeaveManagementProvider(context: context),
+      child: Consumer<MyLeaveManagementProvider>(
         builder: (context, provider, child) {
-          return DefaultTabController(
-            length: 2,
-            child: Scaffold(
-              body: NestedScrollView(
-                headerSliverBuilder: (context, innerBoxIsScrolled) {
-                  return [
-                    SliverToBoxAdapter(
-                      child: Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 16),
-                        child: Column(
-                          children: [
-                            const SizedBox(
-                              height: AppSize.verticalWidgetSpacing,
-                            ),
-
-                            /// My Leave Plan
-                            Card(
-                              margin: EdgeInsets.zero,
-                              child: Theme(
-                                data: Theme.of(
-                                  context,
-                                ).copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  title: Text(
-                                    "My Leave Plan",
-                                    style: AppTextStyle().titleTextStyle(
-                                      context: context,
-                                    ),
-                                  ),
-                                  children: [
-                                    // Padding(
-                                    //   padding: const EdgeInsets.symmetric(
-                                    //     horizontal:
-                                    //         AppSize.verticalWidgetSpacing,
-                                    //   ),
-                                    //   child: _leaveBalanceGrid(
-                                    //     context: context,
-                                    //     leaveBalances:
-                                    //         provider
-                                    //             .leaveSummaryModel
-                                    //             ?.data
-                                    //             ?.leaveBalance ??
-                                    //         [],
-                                    //   ),
-                                    // ),
-                                    if (provider.leavePlanDataModel !=
-                                        null) ...[
-                                      SizedBox(
-                                        height: MediaQuery.of(
-                                          context,
-                                        ).size.width,
-                                        child: LeavePlanDetailsScreen(
-                                          leavePlanDataModel:
-                                              provider.leavePlanDataModel!,
-                                        ),
-                                      ),
-                                    ],
-                                  ],
-                                ),
-                              ),
-                            ),
-                            SizedBox(height: AppSize.verticalWidgetSpacing),
-
-                            /// My Leave Balance
-                            Card(
-                              margin: EdgeInsets.zero,
-                              child: Theme(
-                                data: Theme.of(
-                                  context,
-                                ).copyWith(dividerColor: Colors.transparent),
-                                child: ExpansionTile(
-                                  title: Text(
-                                    "My Leave Balance",
-                                    style: AppTextStyle().titleTextStyle(
-                                      context: context,
-                                    ),
-                                  ),
-                                  children: [
-                                    Padding(
-                                      padding: const EdgeInsets.symmetric(
-                                        horizontal:
-                                            AppSize.verticalWidgetSpacing,
-                                      ),
-                                      child: _leaveBalanceGrid(
-                                        context: context,
-                                        leaveBalances:
-                                            provider
-                                                .leaveSummaryModel
-                                                ?.data
-                                                ?.leaveBalance ??
-                                            [],
-                                      ),
-                                    ),
-                                  ],
-                                ),
-                              ),
-                            ),
-
-                            const SizedBox(
-                              height: AppSize.verticalWidgetSpacing,
-                            ),
-
-                            /// Apply Leave Button
-                            CommonButton(
-                              title: "+ Apply for leave",
-                              onTap: () async {
-                                var data = await GoRouter.of(
-                                  context,
-                                ).push(AppRouter.addUpdateLeaveScreenRoute);
-                                if (data == true) {
-                                  provider.refreshPage();
-                                }
-                              },
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-
-                    /// TabBar
-                    SliverPersistentHeader(
-                      pinned: true,
-                      delegate: _SliverAppBarDelegate(
-                        TabBar(
-                          tabAlignment: TabAlignment.center,
-                          dividerColor: Colors.transparent,
-                          isScrollable: true,
-                          labelColor: AppColors.primaryColor,
-                          tabs: const [
-                            Tab(text: "My Leave Requests"),
-                            Tab(text: "Team Requests"),
-                          ],
-                        ),
-                      ),
-                    ),
-                  ];
-                },
-
-                /// Tab Views
-                body: const TabBarView(
-                  children: [
-                    MyLeaveRequestsTabScreen(hideFloatingButton: true),
-                    TeamRequestsTabScreen(),
-                  ],
-                ),
+          return Scaffold(
+            appBar: AppBar(
+              leading: CommonWidget.backButton(
+                onTap: () => GoRouter.of(context).pop(),
               ),
+              title: Text("My Leave Management"),
+              actions: [
+                GestureDetector(
+                  onTap: () async {
+                    var data = await GoRouter.of(
+                      context,
+                    ).push(AppRouter.addUpdateLeaveScreenRoute);
+                    if (data == true) {
+                      provider.refreshPage();
+                    }
+                  },
+                  child: Card(
+                    margin: EdgeInsets.all(0),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadiusGeometry.circular(20),
+                    ),
+                    child: Icon(Icons.add_circle_outlined, size: 30),
+                  ),
+                ),
+                SizedBox(width: AppSize.verticalWidgetSpacing / 2),
+              ],
+            ),
+            body: SafeArea(
+              child: _buildBody(context: context, provider: provider),
             ),
           );
         },
       ),
     );
+  }
+
+  Widget _buildBody({
+    required BuildContext context,
+    required MyLeaveManagementProvider provider,
+  }) {
+    return provider.isLoading
+        ? CommonWidget.defaultLoader()
+        : DefaultTabController(
+            length: 2,
+            child: Column(
+              children: [
+                TabBar(
+                  tabs: [
+                    Tab(text: "My Leave Summary"),
+                    Tab(text: "My Leave Plans"),
+                  ],
+                ),
+                Expanded(
+                  child: TabBarView(
+                    children: [
+                      _myLeaveSummary(provider: provider, context: context),
+                      _myLeavePlans(provider: provider, context: context),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          );
   }
 
   /// Leave Balance Grid
@@ -289,31 +200,84 @@ class EmployeeLeaveScreen extends StatelessWidget {
       ),
     );
   }
-}
 
-/// Sticky TabBar Delegate
-class _SliverAppBarDelegate extends SliverPersistentHeaderDelegate {
-  final TabBar tabBar;
+  _myLeaveSummary({
+    required MyLeaveManagementProvider provider,
+    required BuildContext context,
+  }) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: AppSize.verticalWidgetSpacing),
 
-  _SliverAppBarDelegate(this.tabBar);
+        /// My Leave Balance
+        Padding(
+          padding: EdgeInsets.symmetric(
+            horizontal: AppSize.verticalWidgetSpacing,
+          ),
+          child: Card(
+            margin: EdgeInsets.zero,
+            child: Theme(
+              data: Theme.of(
+                context,
+              ).copyWith(dividerColor: Colors.transparent),
+              child: ExpansionTile(
+                title: Text(
+                  "My Leave Balance",
+                  style: AppTextStyle().titleTextStyle(context: context),
+                ),
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: AppSize.verticalWidgetSpacing,
+                    ),
+                    child: _leaveBalanceGrid(
+                      context: context,
+                      leaveBalances:
+                          provider.leaveSummaryModel?.data?.leaveBalance ?? [],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
+        SizedBox(height: AppSize.verticalWidgetSpacing),
 
-  @override
-  double get minExtent => tabBar.preferredSize.height;
-
-  @override
-  double get maxExtent => tabBar.preferredSize.height;
-
-  @override
-  Widget build(context, shrinkOffset, overlapsContent) {
-    return Container(
-      color: Theme.of(context).scaffoldBackgroundColor,
-      child: tabBar,
+        /// My Leave Request
+        Padding(
+          padding: const EdgeInsets.symmetric(
+            horizontal: AppSize.verticalWidgetSpacing,
+          ),
+          child: Text(
+            "My Leave Request",
+            style: AppTextStyle().titleTextStyle(context: context),
+          ),
+        ),
+        Expanded(child: MyLeaveRequestsTabScreen(hideFloatingButton: true)),
+      ],
     );
   }
 
-  @override
-  bool shouldRebuild(_SliverAppBarDelegate oldDelegate) {
-    return false;
+  _myLeavePlans({
+    required MyLeaveManagementProvider provider,
+    required BuildContext context,
+  }) {
+    return Column(
+      children: [
+        if (provider.leavePlanDataModel != null) ...[
+          // SizedBox(height: AppSize.verticalWidgetSpacing),
+          Expanded(
+            child: SizedBox(
+              height: MediaQuery.of(context).size.width,
+              child: LeavePlanDetailsScreen(
+                leavePlanDataModel: provider.leavePlanDataModel!,
+              ),
+            ),
+          ),
+        ],
+      ],
+    );
   }
 }
 
@@ -324,20 +288,16 @@ class LeavePlanDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // final plan = data["data"];
-    // final leaveTypes = plan["leave_types"] as List;
-
     return SingleChildScrollView(
       padding: const EdgeInsets.symmetric(horizontal: 16),
       child: Column(
         mainAxisSize: MainAxisSize.min,
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
+          SizedBox(height: AppSize.verticalWidgetSpacing),
+
           /// PLAN INFO CARD
           Card(
-            color: context.read<AppThemeProvider>().isDarkMode
-                ? AppColors.darkGrey
-                : AppColors.lightGrey,
             margin: EdgeInsets.all(0),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(12),
@@ -381,9 +341,6 @@ class LeavePlanDetailsScreen extends StatelessWidget {
           const SizedBox(height: AppSize.verticalWidgetSpacing),
 
           Card(
-            color: context.read<AppThemeProvider>().isDarkMode
-                ? AppColors.darkGrey
-                : AppColors.lightGrey,
             margin: EdgeInsets.all(0),
             child: Padding(
               padding: const EdgeInsets.symmetric(
@@ -444,7 +401,6 @@ class LeavePlanDetailsScreen extends StatelessWidget {
               ),
             ),
           ),
-          // const SizedBox(height: AppSize.verticalWidgetSpacing),
         ],
       ),
     );
@@ -456,24 +412,27 @@ class LeavePlanDetailsScreen extends StatelessWidget {
     String? value, {
     required BuildContext context,
   }) {
-    return Row(
-      children: [
-        Expanded(
-          flex: 3,
-          child: Text(
-            title,
-            style: AppTextStyle().lableTextStyle(context: context, height: 1.2),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 3),
+      child: Row(
+        children: [
+          Expanded(
+            flex: 3,
+            child: Text(
+              title,
+              style: AppTextStyle().lableTextStyle(context: context),
+            ),
           ),
-        ),
-        Text(
-          value ?? "-",
-          style: AppTextStyle().subTitleTextStyle(
-            context: context,
-            height: 1,
-            fontSize: 12,
+          Text(
+            value ?? "-",
+            style: AppTextStyle().subTitleTextStyle(
+              context: context,
+              fontSize: 13,
+              fontWeight: FontWeight.w500,
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 }

@@ -41,8 +41,9 @@ class MyLeaveRequestsTabProvider extends ChangeNotifier {
       currentPage = 1;
       leaveList.clear();
     }
-
-    notifyListeners();
+    if (context.mounted) {
+      notifyListeners();
+    }
 
     String url =
         "${DioApiServices.getMyLeaveRequesta}?page=$currentPage&limit=$limit";
@@ -69,9 +70,11 @@ class MyLeaveRequestsTabProvider extends ChangeNotifier {
       debugPrint("GET MY LEAVE EXCEPTION => $e");
     }
 
-    isLoading = false;
-    isLoadMore = false;
-    notifyListeners();
+    if (context.mounted) {
+      isLoading = false;
+      isLoadMore = false;
+      notifyListeners();
+    }
   }
 
   Future<void> refreshLeaves() async {

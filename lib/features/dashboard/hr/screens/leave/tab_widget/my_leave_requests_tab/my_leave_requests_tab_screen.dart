@@ -23,7 +23,10 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
             body: SafeArea(
               child: provider.isLoading
                   ? CommonWidget.defaultLoader()
-                  : buildBody(provider: provider),
+                  : buildBody(
+                      provider: provider,
+                      hideFloatingButton: hideFloatingButton,
+                    ),
             ),
             floatingActionButton:
                 provider.isLoading || hideFloatingButton == true
@@ -43,12 +46,24 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBody({required MyLeaveRequestsTabProvider provider}) {
+  Widget buildBody({
+    required MyLeaveRequestsTabProvider provider,
+    bool? hideFloatingButton,
+  }) {
     return Padding(
-      padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
+      padding: EdgeInsets.only(
+        left: AppSize.verticalWidgetSpacing,
+        top:
+            AppSize.verticalWidgetSpacing *
+            (hideFloatingButton == true ? 0.5 : 1),
+        right: AppSize.verticalWidgetSpacing,
+        bottom: AppSize.verticalWidgetSpacing,
+      ),
       child: RefreshIndicator(
         onRefresh: provider.refreshLeaves,
         child: ListView.builder(
+          physics: AlwaysScrollableScrollPhysics(),
+          padding: EdgeInsets.all(0),
           controller: provider.scrollController,
           itemCount: provider.leaveList.length + (provider.isLoadMore ? 1 : 0),
           itemBuilder: (context, index) {
@@ -76,76 +91,81 @@ class LeaveDetailCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      margin: EdgeInsets.all(0),
-      elevation: 4,
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            // Header: Type and Status
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "${leaveModel.leavePlanType?.leaveType} Leave",
-                  style: AppTextStyle().titleTextStyle(context: context),
-                ),
-                _buildStatusChip(
-                  status: leaveModel.status ?? '',
-                  context: context,
-                ),
-              ],
-            ),
-            Divider(
-              height: AppSize.verticalWidgetSpacing,
-              color: AppColors.greyColor,
-            ),
-
-            // Date Row
-            Row(
-              children: [
-                _buildDateColumn(
-                  label: "START DATE",
-                  date: leaveModel.startDate ?? "",
-                  context: context,
-                ),
-                const Spacer(),
-                const Icon(Icons.arrow_forward, color: Colors.grey, size: 16),
-                const Spacer(),
-                _buildDateColumn(
-                  label: "END DATE",
-                  date: leaveModel.endDate ?? '',
-                  context: context,
-                ),
-              ],
-            ),
-            Divider(
-              height: AppSize.verticalWidgetSpacing,
-              color: AppColors.greyColor,
-            ),
-
-            // Total Days & Reason
-            Text(
-              "Total Duration: ${leaveModel.totalDays} Days",
-              style: AppTextStyle().titleTextStyle(
-                context: context,
-                color: AppColors.indigocolor,
-                fontSize: 14,
+    return Padding(
+      padding: const EdgeInsets.symmetric(
+        vertical: AppSize.verticalWidgetSpacing / 2,
+      ),
+      child: Card(
+        margin: EdgeInsets.all(0),
+        elevation: 4,
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              // Header: Type and Status
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    "${leaveModel.leavePlanType?.leaveType} Leave",
+                    style: AppTextStyle().titleTextStyle(context: context),
+                  ),
+                  _buildStatusChip(
+                    status: leaveModel.status ?? '',
+                    context: context,
+                  ),
+                ],
               ),
-            ),
-            const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-            Text(
-              "Reason: ${leaveModel.reason ?? 'No reason provided'}",
-              style: AppTextStyle().subTitleTextStyle(
-                context: context,
+              Divider(
+                height: AppSize.verticalWidgetSpacing,
                 color: AppColors.greyColor,
               ),
-            ),
-          ],
+
+              // Date Row
+              Row(
+                children: [
+                  _buildDateColumn(
+                    label: "START DATE",
+                    date: leaveModel.startDate ?? "",
+                    context: context,
+                  ),
+                  const Spacer(),
+                  const Icon(Icons.arrow_forward, color: Colors.grey, size: 16),
+                  const Spacer(),
+                  _buildDateColumn(
+                    label: "END DATE",
+                    date: leaveModel.endDate ?? '',
+                    context: context,
+                  ),
+                ],
+              ),
+              Divider(
+                height: AppSize.verticalWidgetSpacing,
+                color: AppColors.greyColor,
+              ),
+
+              // Total Days & Reason
+              Text(
+                "Total Duration: ${leaveModel.totalDays} Days",
+                style: AppTextStyle().titleTextStyle(
+                  context: context,
+                  color: AppColors.indigocolor,
+                  fontSize: 14,
+                ),
+              ),
+              const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
+              Text(
+                "Reason: ${leaveModel.reason ?? 'No reason provided'}",
+                style: AppTextStyle().subTitleTextStyle(
+                  context: context,
+                  color: AppColors.greyColor,
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );
