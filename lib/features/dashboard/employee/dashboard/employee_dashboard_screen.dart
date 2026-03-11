@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/app_bottom_nav_bar.dart';
 import 'package:hrms_yb/features/dashboard/employee/dashboard/employee_dashboard_provider.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
 
 class EmployeeDashboardScreen extends StatefulWidget {
@@ -22,33 +24,48 @@ class _EmployeeDashboardScreenState extends State<EmployeeDashboardScreen> {
       create: (_) => EmployeeDashboardProvider(context: context),
       child: Consumer<EmployeeDashboardProvider>(
         builder: (context, employeeDashboardProvider, child) {
-          return Scaffold(
-            appBar: _buildAppBar(context: context, provider: employeeDashboardProvider),
-            body: SafeArea(
-              child: Column(children: [Expanded(child: widget.widget)]),
-            ),
-            bottomNavigationBar: AppBottomNavBar(
-              isDarkMode: context.watch<AppThemeProvider>().isDarkMode,
-              currentIndex: employeeDashboardProvider.currentIndex,
-              onTap: (index) {
-                employeeDashboardProvider.onItemTapped(index);
-              },
-              labelTextStyle: WidgetStateProperty.resolveWith(
-                (states) => states.contains(WidgetState.selected)
-                    ? AppTextStyle().subTitleTextStyle(
-                        context: context,
-                        color: states.contains(WidgetState.selected) ? AppColors.whiteColor : AppColors.darkGrey,
-                        fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
-                        fontSize: 13,
-                      )
-                    : AppTextStyle().subTitleTextStyle(
-                        context: context,
-                        color: states.contains(WidgetState.selected)
-                            ? AppColors.primaryColor
-                            : AppColors.secondaryDarkTextColor,
-                        fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
-                        fontSize: 12,
-                      ),
+          return PopScope(
+            // ignore: deprecated_member_use
+            onPopInvoked: (didPop) async {
+              if (didPop) return;
+              bool? exit = await CommonWidget.showConfirmDialog(
+                context: context,
+                title: "Exit App",
+                message: "Are you sure you want to exit?",
+              );
+              if (exit == true) {
+                SystemNavigator.pop();
+              }
+            },
+
+            child: Scaffold(
+              appBar: _buildAppBar(context: context, provider: employeeDashboardProvider),
+              body: SafeArea(
+                child: Column(children: [Expanded(child: widget.widget)]),
+              ),
+              bottomNavigationBar: AppBottomNavBar(
+                isDarkMode: context.watch<AppThemeProvider>().isDarkMode,
+                currentIndex: employeeDashboardProvider.currentIndex,
+                onTap: (index) {
+                  employeeDashboardProvider.onItemTapped(index);
+                },
+                labelTextStyle: WidgetStateProperty.resolveWith(
+                  (states) => states.contains(WidgetState.selected)
+                      ? AppTextStyle().subTitleTextStyle(
+                          context: context,
+                          color: states.contains(WidgetState.selected) ? AppColors.whiteColor : AppColors.darkGrey,
+                          fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
+                          fontSize: 13,
+                        )
+                      : AppTextStyle().subTitleTextStyle(
+                          context: context,
+                          color: states.contains(WidgetState.selected)
+                              ? AppColors.primaryColor
+                              : AppColors.secondaryDarkTextColor,
+                          fontWeight: states.contains(WidgetState.selected) ? FontWeight.bold : null,
+                          fontSize: 12,
+                        ),
+                ),
               ),
             ),
           );
