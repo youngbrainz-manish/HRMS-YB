@@ -68,6 +68,9 @@ class MyLeaveSummaryTabScreen extends StatelessWidget {
     return Card(
       margin: EdgeInsets.all(0),
       child: ExpansionTile(
+        tilePadding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
+        childrenPadding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         title: Text("Leave Balance", style: AppTextStyle().titleTextStyle(context: context)),
         children: [
           Padding(

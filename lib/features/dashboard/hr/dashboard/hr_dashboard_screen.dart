@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/router/app_router.dart';
@@ -21,24 +22,52 @@ class HrDashboardScreen extends StatefulWidget {
 class _HrDashboardScreenState extends State<HrDashboardScreen> {
   final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
   final GlobalKey _themeSwitchKey = GlobalKey();
+  // @override
+  // Widget build(BuildContext context) {
+  //   return ChangeNotifierProvider(
+  //     create: (_) => HrDashboardProvider(context: context),
+  //     child: Consumer<HrDashboardProvider>(
+  //       builder: (context, hrDashboardProvider, child) {
+  //         return Scaffold(
+  //           key: _scaffoldKey,
+  //           appBar: _buildAppBar(context: context, provider: hrDashboardProvider),
+  //           body: SafeArea(
+  //             child: Column(children: [Expanded(child: widget.widget)]),
+  //           ),
+  //           drawer: _buildAppDrawer(context: context, provider: hrDashboardProvider),
+  //         );
+  //       },
+  //     ),
+  //   );
+  // }
+
   @override
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (_) => HrDashboardProvider(context: context),
       child: Consumer<HrDashboardProvider>(
         builder: (context, hrDashboardProvider, child) {
-          return Scaffold(
-            key: _scaffoldKey,
-            appBar: _buildAppBar(
-              context: context,
-              provider: hrDashboardProvider,
-            ),
-            body: SafeArea(
-              child: Column(children: [Expanded(child: widget.widget)]),
-            ),
-            drawer: _buildAppDrawer(
-              context: context,
-              provider: hrDashboardProvider,
+          return PopScope(
+            canPop: false,
+            // ignore: deprecated_member_use
+            onPopInvoked: (didPop) async {
+              if (didPop) return;
+              bool? exit = await CommonWidget.showConfirmDialog(
+                context: context,
+                title: "Exit App",
+                message: "Are you sure you want to exit?",
+              );
+              if (exit == true) {
+                SystemNavigator.pop();
+              }
+            },
+            child: Scaffold(
+              key: _scaffoldKey,
+              appBar: _buildAppBar(context: context, provider: hrDashboardProvider),
+              body: SafeArea(
+                child: Column(children: [Expanded(child: widget.widget)]),
+              ),
+              drawer: _buildAppDrawer(context: context, provider: hrDashboardProvider),
             ),
           );
         },
@@ -46,10 +75,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
     );
   }
 
-  AppBar _buildAppBar({
-    required BuildContext context,
-    required HrDashboardProvider provider,
-  }) {
+  AppBar _buildAppBar({required BuildContext context, required HrDashboardProvider provider}) {
     return AppBar(
       leading: IconButton(
         icon: Icon(Icons.menu, color: AppColors.whiteColor),
@@ -59,11 +85,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
       centerTitle: false,
       title: Text(
         provider.title,
-        style: AppTextStyle().titleTextStyle(
-          context: context,
-          color: AppColors.whiteColor,
-          fontSize: 18,
-        ),
+        style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor, fontSize: 18),
       ),
       actions: [
         GestureDetector(
@@ -74,9 +96,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: context.read<AppThemeProvider>().isDarkMode
-                  ? AppColors.blackColor
-                  : AppColors.whiteColor,
+              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
             ),
             child: Icon(Icons.notifications_active, size: 20),
           ),
@@ -87,27 +107,18 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
   }
 
   // New Method to build the Drawer
-  Widget _buildAppDrawer({
-    required BuildContext context,
-    required HrDashboardProvider provider,
-  }) {
+  Widget _buildAppDrawer({required BuildContext context, required HrDashboardProvider provider}) {
     return Drawer(
-      backgroundColor: context.watch<AppThemeProvider>().isDarkMode
-          ? AppColors.darkGrey
-          : AppColors.whiteColor,
+      backgroundColor: context.watch<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.whiteColor,
       child: Column(
         children: [
           Card(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(0),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
             margin: EdgeInsets.all(0),
             child: Container(
               width: double.infinity,
               decoration: BoxDecoration(
-                color: context.watch<AppThemeProvider>().isDarkMode
-                    ? AppColors.darkGrey
-                    : AppColors.primaryColor,
+                color: context.watch<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.primaryColor,
               ),
               child: Center(
                 child: Column(
@@ -126,18 +137,11 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                     SizedBox(height: 8),
                     Text(
                       "${AuthenticationData.userModel?.firstName} ${AuthenticationData.userModel?.lastName} ",
-                      style: AppTextStyle().titleTextStyle(
-                        context: context,
-                        color: AppColors.whiteColor,
-                      ),
+                      style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
                     ),
                     Text(
                       "Employee Id - EMP000${AuthenticationData.userModel?.userId}",
-                      style: AppTextStyle().lableTextStyle(
-                        context: context,
-                        color: AppColors.whiteColor,
-                        fontSize: 12,
-                      ),
+                      style: AppTextStyle().lableTextStyle(context: context, color: AppColors.whiteColor, fontSize: 12),
                     ),
                     SizedBox(height: 12),
                   ],
@@ -151,9 +155,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                 crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       leading: CommonWidget.buildSvgImage(
@@ -162,13 +164,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         width: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Home",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Home", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () {
                         Navigator.pop(context);
                         if (provider.title == "Home") return;
@@ -181,106 +177,71 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: Icon(
-                        Icons.people,
-                        size: 22,
-                        color: AppColors.primaryColor,
-                      ),
+                      leading: Icon(Icons.people, size: 22, color: AppColors.primaryColor),
                       title: Text(
                         "All Employees",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
+                        style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                       ),
                       onTap: () {
                         Navigator.pop(context);
                         if (provider.title == "All Employees") return;
                         provider.changeTitle("All Employees");
-                        GoRouter.of(
-                          context,
-                        ).push(AppRouter.employeeListScreenRoute);
+                        GoRouter.of(context).push(AppRouter.employeeListScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
                       leading: CommonWidget.buildSvgImage(
-                        path:
-                            "assets/svg-icons/dashboard-icons/profile-icon.svg",
+                        path: "assets/svg-icons/dashboard-icons/profile-icon.svg",
                         height: 22,
                         width: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Profile",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Profile", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () {
                         Navigator.pop(context);
                         if (provider.title == "Profile") return;
                         provider.changeTitle("Profile");
-                        GoRouter.of(
-                          context,
-                        ).push(AppRouter.hrProfileScreenRoute);
+                        GoRouter.of(context).push(AppRouter.hrProfileScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
                       leading: CommonWidget.buildSvgImage(
-                        path:
-                            "assets/svg-icons/dashboard-icons/attendance-icon.svg",
+                        path: "assets/svg-icons/dashboard-icons/attendance-icon.svg",
                         height: 22,
                         width: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Attendance",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Attendance", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () {
                         Navigator.pop(context);
                         if (provider.title == "Attendance") return;
                         provider.changeTitle("Attendance");
-                        GoRouter.of(
-                          context,
-                        ).push(AppRouter.hrAttendanceScreenRoute);
+                        GoRouter.of(context).push(AppRouter.hrAttendanceScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
@@ -292,10 +253,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                       ),
                       title: Text(
                         "Leave Management",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
+                        style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                       ),
                       onTap: () {
                         Navigator.pop(context);
@@ -308,42 +266,29 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
                       leading: CommonWidget.buildSvgImage(
-                        path:
-                            "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
+                        path: "assets/svg-icons/dashboard-icons/pay-slip-icon.svg",
                         height: 22,
                         width: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Payroll",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Payroll", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () {
                         Navigator.pop(context);
                         if (provider.title == "Payroll") return;
                         provider.changeTitle("Payroll");
-                        GoRouter.of(
-                          context,
-                        ).push(AppRouter.hrPayrollScreenRoute);
+                        GoRouter.of(context).push(AppRouter.hrPayrollScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
@@ -353,20 +298,12 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         width: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Holidays",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Holidays", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () async {
                         Navigator.pop(context);
                         if (provider.title == "Holidays") return;
                         provider.changeTitle("Holidays");
-                        await GoRouter.of(
-                          context,
-                        ).push(AppRouter.holidayScreenRoute);
+                        await GoRouter.of(context).push(AppRouter.holidayScreenRoute);
                         provider.changeTitle("Home");
                         // ignore: use_build_context_synchronously
                         GoRouter.of(context).push(AppRouter.hrDashboardRoute);
@@ -378,27 +315,17 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
 
                   /// Company Structure
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
-                      leading: Icon(
-                        Icons.account_tree,
-                        color: AppColors.primaryColor,
-                      ),
+                      leading: Icon(Icons.account_tree, color: AppColors.primaryColor),
                       title: Text(
                         "Company Structure",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
+                        style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                       ),
                       onTap: () async {
-                        await GoRouter.of(
-                          context,
-                        ).push(AppRouter.hierarchyScreenRoute);
+                        await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
                     ),
@@ -406,51 +333,30 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
 
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
                     child: ListTile(
                       contentPadding: EdgeInsets.only(left: 16, right: 8),
                       leading: Icon(
-                        context.read<AppThemeProvider>().isDarkMode
-                            ? Icons.light_mode
-                            : Icons.dark_mode,
+                        context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode,
                         size: 22,
                         color: AppColors.primaryColor,
                       ),
-                      title: Text(
-                        "Dark Theme",
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                        ),
-                      ),
+                      title: Text("Dark Theme", style: AppTextStyle().titleTextStyle(context: context, fontSize: 14)),
                       onTap: () {},
                       trailing: Switch(
                         key: _themeSwitchKey,
                         value: context.watch<AppThemeProvider>().isDarkMode,
                         onChanged: (v) {
-                          final renderBox =
-                              _themeSwitchKey.currentContext?.findRenderObject()
-                                  as RenderBox?;
+                          final renderBox = _themeSwitchKey.currentContext?.findRenderObject() as RenderBox?;
                           final origin =
-                              renderBox?.localToGlobal(
-                                Offset(
-                                  renderBox.size.width / 2,
-                                  renderBox.size.height / 2,
-                                ),
-                              ) ??
+                              renderBox?.localToGlobal(Offset(renderBox.size.width / 2, renderBox.size.height / 2)) ??
                               Offset.zero;
-                          context
-                              .read<AppThemeProvider>()
-                              .toggleThemeWithAnimation(
-                                origin: origin,
-                                overlayState: Overlay.of(context),
-                                devicePixelRatio: MediaQuery.of(
-                                  context,
-                                ).devicePixelRatio,
-                              );
+                          context.read<AppThemeProvider>().toggleThemeWithAnimation(
+                            origin: origin,
+                            overlayState: Overlay.of(context),
+                            devicePixelRatio: MediaQuery.of(context).devicePixelRatio,
+                          );
                         },
                       ),
                     ),
@@ -459,20 +365,13 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                   SizedBox(height: 4),
                   Card(
                     margin: EdgeInsets.all(0),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(0),
-                    ),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     child: ListTile(
                       leading: Icon(Icons.logout, color: Colors.red),
-                      title: Text(
-                        "Logout",
-                        style: TextStyle(color: Colors.red),
-                      ),
+                      title: Text("Logout", style: TextStyle(color: Colors.red)),
                       onTap: () async {
                         if (context.mounted) {
-                          await CommonMethod().errageAllDataAndGotoLogin(
-                            context: context,
-                          );
+                          await CommonMethod().errageAllDataAndGotoLogin(context: context);
                         }
                       },
                     ),
