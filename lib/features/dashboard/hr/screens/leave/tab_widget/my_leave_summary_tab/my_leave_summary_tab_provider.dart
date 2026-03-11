@@ -4,7 +4,6 @@ import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
-import 'package:intl/intl.dart';
 
 class MyLeaveSummaryTabProvider extends ChangeNotifier {
   final BuildContext context;
@@ -45,12 +44,9 @@ class MyLeaveSummaryTabProvider extends ChangeNotifier {
     } catch (e) {
       debugPrint("Object route => Eception getting summary");
     }
-    isLoading = false;
-    notifyListeners();
-  }
-
-  String formatDate(String date) {
-    final parsedDate = DateTime.parse(date).toLocal();
-    return DateFormat('dd MMM yyyy, hh:mm a').format(parsedDate);
+    if (context.mounted) {
+      isLoading = false;
+      notifyListeners();
+    }
   }
 }

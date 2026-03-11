@@ -17,210 +17,190 @@ class TeamRequestsTabScreen extends StatelessWidget {
       create: (_) => TeamRequestsTabProvider(context: context),
       child: Consumer<TeamRequestsTabProvider>(
         builder: (context, provider, child) {
-          return Scaffold(
-            body: SafeArea(
-              child: _buildBody(context: context, provider: provider),
-            ),
+          return Stack(
+            children: [
+              Scaffold(
+                body: SafeArea(
+                  child: _buildBody(context: context, provider: provider),
+                ),
+              ),
+              if (provider.showFullScreenLoader) ...[CommonWidget.fullScreenLoader()],
+            ],
           );
         },
       ),
     );
   }
 
-  Widget _buildBody({
-    required BuildContext context,
-    required TeamRequestsTabProvider provider,
-  }) {
+  Widget _buildBody({required BuildContext context, required TeamRequestsTabProvider provider}) {
     return SizedBox(
       height: double.infinity,
       width: double.infinity,
       child: provider.isLoading
           ? CommonWidget.defaultLoader()
-          : ListView.builder(
-              padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
-              itemCount: provider.teamLeaveDataModel.length,
-              itemBuilder: (context, index) {
-                final leave = provider.teamLeaveDataModel[index];
-                final employee = leave.employee;
-                final leaveType = leave.leavePlanType;
-
-                return Card(
-                  elevation: 3,
-                  margin: const EdgeInsets.only(bottom: 12),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12),
-                  ),
-                  child: Padding(
-                    padding: const EdgeInsets.all(14),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        /// Name + Status
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text(
-                              "${employee?.firstName} ${employee?.firstName}",
-                              style: const TextStyle(
-                                fontSize: 16,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            Container(
-                              padding: const EdgeInsets.symmetric(
-                                horizontal: 10,
-                                vertical: 4,
-                              ),
-                              decoration: BoxDecoration(
-                                color: getStatusColor(
-                                  leave.status ?? '',
-                                ).withValues(alpha: .1),
-                                borderRadius: BorderRadius.circular(6),
-                                border: Border.all(
-                                  color: getStatusColor(leave.status ?? ''),
-                                ),
-                              ),
-                              child: Text(
-                                leave.status.toString().toUpperCase(),
-                                style: AppTextStyle().lableTextStyle(
-                                  context: context,
-                                  color: getStatusColor(leave.status ?? ''),
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        /// Email
-                        Text(
-                          employee?.email ?? '',
-                          style: TextStyle(color: Colors.grey[600]),
-                        ),
-
-                        const Divider(height: AppSize.verticalWidgetSpacing),
-
-                        /// Leave Type
-                        Row(
-                          children: [
-                            Text(
-                              "Leave Type : ",
-                              style: AppTextStyle().subTitleTextStyle(
-                                context: context,
-                              ),
-                            ),
-
-                            Text(
-                              leaveType?.leaveType ?? '',
-                              style: const TextStyle(
-                                fontWeight: FontWeight.w600,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(
-                          height: AppSize.verticalWidgetSpacing / 3,
-                        ),
-
-                        /// Date Row
-                        Row(
-                          children: [
-                            Text(
-                              "From -> To  : ",
-                              style: AppTextStyle().subTitleTextStyle(
-                                context: context,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              "${leave.startDate} → ${leave.endDate}",
-                              style: AppTextStyle().titleTextStyle(
-                                context: context,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(
-                          height: AppSize.verticalWidgetSpacing / 2,
-                        ),
-
-                        /// Total Days
-                        Row(
-                          children: [
-                            // const Icon(Icons.timelapse, size: 18),
-                            Text(
-                              "Duration : ",
-                              style: AppTextStyle().subTitleTextStyle(
-                                context: context,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Text(
-                              "${leave.totalDays} Days",
-                              style: AppTextStyle().titleTextStyle(
-                                context: context,
-                              ),
-                            ),
-                          ],
-                        ),
-
-                        const SizedBox(height: 8),
-
-                        /// Reason
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              "Reason : ",
-                              style: AppTextStyle().subTitleTextStyle(
-                                context: context,
-                              ),
-                            ),
-                            const SizedBox(width: 6),
-                            Expanded(
-                              child: Text(
-                                leave.reason ?? "-",
-                                style: AppTextStyle().titleTextStyle(
-                                  context: context,
-                                ),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: AppSize.verticalWidgetSpacing),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Expanded(
-                              child: CommonButton(
-                                height: 40,
-                                title: "Reject",
-                                onTap: () {},
-                                color:
-                                    context.read<AppThemeProvider>().isDarkMode
-                                    ? AppColors.darkGrey
-                                    : AppColors.lightGrey,
-                                titleColor: AppColors.primaryColor,
-                                borderColor: AppColors.primaryColor,
-                              ),
-                            ),
-                            SizedBox(width: AppSize.verticalWidgetSpacing),
-                            Expanded(
-                              child: CommonButton(
-                                height: 40,
-                                title: "Approve",
-                                onTap: () {},
-                              ),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+          : provider.teamLeaveDataModel.isEmpty
+          ? Center(child: Text("Data not found."))
+          : RefreshIndicator(
+              onRefresh: () async {
+                await provider.getTeamsLeaveRequest();
               },
+              child: ListView.builder(
+                padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
+                itemCount: provider.teamLeaveDataModel.length,
+                itemBuilder: (context, index) {
+                  final leave = provider.teamLeaveDataModel[index];
+                  final employee = leave.employee;
+                  final leaveType = leave.leavePlanType;
+
+                  return Card(
+                    elevation: 3,
+                    margin: const EdgeInsets.only(bottom: 12),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
+                    child: Padding(
+                      padding: const EdgeInsets.all(14),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          /// Name + Status
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "${employee?.firstName} ${employee?.lastName}",
+                                style: const TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                              ),
+                              Container(
+                                padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                                decoration: BoxDecoration(
+                                  color: getStatusColor(leave.status ?? '').withValues(alpha: .1),
+                                  borderRadius: BorderRadius.circular(6),
+                                  border: Border.all(color: getStatusColor(leave.status ?? '')),
+                                ),
+                                child: Text(
+                                  leave.status.toString().toUpperCase(),
+                                  style: AppTextStyle().lableTextStyle(
+                                    context: context,
+                                    color: getStatusColor(leave.status ?? ''),
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+
+                          /// Email
+                          Text(employee?.email ?? '', style: TextStyle(color: Colors.grey[600])),
+
+                          const Divider(height: AppSize.verticalWidgetSpacing),
+
+                          /// Leave Type
+                          _rowWidget(context: context, title: "Leave Type", value: leaveType?.leaveType ?? ''),
+
+                          /// Date Row
+                          _rowWidget(
+                            context: context,
+                            title: "From -> To",
+                            value: "${leave.startDate} → ${leave.endDate}",
+                          ),
+
+                          /// Total Days
+                          _rowWidget(context: context, title: "Duration", value: "${leave.totalDays} Days"),
+
+                          /// Reason
+                          _rowWidget(context: context, title: "Reason", value: leave.reason ?? "-"),
+                          if (leave.status?.toLowerCase() == 'approved') ...[
+                            /// Manager comment
+                            _rowWidget(context: context, title: "Manager Comment", value: leave.managerComment ?? "-"),
+                          ] else if (leave.status?.toLowerCase() != 'Cancelled'.toLowerCase()) ...[
+                            SizedBox(height: AppSize.verticalWidgetSpacing),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.end,
+                              children: [
+                                Expanded(
+                                  child: CommonButton(
+                                    borderRadius: 6,
+                                    height: 36,
+                                    title: "Reject",
+                                    onTap: () async {
+                                      String? reason = await CommonWidget.showTextInputDialog(
+                                        context: context,
+                                        title: "Reject Leave Request",
+                                        hintText: "Enter Rejection reason",
+                                        cancelText: "Cancel",
+                                        confirmText: "Reject",
+                                      );
+
+                                      if (reason != null && reason.isNotEmpty) {
+                                        Map<String, dynamic> data = {"status": "approved", "manager_comment": reason};
+                                        bool? val = await provider.approveOrRejectLeave(leave: leave, data: data);
+                                        if (val == true) {
+                                          provider.getTeamsLeaveRequest();
+                                        }
+                                      }
+                                    },
+                                    color: context.read<AppThemeProvider>().isDarkMode
+                                        ? AppColors.darkGrey
+                                        : AppColors.lightGrey,
+                                    titleColor: AppColors.primaryColor,
+                                    borderColor: AppColors.primaryColor,
+                                  ),
+                                ),
+                                if (leave.status?.toLowerCase() != 'approved') ...[
+                                  SizedBox(width: AppSize.verticalWidgetSpacing),
+                                  Expanded(
+                                    child: CommonButton(
+                                      borderRadius: 6,
+                                      height: 36,
+                                      title: "Approve",
+                                      onTap: () async {
+                                        String? reason = await CommonWidget.showTextInputDialog(
+                                          context: context,
+                                          title: "Approve Leave Request",
+                                          hintText: "Enter Approve reason",
+                                          cancelText: "Cancel",
+                                          confirmText: "Approve",
+                                        );
+
+                                        if (reason != null && reason.isNotEmpty) {
+                                          Map<String, dynamic> data = {"status": "approved", "manager_comment": reason};
+                                          bool? val = await provider.approveOrRejectLeave(leave: leave, data: data);
+                                          if (val == true) {
+                                            provider.getTeamsLeaveRequest();
+                                          }
+                                        }
+                                      },
+                                    ),
+                                  ),
+                                ],
+                              ],
+                            ),
+                          ],
+                        ],
+                      ),
+                    ),
+                  );
+                },
+              ),
             ),
+    );
+  }
+
+  Widget _rowWidget({required BuildContext context, required String title, required String value}) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 1),
+      child: Row(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Expanded(
+            flex: 4,
+            child: Text(title, style: AppTextStyle().lableTextStyle(context: context, height: 1.2)),
+          ),
+          Expanded(flex: 1, child: Text(":")),
+          Expanded(
+            flex: 14,
+            child: Text(value, style: AppTextStyle().titleTextStyle(context: context, fontSize: 13)),
+          ),
+        ],
+      ),
     );
   }
 

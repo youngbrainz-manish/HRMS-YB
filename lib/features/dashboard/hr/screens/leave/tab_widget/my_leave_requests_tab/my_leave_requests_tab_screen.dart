@@ -23,19 +23,13 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
             body: SafeArea(
               child: provider.isLoading
                   ? CommonWidget.defaultLoader()
-                  : buildBody(
-                      provider: provider,
-                      hideFloatingButton: hideFloatingButton,
-                    ),
+                  : buildBody(provider: provider, hideFloatingButton: hideFloatingButton),
             ),
-            floatingActionButton:
-                provider.isLoading || hideFloatingButton == true
+            floatingActionButton: provider.isLoading || hideFloatingButton == true
                 ? const SizedBox()
                 : FloatingActionButton.extended(
                     onPressed: () async {
-                      await GoRouter.of(
-                        context,
-                      ).push(AppRouter.addUpdateLeaveScreenRoute);
+                      await GoRouter.of(context).push(AppRouter.addUpdateLeaveScreenRoute);
                     },
                     label: const Text("Apply Leave"),
                     icon: const Icon(Icons.add),
@@ -46,16 +40,11 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
     );
   }
 
-  Widget buildBody({
-    required MyLeaveRequestsTabProvider provider,
-    bool? hideFloatingButton,
-  }) {
+  Widget buildBody({required MyLeaveRequestsTabProvider provider, bool? hideFloatingButton}) {
     return Padding(
       padding: EdgeInsets.only(
         left: AppSize.verticalWidgetSpacing,
-        top:
-            AppSize.verticalWidgetSpacing *
-            (hideFloatingButton == true ? 0.5 : 1),
+        top: AppSize.verticalWidgetSpacing * (hideFloatingButton == true ? 0.5 : 1),
         right: AppSize.verticalWidgetSpacing,
         bottom: AppSize.verticalWidgetSpacing,
       ),
@@ -68,7 +57,7 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
           itemCount: provider.leaveList.length + (provider.isLoadMore ? 1 : 0),
           itemBuilder: (context, index) {
             if (index == provider.leaveList.length) {
-              Padding(
+              return Padding(
                 padding: EdgeInsets.all(16),
                 child: Center(child: CommonWidget.defaultLoader()),
               );
@@ -76,7 +65,7 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
 
             final leave = provider.leaveList[index];
 
-            return LeaveDetailCard(leaveModel: leave);
+            return LeaveDetailCard(leaveModel: leave, provider: provider);
           },
         ),
       ),
@@ -86,15 +75,14 @@ class MyLeaveRequestsTabScreen extends StatelessWidget {
 
 class LeaveDetailCard extends StatelessWidget {
   final LeaveModel leaveModel;
+  final MyLeaveRequestsTabProvider provider;
 
-  const LeaveDetailCard({super.key, required this.leaveModel});
+  const LeaveDetailCard({super.key, required this.leaveModel, required this.provider});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsets.symmetric(
-        vertical: AppSize.verticalWidgetSpacing / 2,
-      ),
+      padding: const EdgeInsets.symmetric(vertical: AppSize.verticalWidgetSpacing / 2),
       child: Card(
         margin: EdgeInsets.all(0),
         elevation: 4,
@@ -113,56 +101,73 @@ class LeaveDetailCard extends StatelessWidget {
                     "${leaveModel.leavePlanType?.leaveType} Leave",
                     style: AppTextStyle().titleTextStyle(context: context),
                   ),
-                  _buildStatusChip(
-                    status: leaveModel.status ?? '',
-                    context: context,
-                  ),
+                  _buildStatusChip(status: leaveModel.status ?? '', context: context),
                 ],
               ),
-              Divider(
-                height: AppSize.verticalWidgetSpacing,
-                color: AppColors.greyColor,
-              ),
+              Divider(height: AppSize.verticalWidgetSpacing, color: AppColors.greyColor),
 
               // Date Row
               Row(
                 children: [
-                  _buildDateColumn(
-                    label: "START DATE",
-                    date: leaveModel.startDate ?? "",
-                    context: context,
-                  ),
+                  _buildDateColumn(label: "START DATE", date: leaveModel.startDate ?? "", context: context),
                   const Spacer(),
                   const Icon(Icons.arrow_forward, color: Colors.grey, size: 16),
                   const Spacer(),
-                  _buildDateColumn(
-                    label: "END DATE",
-                    date: leaveModel.endDate ?? '',
-                    context: context,
-                  ),
+                  _buildDateColumn(label: "END DATE", date: leaveModel.endDate ?? '', context: context),
                 ],
               ),
-              Divider(
-                height: AppSize.verticalWidgetSpacing,
-                color: AppColors.greyColor,
-              ),
+              Divider(height: AppSize.verticalWidgetSpacing, color: AppColors.greyColor),
 
               // Total Days & Reason
               Text(
-                "Total Duration: ${leaveModel.totalDays} Days",
-                style: AppTextStyle().titleTextStyle(
-                  context: context,
-                  color: AppColors.indigocolor,
-                  fontSize: 14,
-                ),
+                "Reason: ${leaveModel.reason ?? 'No reason provided'}",
+                style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.greyColor),
               ),
               const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-              Text(
-                "Reason: ${leaveModel.reason ?? 'No reason provided'}",
-                style: AppTextStyle().subTitleTextStyle(
-                  context: context,
-                  color: AppColors.greyColor,
-                ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.end,
+                children: [
+                  Text(
+                    "Total Duration: ${leaveModel.totalDays} Days",
+                    style: AppTextStyle().titleTextStyle(context: context, color: AppColors.primaryColor, fontSize: 13),
+                  ),
+                  Spacer(),
+                  if ((leaveModel.status)?.toLowerCase() == 'approved'.toLowerCase()) ...[
+                    GestureDetector(
+                      onTap: () async {
+                        var val = await CommonWidget.showConfirmDialog(
+                          context: context,
+                          title: "Revoke Leave Request",
+                          message: "Are you sure you want to revoke this leave request? This action cannot be undone.",
+                        );
+                        if (val == true) {
+                          var ret = await provider.cancelMyLeave(leaveModel: leaveModel);
+                          if (ret == true) {
+                            provider.getMyLeaveRequest();
+                          }
+                        }
+                      },
+                      child: buildCancelButton(context: context, title: "Revoke"),
+                    ),
+                  ] else if ((leaveModel.status)?.toLowerCase() == 'pending'.toLowerCase()) ...[
+                    GestureDetector(
+                      onTap: () async {
+                        var val = await CommonWidget.showConfirmDialog(
+                          context: context,
+                          title: "Delete Leave Request",
+                          message: "Are you sure you want to delete this leave request? This action cannot be undone.",
+                        );
+                        if (val == true) {
+                          var ret = await provider.cancelMyLeave(leaveModel: leaveModel);
+                          if (ret == true) {
+                            provider.getMyLeaveRequest();
+                          }
+                        }
+                      },
+                      child: buildCancelButton(context: context, title: "Cancel"),
+                    ),
+                  ],
+                ],
               ),
             ],
           ),
@@ -171,43 +176,70 @@ class LeaveDetailCard extends StatelessWidget {
     );
   }
 
-  Widget _buildStatusChip({
-    required String status,
-    required BuildContext context,
-  }) {
+  Widget _buildStatusChip({required String status, required BuildContext context}) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
-      decoration: BoxDecoration(
-        color: AppColors.warningColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(20),
-        border: Border.all(color: AppColors.warningColor),
-      ),
-      child: Text(
-        status.toUpperCase(),
-        style: AppTextStyle().lableTextStyle(context: context, fontSize: 10),
-      ),
+      decoration: getStatusDecoration(status),
+      child: Text(status.toUpperCase(), style: AppTextStyle().lableTextStyle(context: context, fontSize: 10)),
     );
   }
 
-  Widget _buildDateColumn({
-    required String label,
-    required String date,
-    required BuildContext context,
-  }) {
+  Widget _buildDateColumn({required String label, required String date, required BuildContext context}) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
           label,
-          style: AppTextStyle().lableTextStyle(
-            context: context,
-            fontSize: 10,
-            height: 1.2,
-            color: AppColors.greyColor,
-          ),
+          style: AppTextStyle().lableTextStyle(context: context, fontSize: 10, height: 1.2, color: AppColors.greyColor),
         ),
         Text(date, style: AppTextStyle().subTitleTextStyle(context: context)),
       ],
     );
+  }
+
+  Widget buildCancelButton({required BuildContext context, required String title}) {
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+      decoration: BoxDecoration(
+        color: AppColors.primaryColor,
+        borderRadius: BorderRadius.circular(6),
+        border: Border.all(color: AppColors.primaryColor),
+      ),
+      child: Text(
+        title,
+        style: AppTextStyle().lableTextStyle(
+          context: context,
+          fontSize: 10,
+          color: AppColors.whiteColor,
+          fontWeight: FontWeight.w600,
+        ),
+      ),
+    );
+  }
+
+  BoxDecoration getStatusDecoration(String status) {
+    switch (status.toLowerCase()) {
+      case "approved":
+        return BoxDecoration(
+          color: AppColors.successPrimary.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: AppColors.successPrimary),
+        );
+
+      case "cancelled":
+        return BoxDecoration(
+          color: AppColors.errorColor.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: AppColors.errorColor),
+        );
+
+      case "pending":
+      default:
+        return BoxDecoration(
+          color: AppColors.warningColor.withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(6),
+          border: Border.all(color: AppColors.warningColor),
+        );
+    }
   }
 }

@@ -15,28 +15,20 @@ import 'package:shared_preferences/shared_preferences.dart';
 class DioApiRequest {
   DioApiRequest();
 
-  postCommonApiCall(
-    var data,
-    String url, {
-    bool? showToast,
-    String? resetToken,
-  }) async {
+  postCommonApiCall(var data, String url, {bool? showToast, String? resetToken}) async {
     Dio dio = await DioApiManager().getDio();
     try {
       Options options = Options();
       String token = DioApiManager().getToken();
       if (token.isEmpty) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         token = sharedPreferences.getString(ApiConstants.token) ?? '';
       }
       if (resetToken != null) {
         token = resetToken;
       }
 
-      options.headers = {
-        "Authorization": token.isNotEmpty ? 'Bearer $token' : '',
-      };
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
       if (kDebugMode) {
         ///Uncommnet to get CURL in log
         // String cURL = generateCurlFromFormData(url, data, options);
@@ -102,19 +94,12 @@ class DioApiRequest {
       Options options = Options();
       String token = DioApiManager().getToken();
       if (token.isEmpty) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         token = sharedPreferences.getString(ApiConstants.token) ?? '';
       }
-      options.headers = {
-        "Authorization": token.isNotEmpty ? 'Bearer $token' : '',
-      };
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
       options.validateStatus = (status) => status != null && status < 500;
-      var response = await dio.get(
-        url,
-        options: options,
-        queryParameters: queryParams,
-      );
+      var response = await dio.get(url, options: options, queryParameters: queryParams);
       if (response.data is Map<String, dynamic>) {
         CommonResponse commonResponse = CommonResponse.fromJson(response.data);
         if (commonResponse.success == true) {
@@ -151,11 +136,7 @@ class DioApiRequest {
     }
   }
 
-  String generateCurlFromFormData(
-    String url,
-    FormData formData,
-    Options? options,
-  ) {
+  String generateCurlFromFormData(String url, FormData formData, Options? options) {
     final buffer = StringBuffer();
     buffer.write('curl -X POST');
 
@@ -176,8 +157,7 @@ class DioApiRequest {
       final MultipartFile multipartFile = file.value;
       final filePath = multipartFile.filename ?? 'your_file_path';
 
-      final filename =
-          multipartFile.filename ?? filePath.split(Platform.pathSeparator).last;
+      final filename = multipartFile.filename ?? filePath.split(Platform.pathSeparator).last;
       buffer.write(' -F "$field=@$filePath;filename=$filename"');
     }
 
@@ -197,13 +177,10 @@ class DioApiRequest {
       Options options = Options();
       String token = DioApiManager().getToken();
       if (token.isEmpty) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         token = sharedPreferences.getString(AppConstants.token) ?? '';
       }
-      options.headers = {
-        "Authorization": token.isNotEmpty ? 'Bearer $token' : '',
-      };
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
       options.validateStatus = (status) => status != null && status <= 500;
 
       final response = await dio.delete(url, options: options);
@@ -240,24 +217,17 @@ class DioApiRequest {
     return null;
   }
 
-  Future<dynamic> putCommonApiCall(
-    var data,
-    String url, {
-    bool? showToast,
-  }) async {
+  Future<dynamic> putCommonApiCall(var data, String url, {bool? showToast}) async {
     Dio dio = await DioApiManager().getDio();
     try {
       Options options = Options();
       String token = DioApiManager().getToken();
 
       if (token.isEmpty) {
-        SharedPreferences sharedPreferences =
-            await SharedPreferences.getInstance();
+        SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
         token = sharedPreferences.getString(ApiConstants.token) ?? '';
       }
-      options.headers = {
-        "Authorization": token.isNotEmpty ? 'Bearer $token' : '',
-      };
+      options.headers = {"Authorization": token.isNotEmpty ? 'Bearer $token' : ''};
 
       if (data is FormData) {
         options.contentType = 'multipart/form-data';

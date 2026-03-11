@@ -10,6 +10,7 @@ class TeamRequestsTabProvider extends ChangeNotifier {
 
   bool isLoading = false;
   List<TeamLeaveDataModel> teamLeaveDataModel = [];
+  bool showFullScreenLoader = false;
 
   TeamRequestsTabProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
@@ -30,10 +31,7 @@ class TeamRequestsTabProvider extends ChangeNotifier {
       var response = await DioApiRequest().getCommonApiCall(url);
       if (response?.data['success'] == true) {
         teamLeaveDataModel =
-            (response?.data['data'] as List?)
-                ?.map((e) => TeamLeaveDataModel.fromJson(e))
-                .toList() ??
-            [];
+            (response?.data['data'] as List?)?.map((e) => TeamLeaveDataModel.fromJson(e)).toList() ?? [];
       } else {
         if (context.mounted) {
           CommonWidget.customSnackbar(
@@ -51,5 +49,55 @@ class TeamRequestsTabProvider extends ChangeNotifier {
       isLoading = false;
       notifyListeners();
     }
+  }
+
+  Future<bool?> approveOrRejectLeave({TeamLeaveDataModel? leave, required Map<String, dynamic> data}) async {
+    showFullScreenLoader = true;
+    notifyListeners();
+    String url = "${DioApiServices.approveOrRejectLeave}/${leave?.userAppliedLeavesId}";
+
+    try {
+      var response = await DioApiRequest().putCommonApiCall(data, url);
+      if (response.data['success'] == true) {
+        if (context.mounted) {
+          CommonWidget.customSnackbar(
+            context: context,
+            description: response.data['success'] ?? "Leave Approved Successfully.",
+            type: SnackbarType.success,
+          );
+          if (context.mounted) {
+            showFullScreenLoader = false;
+            notifyListeners();
+            return true;
+          }
+        }
+      } else {
+        if (context.mounted) {
+          CommonWidget.customSnackbar(
+            context: context,
+            description: response.data['success'] ?? "Something went wrong! Try again.",
+            type: SnackbarType.error,
+          );
+          if (context.mounted) {
+            showFullScreenLoader = false;
+            notifyListeners();
+            return false;
+          }
+        }
+      }
+    } catch (e) {
+      debugPrint("object route => Approve Leave EXCEPTION => $e");
+      if (context.mounted) {
+        showFullScreenLoader = false;
+        notifyListeners();
+        return false;
+      }
+    }
+    if (context.mounted) {
+      showFullScreenLoader = false;
+      notifyListeners();
+      return false;
+    }
+    return null;
   }
 }

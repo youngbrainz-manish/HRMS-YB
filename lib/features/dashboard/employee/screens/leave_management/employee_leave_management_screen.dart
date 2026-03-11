@@ -27,10 +27,7 @@ class EmployeeLeaveScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({
-    required EmployeeLeaveProvider provider,
-    required BuildContext context,
-  }) {
+  Widget _buildBody({required EmployeeLeaveProvider provider, required BuildContext context}) {
     return Container(
       padding: EdgeInsets.all(AppSize.verticalWidgetSpacing),
       height: MediaQuery.of(provider.context).size.height,
@@ -44,45 +41,27 @@ class EmployeeLeaveScreen extends StatelessWidget {
                 vertical: AppSize.verticalWidgetSpacing / 4,
                 horizontal: AppSize.verticalWidgetSpacing / 1.5,
               ),
-              leading: CircleAvatar(
-                radius: 20,
-                child: Icon(Icons.calendar_month),
-              ),
+              leading: CircleAvatar(radius: 20, child: Icon(Icons.calendar_month)),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "My Leave Management",
-                    style: AppTextStyle().titleTextStyle(
-                      context: provider.context,
-                    ),
-                  ),
+                  Text("My Leave Management", style: AppTextStyle().titleTextStyle(context: provider.context)),
                   SizedBox(height: AppSize.verticalWidgetSpacing / 4),
                 ],
               ),
               subtitle: Text(
                 "Check your leave balance, view leave plans, and manage your leave requests.",
-                style: AppTextStyle().lableTextStyle(
-                  context: context,
-                  fontSize: 11,
-                  color: AppColors.greyColor,
-                ),
+                style: AppTextStyle().lableTextStyle(context: context, fontSize: 11, color: AppColors.greyColor),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: GestureDetector(
                 onTap: () async {
-                  await GoRouter.of(
-                    context,
-                  ).push(AppRouter.myLeaveManagementScreenRoute);
+                  await GoRouter.of(context).push(AppRouter.myLeaveManagementScreenRoute);
                 },
                 child: Card(
-                  color: context.read<AppThemeProvider>().isDarkMode
-                      ? AppColors.darkGrey
-                      : AppColors.lightGrey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(20),
-                  ),
+                  color: context.read<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(20)),
                   margin: EdgeInsets.all(0),
                   child: Padding(
                     padding: const EdgeInsets.all(6),
@@ -102,45 +81,27 @@ class EmployeeLeaveScreen extends StatelessWidget {
                 vertical: AppSize.verticalWidgetSpacing / 4,
                 horizontal: AppSize.verticalWidgetSpacing / 1.5,
               ),
-              leading: CircleAvatar(
-                radius: 20,
-                child: Icon(Icons.calendar_month),
-              ),
+              leading: CircleAvatar(radius: 20, child: Icon(Icons.calendar_month)),
               title: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Text(
-                    "My Team's Leave Management",
-                    style: AppTextStyle().titleTextStyle(
-                      context: provider.context,
-                    ),
-                  ),
+                  Text("My Team's Leave Management", style: AppTextStyle().titleTextStyle(context: provider.context)),
                   SizedBox(height: AppSize.verticalWidgetSpacing / 3),
                 ],
               ),
               subtitle: Text(
                 "Monitor your team’s leave plans and requests, and take actions like approve or reject.",
-                style: AppTextStyle().lableTextStyle(
-                  context: context,
-                  fontSize: 11,
-                  color: AppColors.greyColor,
-                ),
+                style: AppTextStyle().lableTextStyle(context: context, fontSize: 11, color: AppColors.greyColor),
                 maxLines: 2,
                 overflow: TextOverflow.ellipsis,
               ),
               trailing: GestureDetector(
                 onTap: () async {
-                  await GoRouter.of(
-                    context,
-                  ).push(AppRouter.myTeamsLeaveManagementScreenRoute);
+                  await GoRouter.of(context).push(AppRouter.myTeamsLeaveManagementScreenRoute);
                 },
                 child: Card(
-                  color: context.read<AppThemeProvider>().isDarkMode
-                      ? AppColors.darkGrey
-                      : AppColors.lightGrey,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(20),
-                  ),
+                  color: context.read<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
+                  shape: RoundedRectangleBorder(borderRadius: BorderRadiusGeometry.circular(20)),
                   margin: EdgeInsets.all(0),
                   child: Padding(
                     padding: const EdgeInsets.all(6),

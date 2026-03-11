@@ -4,18 +4,14 @@ import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
+import 'package:hrms_yb/shared/widgets/common_text_field.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:provider/provider.dart';
 
 enum SnackbarType { success, error, other }
 
 class CommonWidget {
-  static buildSvgImage({
-    required String path,
-    required Color color,
-    double? height,
-    double? width,
-  }) {
+  static buildSvgImage({required String path, required Color color, double? height, double? width}) {
     return SvgPicture.asset(
       path,
       height: height ?? 22,
@@ -31,11 +27,7 @@ class CommonWidget {
         padding: const EdgeInsets.all(12.0),
         child: CircleAvatar(
           backgroundColor: AppColors.lightGrey.withValues(alpha: 0.3),
-          child: Icon(
-            Icons.arrow_back_ios_new_rounded,
-            size: 20,
-            color: AppColors.whiteColor,
-          ),
+          child: Icon(Icons.arrow_back_ios_new_rounded, size: 20, color: AppColors.whiteColor),
         ),
       ),
     );
@@ -51,9 +43,7 @@ class CommonWidget {
         margin: EdgeInsets.only(bottom: 8, top: 8),
         decoration: BoxDecoration(
           shape: BoxShape.circle,
-          color: context.read<AppThemeProvider>().isDarkMode
-              ? AppColors.blackColor
-              : AppColors.whiteColor,
+          color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
         ),
         child: Image.asset("assets/images/transparant_logo.png"),
       ),
@@ -73,16 +63,9 @@ class CommonWidget {
             padding: EdgeInsets.all(6),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              color: context.read<AppThemeProvider>().isDarkMode
-                  ? AppColors.blackColor
-                  : AppColors.whiteColor,
+              color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
             ),
-            child: Icon(
-              context.read<AppThemeProvider>().isDarkMode
-                  ? Icons.light_mode
-                  : Icons.dark_mode,
-              size: 21,
-            ),
+            child: Icon(context.read<AppThemeProvider>().isDarkMode ? Icons.light_mode : Icons.dark_mode, size: 21),
           ),
         ),
         SizedBox(width: 8),
@@ -90,9 +73,7 @@ class CommonWidget {
           padding: EdgeInsets.all(6),
           decoration: BoxDecoration(
             shape: BoxShape.circle,
-            color: context.read<AppThemeProvider>().isDarkMode
-                ? AppColors.blackColor
-                : AppColors.whiteColor,
+            color: context.read<AppThemeProvider>().isDarkMode ? AppColors.blackColor : AppColors.whiteColor,
           ),
           child: Icon(Icons.notifications_none_sharp, size: 20),
         ),
@@ -103,10 +84,7 @@ class CommonWidget {
 
   static defaultLoader({Color? color}) {
     return Center(
-      child: CircularProgressIndicator(
-        padding: EdgeInsets.all(0),
-        color: color ?? AppColors.primaryColor,
-      ),
+      child: CircularProgressIndicator(padding: EdgeInsets.all(0), color: color ?? AppColors.primaryColor),
     );
   }
 
@@ -123,12 +101,16 @@ class CommonWidget {
       builder: (context) {
         return AlertDialog(
           iconPadding: EdgeInsets.all(0),
-          insetPadding: EdgeInsets.all(0),
+          insetPadding: EdgeInsets.all(24),
           titlePadding: EdgeInsets.all(0),
           buttonPadding: EdgeInsets.all(0),
           actionsPadding: EdgeInsets.all(0),
           contentPadding: EdgeInsets.all(0),
           content: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadiusGeometry.circular(12),
+            ),
             margin: EdgeInsets.all(0),
             elevation: 3,
             child: Container(
@@ -136,31 +118,29 @@ class CommonWidget {
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
                   Text(
                     title,
                     style: AppTextStyle().titleTextStyle(context: context),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing),
                   Text(
                     message,
                     style: AppTextStyle().subTitleTextStyle(context: context),
+                    textAlign: TextAlign.center,
                   ),
                   SizedBox(height: AppSize.verticalWidgetSpacing * 2),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.end,
+                    crossAxisAlignment: CrossAxisAlignment.center,
                     children: [
-                      TextButton(
-                        onPressed: () => Navigator.pop(context, false),
-                        child: Text(cancelText),
-                      ),
+                      dialogButton(context: context, titleText: cancelText, onTap: () => Navigator.pop(context, false)),
                       SizedBox(width: 8),
                       GestureDetector(
                         onTap: () => Navigator.pop(context, true),
                         child: Container(
-                          padding: EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 4,
-                          ),
+                          padding: EdgeInsets.symmetric(horizontal: 16, vertical: 4),
                           decoration: BoxDecoration(
                             color: AppColors.primaryColor,
                             borderRadius: BorderRadius.circular(6),
@@ -185,6 +165,32 @@ class CommonWidget {
           ),
         );
       },
+    );
+  }
+
+  static Widget dialogButton({
+    required BuildContext context,
+    required String titleText,
+    required void Function()? onTap,
+    Color? fillColor,
+  }) {
+    return GestureDetector(
+      onTap: onTap,
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12, vertical: 4),
+        decoration: BoxDecoration(
+          color: fillColor,
+          border: Border.all(color: AppColors.dartButtonColor),
+          borderRadius: BorderRadius.circular(6),
+        ),
+        child: Text(
+          titleText,
+          style: AppTextStyle().subTitleTextStyle(
+            context: context,
+            color: fillColor == null ? AppColors.primaryColor : AppColors.whiteColor,
+          ),
+        ),
+      ),
     );
   }
 
@@ -217,18 +223,12 @@ class CommonWidget {
                   if ((title ?? "").isNotEmpty)
                     Text(
                       title!,
-                      style: AppTextStyle().titleTextStyle(
-                        context: context,
-                        color: AppColors.whiteColor,
-                      ),
+                      style: AppTextStyle().titleTextStyle(context: context, color: AppColors.whiteColor),
                     ),
                   SizedBox(height: 4),
                   Text(
                     description,
-                    style: AppTextStyle().subTitleTextStyle(
-                      context: context,
-                      color: AppColors.whiteColor,
-                    ),
+                    style: AppTextStyle().subTitleTextStyle(context: context, color: AppColors.whiteColor),
                   ),
                 ],
               ),
@@ -248,11 +248,7 @@ class CommonWidget {
     );
   }
 
-  static butoonWithImageAndText({
-    void Function()? onTap,
-    Color? color,
-    required Widget child,
-  }) {
+  static butoonWithImageAndText({void Function()? onTap, Color? color, required Widget child}) {
     return GestureDetector(
       onTap: onTap,
       child: Card(
@@ -270,17 +266,11 @@ class CommonWidget {
 
   static Widget buttonLoader({double? size}) {
     return Center(
-      child: LoadingAnimationWidget.threeRotatingDots(
-        size: size ?? 20,
-        color: AppColors.whiteColor,
-      ),
+      child: LoadingAnimationWidget.threeRotatingDots(size: size ?? 20, color: AppColors.whiteColor),
     );
   }
 
-  static commonPopupMenu({
-    required Function(int) onSelected,
-    required List<PopupMenuEntry<int>> menuItem,
-  }) {
+  static commonPopupMenu({required Function(int) onSelected, required List<PopupMenuEntry<int>> menuItem}) {
     return Container(
       padding: EdgeInsets.only(left: 6),
       child: SizedBox(
@@ -300,10 +290,82 @@ class CommonWidget {
     return Container(
       height: double.infinity,
       width: double.infinity,
-      decoration: BoxDecoration(
-        color: AppColors.absentColor.withValues(alpha: 0.3),
-      ),
+      decoration: BoxDecoration(color: AppColors.absentColor.withValues(alpha: 0.3)),
       child: buttonLoader(size: 50),
+    );
+  }
+
+  static Future<String?> showTextInputDialog({
+    required BuildContext context,
+    required String title,
+    String hintText = "Enter value",
+    String cancelText = "Cancel",
+    String confirmText = "Submit",
+  }) async {
+    TextEditingController controller = TextEditingController();
+
+    return await showDialog<String>(
+      context: context,
+      barrierDismissible: false,
+      builder: (context) {
+        return AlertDialog(
+          iconPadding: EdgeInsets.all(0),
+          insetPadding: EdgeInsets.all(24),
+          titlePadding: EdgeInsets.all(0),
+          buttonPadding: EdgeInsets.all(0),
+          actionsPadding: EdgeInsets.all(0),
+          contentPadding: EdgeInsets.all(0),
+          content: Card(
+            shape: RoundedRectangleBorder(
+              side: BorderSide(color: AppColors.greyColor),
+              borderRadius: BorderRadiusGeometry.circular(12),
+            ),
+            margin: EdgeInsets.all(0),
+            elevation: 3,
+            child: Container(
+              width: MediaQuery.of(context).size.width * 0.8,
+              padding: EdgeInsets.all(AppSize.verticalWidgetSpacing),
+              child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: [
+                  Text(title, style: AppTextStyle().titleTextStyle(context: context)),
+                  SizedBox(height: AppSize.verticalWidgetSpacing * 1.5),
+                  CommonTextField(borderRadius: 6, height: 36, controller: controller, hintText: hintText),
+                  SizedBox(height: AppSize.verticalWidgetSpacing * 2),
+
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      dialogButton(
+                        context: context,
+                        titleText: cancelText,
+                        onTap: () => Navigator.pop(context, controller.text.trim()),
+                      ),
+                      SizedBox(width: AppSize.verticalWidgetSpacing),
+                      dialogButton(
+                        fillColor: AppColors.primaryColor,
+                        context: context,
+                        titleText: confirmText,
+                        onTap: () {
+                          if (controller.text.trim().isNotEmpty) {
+                            Navigator.pop(context, controller.text.trim());
+                          } else {
+                            CommonWidget.customSnackbar(
+                              context: context,
+                              description: "Please write comment to complete action.",
+                              type: SnackbarType.error,
+                            );
+                          }
+                        },
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 }

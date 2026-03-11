@@ -21,6 +21,8 @@ class CommonTextField extends StatelessWidget {
   final double? height;
   final bool securePass;
   final void Function(String)? onChanged;
+  final double borderRadius;
+  final double? width;
 
   const CommonTextField({
     super.key,
@@ -39,6 +41,8 @@ class CommonTextField extends StatelessWidget {
     this.height,
     this.securePass = false,
     this.onChanged,
+    this.borderRadius = 12,
+    this.width,
   });
 
   @override
@@ -48,24 +52,19 @@ class CommonTextField extends StatelessWidget {
       mainAxisSize: MainAxisSize.min,
       children: [
         if (headingText != null) ...[
-          Text(
-            headingText!,
-            style: AppTextStyle().lableTextStyle(context: context),
-          ),
+          Text(headingText!, style: AppTextStyle().lableTextStyle(context: context)),
           SizedBox(height: 4),
         ],
         GestureDetector(
           onTap: onTap,
           child: Container(
             height: height ?? 45,
+            width: width,
             color: Colors.transparent,
             child: TextFormField(
               onTap: onTap,
               onChanged: onChanged,
-              style: AppTextStyle().subTitleTextStyle(
-                context: context,
-                fontSize: 13,
-              ),
+              style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13),
               // enabled: isEnable,
               readOnly: !(isEnable ?? false),
               controller: controller,
@@ -78,51 +77,36 @@ class CommonTextField extends StatelessWidget {
                 hintStyle: context.textTheme.bodyLarge?.copyWith(
                   color: Colors.grey,
                   height: 1.3,
-                  fontSize: 12,
+                  fontSize: (height ?? 45) / 3.4,
                 ),
                 labelStyle: context.textTheme.bodyLarge?.copyWith(
-                  color: context.read<AppThemeProvider>().isDarkMode
-                      ? AppColors.whiteColor
-                      : AppColors.primaryColor,
+                  color: context.read<AppThemeProvider>().isDarkMode ? AppColors.whiteColor : AppColors.primaryColor,
                   fontSize: 14,
                 ),
                 prefixIcon: prefixIcon,
                 suffixIcon: suffixIcon != null
-                    ? GestureDetector(
-                        onTap: onSuffixTap,
-                        child: Icon(suffixIcon),
-                      )
+                    ? GestureDetector(onTap: onSuffixTap, child: Icon(suffixIcon, size: 18))
                     : null,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
+                border: OutlineInputBorder(borderRadius: BorderRadius.circular(borderRadius)),
                 enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(borderRadius),
                   borderSide: BorderSide(color: AppColors.borderGrey),
                 ),
                 focusedBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.primaryColor),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 disabledBorder: OutlineInputBorder(
                   borderSide: BorderSide(color: AppColors.borderGrey),
-                  borderRadius: BorderRadius.circular(12),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 errorBorder: OutlineInputBorder(
-                  borderSide: BorderSide(
-                    color: AppColors.errorColor,
-                    width: 1.5,
-                  ),
-                  borderRadius: BorderRadius.circular(12),
+                  borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
+                  borderRadius: BorderRadius.circular(borderRadius),
                 ),
                 // hide error text
                 errorStyle: const TextStyle(height: 2, fontSize: 0),
-                contentPadding: const EdgeInsets.only(
-                  left: 12,
-                  right: 12,
-                  top: 16,
-                  bottom: 16,
-                ),
+                contentPadding: const EdgeInsets.only(left: 12, right: 2, top: 16, bottom: 16),
               ),
             ),
           ),

@@ -20,9 +20,7 @@ class MyTeamsLeaveManagementScreen extends StatelessWidget {
         builder: (context, provider, child) {
           return Scaffold(
             appBar: AppBar(
-              leading: CommonWidget.backButton(
-                onTap: () => GoRouter.of(context).pop(),
-              ),
+              leading: CommonWidget.backButton(onTap: () => GoRouter.of(context).pop()),
               title: Text("My Team's Leave Management"),
             ),
             body: SafeArea(
@@ -34,10 +32,7 @@ class MyTeamsLeaveManagementScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({
-    required BuildContext context,
-    required MyTeamsLeaveManagementProvider provider,
-  }) {
+  Widget _buildBody({required BuildContext context, required MyTeamsLeaveManagementProvider provider}) {
     return provider.isLoading
         ? CommonWidget.defaultLoader()
         : 1 == 1
@@ -65,19 +60,14 @@ class MyTeamsLeaveManagementScreen extends StatelessWidget {
           );
   }
 
-  _myTeamsLeavePlans({
-    required MyTeamsLeaveManagementProvider provider,
-    required BuildContext context,
-  }) {
+  _myTeamsLeavePlans({required MyTeamsLeaveManagementProvider provider, required BuildContext context}) {
     return Column(
       children: [
         if (provider.teamsLeavePlanDataModel != null) ...[
           Expanded(
             child: SizedBox(
               height: MediaQuery.of(context).size.width,
-              child: LeavePlanDetailsScreen(
-                leavePlanDataModel: provider.teamsLeavePlanDataModel!,
-              ),
+              child: LeavePlanDetailsScreen(leavePlanDataModel: provider.teamsLeavePlanDataModel!),
             ),
           ),
         ],
@@ -104,9 +94,7 @@ class LeavePlanDetailsScreen extends StatelessWidget {
           /// PLAN INFO CARD
           Card(
             margin: EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
             elevation: 3,
             child: Padding(
               padding: const EdgeInsets.all(16),
@@ -115,29 +103,14 @@ class LeavePlanDetailsScreen extends StatelessWidget {
                 children: [
                   Text(
                     leavePlanDataModel.planName ?? "",
-                    style: AppTextStyle().titleTextStyle(
-                      context: context,
-                      fontSize: 14,
-                    ),
+                    style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                   ),
 
                   const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
 
-                  _infoRow(
-                    "Category",
-                    leavePlanDataModel.userCategoryName,
-                    context: context,
-                  ),
-                  _infoRow(
-                    "Start Date",
-                    leavePlanDataModel.planStartDate,
-                    context: context,
-                  ),
-                  _infoRow(
-                    "End Date",
-                    leavePlanDataModel.planEndDate,
-                    context: context,
-                  ),
+                  _infoRow("Category", leavePlanDataModel.userCategoryName, context: context),
+                  _infoRow("Start Date", leavePlanDataModel.planStartDate, context: context),
+                  _infoRow("End Date", leavePlanDataModel.planEndDate, context: context),
                 ],
               ),
             ),
@@ -177,28 +150,12 @@ class LeavePlanDetailsScreen extends StatelessWidget {
 
                       const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
 
-                      _infoRow(
-                        "Total Leaves",
-                        leave?.leaveCount.toString(),
-                        context: context,
-                      ),
-                      _infoRow(
-                        "Paid Leave",
-                        leave?.isPaid == true ? "Yes" : "No",
-                        context: context,
-                      ),
-                      _infoRow(
-                        "Carry Forward",
-                        leave?.carryForward == true ? "Yes" : "No",
-                        context: context,
-                      ),
+                      _infoRow("Total Leaves", leave?.leaveCount.toString(), context: context),
+                      _infoRow("Paid Leave", leave?.isPaid == true ? "Yes" : "No", context: context),
+                      _infoRow("Carry Forward", leave?.carryForward == true ? "Yes" : "No", context: context),
 
                       if (leave?.carryForward == true)
-                        _infoRow(
-                          "Max Carry Forward",
-                          (leave?.maxCarryForward ?? 0).toString(),
-                          context: context,
-                        ),
+                        _infoRow("Max Carry Forward", (leave?.maxCarryForward ?? 0).toString(), context: context),
                       const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
                     ],
                   );
@@ -212,29 +169,18 @@ class LeavePlanDetailsScreen extends StatelessWidget {
   }
 
   /// Reusable Info Row
-  Widget _infoRow(
-    String title,
-    String? value, {
-    required BuildContext context,
-  }) {
+  Widget _infoRow(String title, String? value, {required BuildContext context}) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 3),
       child: Row(
         children: [
           Expanded(
             flex: 3,
-            child: Text(
-              title,
-              style: AppTextStyle().lableTextStyle(context: context),
-            ),
+            child: Text(title, style: AppTextStyle().lableTextStyle(context: context)),
           ),
           Text(
             value ?? "-",
-            style: AppTextStyle().subTitleTextStyle(
-              context: context,
-              fontSize: 13,
-              fontWeight: FontWeight.w500,
-            ),
+            style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13, fontWeight: FontWeight.w500),
           ),
         ],
       ),

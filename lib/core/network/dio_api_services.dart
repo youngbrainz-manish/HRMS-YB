@@ -17,6 +17,9 @@ class DioApiServices {
   static String getMyTeamsLeavePlan = "leave/getAllLeavePlans";
   static String userLeavesApply = "user_leaves/apply";
   static String getMyLeaveRequesta = "user_leaves/getMyLeaves";
+  static String cancelLeave = "user_leaves/cancel";
+  static String approveOrRejectLeave = "user_leaves/action";
+  static String revokeLeave = "user_leaves/revokeLeave";
 
   ///HR
   static String addHoliday = "Holiday/createHoliday";
