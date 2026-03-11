@@ -45,12 +45,7 @@ class EditProfileProvider extends ChangeNotifier {
 
   List<String> genderList = ['Male', 'Female', 'Other'];
   String? gender;
-  List<String> maritalStatusList = [
-    "Married",
-    "Unmarried",
-    "Divorced",
-    "Widowed",
-  ];
+  List<String> maritalStatusList = ["Married", "Unmarried", "Divorced", "Widowed"];
   String? selectedMaritalStatus;
   TextEditingController ageTextController = TextEditingController();
 
@@ -72,13 +67,10 @@ class EditProfileProvider extends ChangeNotifier {
     lastNameController.text = AuthenticationData.userModel?.lastName ?? '';
     emailController.text = AuthenticationData.userModel?.email ?? '';
     phoneController.text = AuthenticationData.userModel?.mobileNo ?? '';
-    departmentController.text =
-        AuthenticationData.userModel?.department?.deptName ?? '';
-    designationController.text =
-        AuthenticationData.userModel?.department?.designation ?? '';
+    departmentController.text = AuthenticationData.userModel?.department?.deptName ?? '';
+    designationController.text = AuthenticationData.userModel?.department?.designation ?? '';
     dobController.text = AuthenticationData.userModel?.birthday ?? '';
-    ageTextController.text = (AuthenticationData.userModel?.age ?? '')
-        .toString();
+    ageTextController.text = (AuthenticationData.userModel?.age ?? '').toString();
     selectedMaritalStatus = AuthenticationData.userModel?.maritialStatus;
     gender = AuthenticationData.userModel?.gender;
     if (gender != null && gender!.isNotEmpty) {
@@ -117,10 +109,8 @@ class EditProfileProvider extends ChangeNotifier {
   Future<void> picImage() async {
     File? image = await CommonImagePicker.showImageSourcePicker(context);
 
-    if (image != null) {
-      imageFile = image;
-      imagePath = image.path;
-    }
+    imageFile = image;
+    imagePath = image?.path;
     notifyListeners();
   }
 
@@ -159,10 +149,7 @@ class EditProfileProvider extends ChangeNotifier {
       "permanent_address": jsonEncode(checkBoxStatus ? cAdress : pAdress),
       if (imageFile != null) ...{
         if ((imageFile?.path ?? '').isNotEmpty)
-          "profile_photo": await MultipartFile.fromFile(
-            imageFile!.path,
-            filename: imageFile!.path.split('/').last,
-          ),
+          "profile_photo": await MultipartFile.fromFile(imageFile!.path, filename: imageFile!.path.split('/').last),
       } else if ((imagePath ?? "").isNotEmpty) ...{
         "profile_photo": imagePath,
       },
@@ -275,8 +262,7 @@ class EditProfileProvider extends ChangeNotifier {
     );
 
     if (date != null) {
-      controller.text =
-          "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      controller.text = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
     }
     notifyListeners();
   }

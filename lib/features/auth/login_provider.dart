@@ -3,7 +3,6 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/constants/app_constants.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
-import 'package:hrms_yb/core/network/common_response.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
 import 'package:hrms_yb/models/user_model.dart';
@@ -16,9 +15,7 @@ class LoginProvider extends ChangeNotifier {
   UserModel? userModel;
   bool isLoading = false;
 
-  TextEditingController emailController = TextEditingController(
-    text: "youngbrainz.hr@gmail.com",
-  );
+  TextEditingController emailController = TextEditingController(text: "youngbrainz.hr@gmail.com");
   TextEditingController pinController = TextEditingController(text: "Abc@1234");
 
   bool hidePass = true;
@@ -35,21 +32,16 @@ class LoginProvider extends ChangeNotifier {
     isLoading = true;
     notifyListeners();
     try {
-      SharedPreferences sharedPreferences =
-          await SharedPreferences.getInstance();
+      SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
       var response = await DioApiRequest().postCommonApiCall({
         "email": email,
         "password": password,
       }, DioApiServices.login);
 
-      CommonResponse commonResponse = CommonResponse.fromJson(response.data);
-
-      if (commonResponse.success == true) {
+      if (response?.data['success'] == true) {
         AuthenticationData.token = response.data['data']['token'];
 
-        List<Role> roles = (response.data['data']['role'] as List)
-            .map((e) => Role.fromJson(e))
-            .toList();
+        List<Role> roles = (response.data['data']['role'] as List).map((e) => Role.fromJson(e)).toList();
         AuthenticationData.userModel = UserModel(
           userId: response.data['data']['user_id'],
           firstName: response.data['data']['first_name'],
@@ -57,16 +49,12 @@ class LoginProvider extends ChangeNotifier {
           email: response.data['data']['email'],
           role: roles.first,
           profilePhoto: response.data['data']['profile_photo'],
-          // roleId: response.data['data']['role_id'],
         );
 
         userModel = AuthenticationData.userModel;
         String userJson = jsonEncode(AuthenticationData.userModel?.toJson());
         await sharedPreferences.setString(AppConstants.userDetails, userJson);
-        await sharedPreferences.setString(
-          AppConstants.token,
-          AuthenticationData.token,
-        );
+        await sharedPreferences.setString(AppConstants.token, AuthenticationData.token);
         notifyListeners();
         isLoading = false;
         notifyListeners();
@@ -74,7 +62,7 @@ class LoginProvider extends ChangeNotifier {
       } else {
         CommonWidget.customSnackbar(
           context: context, // ignore: use_build_context_synchronously
-          description: commonResponse.message ?? "Something went wronge!",
+          description: response?.data['message'] ?? "Something went wronge!",
           type: SnackbarType.error,
         );
         isLoading = false;

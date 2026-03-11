@@ -39,13 +39,30 @@ class TeamRequestsTabScreen extends StatelessWidget {
       child: provider.isLoading
           ? CommonWidget.defaultLoader()
           : provider.teamLeaveDataModel.isEmpty
-          ? Center(child: Text("Data not found."))
+          ? Center(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Text("Data not found."),
+                  SizedBox(height: AppSize.verticalWidgetSpacing),
+                  CommonButton(
+                    width: MediaQuery.of(context).size.width * 0.4,
+                    height: 40,
+                    title: "Refres",
+                    onTap: () => provider.getTeamsLeaveRequest(),
+                    icon: Icon(Icons.refresh, color: AppColors.whiteColor),
+                  ),
+                ],
+              ),
+            )
           : RefreshIndicator(
               onRefresh: () async {
                 await provider.getTeamsLeaveRequest();
               },
               child: ListView.builder(
                 padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
+                physics: AlwaysScrollableScrollPhysics(),
                 itemCount: provider.teamLeaveDataModel.length,
                 itemBuilder: (context, index) {
                   final leave = provider.teamLeaveDataModel[index];
@@ -129,7 +146,7 @@ class TeamRequestsTabScreen extends StatelessWidget {
                                         confirmText: "Reject",
                                       );
 
-                                      if (reason != null && reason.isNotEmpty) {
+                                      if ((reason ?? '').isNotEmpty) {
                                         Map<String, dynamic> data = {"status": "approved", "manager_comment": reason};
                                         bool? val = await provider.approveOrRejectLeave(leave: leave, data: data);
                                         if (val == true) {
@@ -160,7 +177,7 @@ class TeamRequestsTabScreen extends StatelessWidget {
                                           confirmText: "Approve",
                                         );
 
-                                        if (reason != null && reason.isNotEmpty) {
+                                        if ((reason ?? '').isNotEmpty) {
                                           Map<String, dynamic> data = {"status": "approved", "manager_comment": reason};
                                           bool? val = await provider.approveOrRejectLeave(leave: leave, data: data);
                                           if (val == true) {

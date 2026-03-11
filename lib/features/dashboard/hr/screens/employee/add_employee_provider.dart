@@ -22,8 +22,7 @@ class AddEmployeeProvider extends ChangeNotifier {
 
   AddEmployeeProvider({required this.context}) {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      Map<String, dynamic>? data =
-          GoRouter.of(context).state.extra as Map<String, dynamic>?;
+      Map<String, dynamic>? data = GoRouter.of(context).state.extra as Map<String, dynamic>?;
       employeeModel = data?['employeeModel'];
       _init();
     });
@@ -41,13 +40,7 @@ class AddEmployeeProvider extends ChangeNotifier {
   final ExpansibleController accountController = ExpansibleController();
 
   RoleModel? selectedRole;
-  List<String> institutionType = [
-    "School",
-    "College",
-    "University",
-    "Institute",
-    "Other",
-  ];
+  List<String> institutionType = ["School", "College", "University", "Institute", "Other"];
   String? selectedInstitutionType;
   String? profileImagePath;
   List<String> employmentType = ["Full-Time", "Part-Time"];
@@ -131,9 +124,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     try {
       var response = await DioApiRequest().getCommonApiCall(rolesUrl);
       roles = response?.data['data']['roles'] != null
-          ? List<RoleModel>.from(
-              response?.data['data']['roles'].map((x) => RoleModel.fromJson(x)),
-            )
+          ? List<RoleModel>.from(response?.data['data']['roles'].map((x) => RoleModel.fromJson(x)))
           : [];
     } catch (e) {
       debugPrint("object route => Eception Get Roles => $e");
@@ -145,9 +136,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
       reportingUserList = response?.data['data'] != null
-          ? List<ReportingUserModel>.from(
-              response?.data['data'].map((x) => ReportingUserModel.fromJson(x)),
-            )
+          ? List<ReportingUserModel>.from(response?.data['data'].map((x) => ReportingUserModel.fromJson(x)))
           : [];
     } catch (e) {
       debugPrint("object route => Eception Get ReportingUserModel => $e");
@@ -159,9 +148,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
       userCategoryList = response?.data['data'] != null
-          ? List<UserCategoryModel>.from(
-              response?.data['data'].map((x) => UserCategoryModel.fromJson(x)),
-            )
+          ? List<UserCategoryModel>.from(response?.data['data'].map((x) => UserCategoryModel.fromJson(x)))
           : [];
     } catch (e) {
       debugPrint("object route => Eception Get UserCategoryModel => $e");
@@ -175,11 +162,11 @@ class AddEmployeeProvider extends ChangeNotifier {
   /// PICK IMAGE
   Future pickImage() async {
     File? image = await CommonImagePicker.showImageSourcePicker(context);
-
     if (image != null) {
       profilePhoto = File(image.path);
-      notifyListeners();
     }
+
+    notifyListeners();
   }
 
   /// Select Date
@@ -197,8 +184,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     );
 
     if (date != null) {
-      controller.text =
-          "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+      controller.text = "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
     }
     notifyListeners();
   }
@@ -291,9 +277,7 @@ class AddEmployeeProvider extends ChangeNotifier {
         "status": "Active",
 
         "current_address": jsonEncode(currentAddress),
-        "permanent_address": isAddressSame
-            ? jsonEncode(currentAddress)
-            : jsonEncode(permanentAddress),
+        "permanent_address": isAddressSame ? jsonEncode(currentAddress) : jsonEncode(permanentAddress),
         "education": jsonEncode(education),
         "department": jsonEncode(departmentData),
         "role_id": selectedRole?.roleId ?? '',
@@ -328,8 +312,7 @@ class AddEmployeeProvider extends ChangeNotifier {
       } else {
         CommonWidget.customSnackbar(
           context: context, // ignore: use_build_context_synchronously
-          description:
-              response.data['message'] ?? "Something went wroge! Try again.",
+          description: response.data['message'] ?? "Something went wroge! Try again.",
           type: SnackbarType.error,
         );
       }
@@ -396,9 +379,7 @@ class AddEmployeeProvider extends ChangeNotifier {
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
       if (response?.data['data'] != null && response?.data['success'] == true) {
-        employeeDetailsModel = EmployeeDetailsModel.fromJson(
-          response?.data['data'],
-        );
+        employeeDetailsModel = EmployeeDetailsModel.fromJson(response?.data['data']);
       }
     } catch (e) {
       debugPrint("object route => get employee exception $e");
@@ -465,11 +446,8 @@ class AddEmployeeProvider extends ChangeNotifier {
     }
 
     if (employeeDetailsModel?.role != null) {
-      RoleModel relectedRole = RoleModel.fromJson(
-        employeeDetailsModel!.role!.toJson(),
-      );
-      selectedRole =
-          roles.where((data) => data.roleId == relectedRole.roleId).isNotEmpty
+      RoleModel relectedRole = RoleModel.fromJson(employeeDetailsModel!.role!.toJson());
+      selectedRole = roles.where((data) => data.roleId == relectedRole.roleId).isNotEmpty
           ? roles.firstWhere((data) => data.roleId == relectedRole.roleId)
           : null;
       notifyListeners();

@@ -40,14 +40,13 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
   void _init() async {
     SharedPreferences sharedPreferences = await SharedPreferences.getInstance();
     String? userJson = sharedPreferences.getString(AppConstants.userDetails);
-    if (userJson != null && userJson != "null") {
-      AuthenticationData.userModel = UserModel.fromJson(jsonDecode(userJson));
+    if ((userJson ?? '').isNotEmpty) {
+      AuthenticationData.userModel = UserModel.fromJson(jsonDecode(userJson!));
       await getProfileData();
     }
 
     Future.delayed(const Duration(seconds: 2), () {
-      if (AuthenticationData.userModel != null &&
-          AuthenticationData.userModel?.userId != null) {
+      if (AuthenticationData.userModel != null && AuthenticationData.userModel?.userId != null) {
         //   if (AuthenticationData.userModel?.role?.roleName.toString().toLowerCase() == "Employee".toLowerCase()) {
         //     GoRouter.of(context).go(AppRouter.employeeshomeScreenRoute); // ignore: use_build_context_synchronously
         //   } else {
@@ -56,10 +55,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
         // } else {
         //   GoRouter.of(context).go(AppRouter.loginScreenRoute); // ignore: use_build_context_synchronously
         // }
-        if (AuthenticationData.userModel?.role?.roleName
-                .toString()
-                .toLowerCase() ==
-            "hr".toLowerCase()) {
+        if (AuthenticationData.userModel?.role?.roleName.toString().toLowerCase() == "hr".toLowerCase()) {
           // ignore: use_build_context_synchronously
           GoRouter.of(context).go(AppRouter.hrDashboardRoute);
         } else {
@@ -79,9 +75,7 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
     try {
       var response = await DioApiRequest().getCommonApiCall(url);
       if (response != null && response.data?['success'] == true) {
-        AuthenticationData.userModel = UserModel.fromJson(
-          response.data['data'],
-        );
+        AuthenticationData.userModel = UserModel.fromJson(response.data['data']);
       }
     } catch (e) {
       debugPrint("Error fetching profile data: $e");
@@ -105,18 +99,11 @@ class _CustomSplashScreenState extends State<CustomSplashScreen> {
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              Image.asset(
-                "assets/images/transparant_logo.png",
-                height: 175,
-                width: 175,
-              ),
+              Image.asset("assets/images/transparant_logo.png", height: 175, width: 175),
               const SizedBox(height: 20),
               TypewriterText(
                 text: "Welcome to HRMS YB",
-                style: TextStyle(
-                  color: isDark ? AppColors.whiteColor : AppColors.blackColor,
-                  fontSize: 16,
-                ),
+                style: TextStyle(color: isDark ? AppColors.whiteColor : AppColors.blackColor, fontSize: 16),
                 speed: const Duration(milliseconds: 200),
               ),
             ],
@@ -137,12 +124,7 @@ class TypewriterText extends StatefulWidget {
   final TextStyle? style;
   final Duration speed;
 
-  const TypewriterText({
-    super.key,
-    required this.text,
-    this.style,
-    this.speed = const Duration(milliseconds: 80),
-  });
+  const TypewriterText({super.key, required this.text, this.style, this.speed = const Duration(milliseconds: 80)});
 
   @override
   State<TypewriterText> createState() => _TypewriterTextState();

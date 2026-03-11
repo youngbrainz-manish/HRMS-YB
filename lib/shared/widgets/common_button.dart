@@ -19,6 +19,7 @@ class CommonButton extends StatelessWidget {
   final double? fontSize;
   final MainAxisAlignment mainAxisAlignment;
   final Widget? loadingWidget;
+  final double? width;
 
   const CommonButton({
     super.key,
@@ -35,6 +36,7 @@ class CommonButton extends StatelessWidget {
     this.fontSize = 14,
     this.mainAxisAlignment = MainAxisAlignment.center,
     this.loadingWidget,
+    this.width,
   });
 
   @override
@@ -55,7 +57,7 @@ class CommonButton extends StatelessWidget {
               : AppColors.primaryDarkColor.withValues(alpha: 0.05),
           onTap: isLoading ? null : onTap,
           child: Container(
-            width: double.infinity,
+            width: width ?? double.infinity,
             height: height,
             decoration: BoxDecoration(
               border: Border.all(color: borderColor ?? Colors.transparent, width: 1),
