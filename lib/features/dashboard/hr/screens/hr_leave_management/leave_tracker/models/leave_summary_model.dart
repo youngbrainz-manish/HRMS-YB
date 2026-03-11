@@ -1,4 +1,4 @@
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_requests_tab/my_leave_model.dart';
 
 class LeaveSummaryModel {
   final bool? success;
@@ -7,11 +7,7 @@ class LeaveSummaryModel {
 
   LeaveSummaryModel({this.success, this.message, this.data});
 
-  LeaveSummaryModel copyWith({
-    bool? success,
-    String? message,
-    LeaveSummaryData? data,
-  }) {
+  LeaveSummaryModel copyWith({bool? success, String? message, LeaveSummaryData? data}) {
     return LeaveSummaryModel(
       success: success ?? this.success,
       message: message ?? this.message,
@@ -23,9 +19,7 @@ class LeaveSummaryModel {
     return LeaveSummaryModel(
       success: json["success"],
       message: json["message"],
-      data: json["data"] != null
-          ? LeaveSummaryData.fromJson(json["data"])
-          : null,
+      data: json["data"] != null ? LeaveSummaryData.fromJson(json["data"]) : null,
     );
   }
 
@@ -57,22 +51,14 @@ class LeaveSummaryData {
     return LeaveSummaryData(
       leaveBalance: json["leaveBalance"] == null
           ? []
-          : List<LeaveBalance>.from(
-              json["leaveBalance"].map((x) => LeaveBalance.fromJson(x)),
-            ),
+          : List<LeaveBalance>.from(json["leaveBalance"].map((x) => LeaveBalance.fromJson(x))),
       pastLeaves: json["pastLeaves"] == null
           ? []
-          : List<UpcomingAndPastLeaveModel>.from(
-              json["pastLeaves"].map(
-                (x) => UpcomingAndPastLeaveModel.fromJson(x),
-              ),
-            ),
+          : List<UpcomingAndPastLeaveModel>.from(json["pastLeaves"].map((x) => UpcomingAndPastLeaveModel.fromJson(x))),
       upcomingLeaves: json["upcomingLeaves"] == null
           ? []
           : List<UpcomingAndPastLeaveModel>.from(
-              json["upcomingLeaves"].map(
-                (x) => UpcomingAndPastLeaveModel.fromJson(x),
-              ),
+              json["upcomingLeaves"].map((x) => UpcomingAndPastLeaveModel.fromJson(x)),
             ),
     );
   }
@@ -92,19 +78,9 @@ class LeaveBalance {
   final int? usedLeaves;
   final int? balance;
 
-  LeaveBalance({
-    this.leaveType,
-    this.totalLeaves,
-    this.usedLeaves,
-    this.balance,
-  });
+  LeaveBalance({this.leaveType, this.totalLeaves, this.usedLeaves, this.balance});
 
-  LeaveBalance copyWith({
-    String? leaveType,
-    int? totalLeaves,
-    int? usedLeaves,
-    int? balance,
-  }) {
+  LeaveBalance copyWith({String? leaveType, int? totalLeaves, int? usedLeaves, int? balance}) {
     return LeaveBalance(
       leaveType: leaveType ?? this.leaveType,
       totalLeaves: totalLeaves ?? this.totalLeaves,
@@ -123,12 +99,7 @@ class LeaveBalance {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      "leave_type": leaveType,
-      "total_leaves": totalLeaves,
-      "used_leaves": usedLeaves,
-      "balance": balance,
-    };
+    return {"leave_type": leaveType, "total_leaves": totalLeaves, "used_leaves": usedLeaves, "balance": balance};
   }
 }
 
@@ -177,9 +148,7 @@ class UpcomingAndPastLeaveModel {
       status: json['status'],
       createdAt: json['created_at'],
       updatedAt: json['updated_at'],
-      leavePlanType: json['leave_plan_type'] != null
-          ? LeavePlanType.fromJson(json['leave_plan_type'])
-          : null,
+      leavePlanType: json['leave_plan_type'] != null ? LeavePlanType.fromJson(json['leave_plan_type']) : null,
     );
   }
 

@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_plan_data_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_plan_data_model.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:intl/intl.dart';
@@ -42,9 +42,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
       var response = await DioApiRequest().getCommonApiCall(url);
 
       if (response?.data['success']) {
-        leavePlanDataModel = LeavePlanDataModel.fromJson(
-          response?.data['data'],
-        );
+        leavePlanDataModel = LeavePlanDataModel.fromJson(response?.data['data']);
 
         leaveTypes.addAll(leavePlanDataModel?.leaveTypes ?? []);
       } else {
@@ -94,12 +92,8 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
       await selectDate(
         context: context,
         controller: endDateController,
-        initialDate: startDateController.text.isNotEmpty
-            ? DateTime.parse(startDateController.text)
-            : DateTime.now(),
-        firstDate: startDateController.text.isNotEmpty
-            ? DateTime.parse(startDateController.text)
-            : DateTime.now(),
+        initialDate: startDateController.text.isNotEmpty ? DateTime.parse(startDateController.text) : DateTime.now(),
+        firstDate: startDateController.text.isNotEmpty ? DateTime.parse(startDateController.text) : DateTime.now(),
         lastDate: DateTime(2035),
       );
     } else {
@@ -110,11 +104,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
       );
     }
     totalDays = 0;
-    totalDays =
-        DateTime.parse(
-          endDateController.text,
-        ).difference(DateTime.parse(startDateController.text)).inDays +
-        1;
+    totalDays = DateTime.parse(endDateController.text).difference(DateTime.parse(startDateController.text)).inDays + 1;
     notifyListeners();
   }
 
@@ -123,27 +113,15 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
     notifyListeners();
     String url = DioApiServices.userLeavesApply;
     if (selectedLeaveType == null) {
-      CommonWidget.customSnackbar(
-        context: context,
-        description: "Please select leave type.",
-        type: SnackbarType.error,
-      );
+      CommonWidget.customSnackbar(context: context, description: "Please select leave type.", type: SnackbarType.error);
       return;
     }
     if (startDateController.text.trim().isEmpty) {
-      CommonWidget.customSnackbar(
-        context: context,
-        description: "Please Select Start Date.",
-        type: SnackbarType.error,
-      );
+      CommonWidget.customSnackbar(context: context, description: "Please Select Start Date.", type: SnackbarType.error);
       return;
     }
     if (endDateController.text.trim().isEmpty) {
-      CommonWidget.customSnackbar(
-        context: context,
-        description: "Please Select End Date.",
-        type: SnackbarType.error,
-      );
+      CommonWidget.customSnackbar(context: context, description: "Please Select End Date.", type: SnackbarType.error);
       return;
     }
     try {
@@ -158,8 +136,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
         if (context.mounted) {
           CommonWidget.customSnackbar(
             context: context,
-            description:
-                response?.data['message'] ?? "Leave applied successfully",
+            description: response?.data['message'] ?? "Leave applied successfully",
             type: SnackbarType.success,
           );
           GoRouter.of(context).pop(true);
@@ -168,9 +145,7 @@ class AddUpdateLeaveProvider extends ChangeNotifier {
         if (context.mounted) {
           CommonWidget.customSnackbar(
             context: context,
-            description:
-                response?.data['message'] ??
-                "Something went wronge! Try again.",
+            description: response?.data['message'] ?? "Something went wronge! Try again.",
             type: SnackbarType.error,
           );
         }

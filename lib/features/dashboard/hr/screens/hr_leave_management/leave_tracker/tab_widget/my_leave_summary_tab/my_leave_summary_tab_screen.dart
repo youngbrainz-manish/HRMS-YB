@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_summary_tab/my_leave_summary_tab_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_summary_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_summary_tab/my_leave_summary_tab_provider.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';

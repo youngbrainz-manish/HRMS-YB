@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/reply/reply_leave_provider.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/app_multiline_textfield.dart';

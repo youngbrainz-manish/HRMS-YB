@@ -4,10 +4,10 @@ import 'package:hrms_yb/core/router/app_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/features/dashboard/employee/screens/leave_management/my_leave_management/my_leave_management_provider.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_plan_data_model.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_summary_tab/my_leave_summary_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_plans/my_leave_pan/my_leave_plan_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_summary_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_summary_tab/my_leave_summary_tab_screen.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
@@ -76,7 +76,8 @@ class MyLeaveManagementScreen extends StatelessWidget {
                     children: [
                       MyLeaveSummaryTabScreen(),
                       MyLeaveRequestsTabScreen(hideFloatingButton: true),
-                      _myLeavePlans(provider: provider, context: context),
+                      // _myLeavePlans(provider: provider, context: context),
+                      MyLeavePlanScreen(),
                     ],
                   ),
                 ),
@@ -140,21 +141,6 @@ class MyLeaveManagementScreen extends StatelessWidget {
           ],
         ),
       ),
-    );
-  }
-
-  _myLeavePlans({required MyLeaveManagementProvider provider, required BuildContext context}) {
-    return Column(
-      children: [
-        if (provider.leavePlanDataModel != null) ...[
-          Expanded(
-            child: SizedBox(
-              height: MediaQuery.of(context).size.width,
-              child: LeavePlanDetailsScreen(leavePlanDataModel: provider.leavePlanDataModel!),
-            ),
-          ),
-        ],
-      ],
     );
   }
 
@@ -305,118 +291,6 @@ class MyLeaveManagementScreen extends StatelessWidget {
         children: [
           Text(title, style: AppTextStyle().lableTextStyle(context: context)),
           Text(value, style: AppTextStyle().subTitleTextStyle(context: context)),
-        ],
-      ),
-    );
-  }
-}
-
-class LeavePlanDetailsScreen extends StatelessWidget {
-  final LeavePlanDataModel leavePlanDataModel;
-
-  const LeavePlanDetailsScreen({super.key, required this.leavePlanDataModel});
-
-  @override
-  Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
-      child: Column(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          SizedBox(height: AppSize.verticalWidgetSpacing),
-
-          /// PLAN INFO CARD
-          Card(
-            margin: EdgeInsets.all(0),
-            shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
-            elevation: 3,
-            child: Padding(
-              padding: const EdgeInsets.all(16),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    leavePlanDataModel.planName ?? "",
-                    style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
-                  ),
-
-                  const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-
-                  _infoRow("Category", leavePlanDataModel.userCategoryName, context: context),
-                  _infoRow("Start Date", leavePlanDataModel.planStartDate, context: context),
-                  _infoRow("End Date", leavePlanDataModel.planEndDate, context: context),
-                ],
-              ),
-            ),
-          ),
-
-          const SizedBox(height: AppSize.verticalWidgetSpacing),
-
-          Card(
-            margin: EdgeInsets.all(0),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(
-                horizontal: AppSize.verticalWidgetSpacing,
-                vertical: AppSize.verticalWidgetSpacing / 2,
-              ),
-              child: ListView.builder(
-                padding: EdgeInsets.all(0),
-                itemCount: leavePlanDataModel.leaveTypes?.length,
-                shrinkWrap: true,
-                physics: const NeverScrollableScrollPhysics(),
-                itemBuilder: (context, index) {
-                  final leave = leavePlanDataModel.leaveTypes?[index];
-
-                  return Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      // SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-
-                      /// Leave Type Name
-                      Text(
-                        leave?.leaveType ?? '',
-                        style: AppTextStyle().titleTextStyle(
-                          context: context,
-                          fontSize: 14,
-                          color: AppColors.primaryColor,
-                        ),
-                      ),
-
-                      const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-
-                      _infoRow("Total Leaves", leave?.leaveCount.toString(), context: context),
-                      _infoRow("Paid Leave", leave?.isPaid == true ? "Yes" : "No", context: context),
-                      _infoRow("Carry Forward", leave?.carryForward == true ? "Yes" : "No", context: context),
-
-                      if (leave?.carryForward == true)
-                        _infoRow("Max Carry Forward", (leave?.maxCarryForward ?? 0).toString(), context: context),
-                      const SizedBox(height: AppSize.verticalWidgetSpacing / 2),
-                    ],
-                  );
-                },
-              ),
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  /// Reusable Info Row
-  Widget _infoRow(String title, String? value, {required BuildContext context}) {
-    return Padding(
-      padding: const EdgeInsets.only(bottom: 3),
-      child: Row(
-        children: [
-          Expanded(
-            flex: 3,
-            child: Text(title, style: AppTextStyle().lableTextStyle(context: context)),
-          ),
-          Text(
-            value ?? "-",
-            style: AppTextStyle().subTitleTextStyle(context: context, fontSize: 13, fontWeight: FontWeight.w500),
-          ),
         ],
       ),
     );

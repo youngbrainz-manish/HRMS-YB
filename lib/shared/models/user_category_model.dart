@@ -4,12 +4,7 @@ class UserCategoryModel {
   final String? createdAt;
   final String? updatedAt;
 
-  UserCategoryModel({
-    this.userCategoryId,
-    this.categoryName,
-    this.createdAt,
-    this.updatedAt,
-  });
+  UserCategoryModel({this.userCategoryId, this.categoryName, this.createdAt, this.updatedAt});
 
   factory UserCategoryModel.fromJson(Map<String, dynamic> json) {
     return UserCategoryModel(
@@ -29,12 +24,7 @@ class UserCategoryModel {
     };
   }
 
-  UserCategoryModel copyWith({
-    int? userCategoryId,
-    String? categoryName,
-    String? createdAt,
-    String? updatedAt,
-  }) {
+  UserCategoryModel copyWith({int? userCategoryId, String? categoryName, String? createdAt, String? updatedAt}) {
     return UserCategoryModel(
       userCategoryId: userCategoryId ?? this.userCategoryId,
       categoryName: categoryName ?? this.categoryName,

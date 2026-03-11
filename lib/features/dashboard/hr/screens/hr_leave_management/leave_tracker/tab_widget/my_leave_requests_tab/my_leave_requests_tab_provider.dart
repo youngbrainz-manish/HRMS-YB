@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_requests_tab/my_leave_model.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
 class MyLeaveRequestsTabProvider extends ChangeNotifier {

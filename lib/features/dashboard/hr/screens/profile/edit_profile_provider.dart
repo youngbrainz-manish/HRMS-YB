@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/authentication_data.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
-import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/shared/widgets/common_image_picker.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 
@@ -205,41 +204,6 @@ class EditProfileProvider extends ChangeNotifier {
       }
     }
     notifyListeners();
-  }
-
-  InputDecoration dropDownDecoration() {
-    return InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-
-      // hide error text
-      errorStyle: const TextStyle(height: 2, fontSize: 0),
-
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
-      ),
-
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
-      ),
-
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.primaryColor, width: 1),
-      ),
-
-      // red border when validation fails
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
-      ),
-
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.errorColor, width: 1.5),
-      ),
-    );
   }
 
   void setMaritalStatus({required String value}) {

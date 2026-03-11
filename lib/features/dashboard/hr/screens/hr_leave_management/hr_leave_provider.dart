@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_summary_model.dart';
 
 class HrLeaveProvider extends ChangeNotifier {
   final BuildContext context;

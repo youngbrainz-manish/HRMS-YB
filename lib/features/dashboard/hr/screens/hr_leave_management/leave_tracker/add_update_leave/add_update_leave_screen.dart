@@ -2,8 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/core/theme/app_theme_provider.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/add_update_leave/add_update_leave_provider.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_plan_data_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/add_update_leave/add_update_leave_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_plan_data_model.dart';
+import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/app_multiline_textfield.dart';
@@ -25,18 +26,14 @@ class AddUpdateLeaveScreen extends StatelessWidget {
             children: [
               Scaffold(
                 appBar: AppBar(
-                  leading: CommonWidget.backButton(
-                    onTap: () => GoRouter.of(context).pop(),
-                  ),
+                  leading: CommonWidget.backButton(onTap: () => GoRouter.of(context).pop()),
                   title: Text("Add Update Leave"),
                 ),
                 body: SafeArea(
                   child: _buildBody(context: context, provider: provider),
                 ),
               ),
-              if (provider.isSubmittingLeave) ...[
-                CommonWidget.fullScreenLoader(),
-              ],
+              if (provider.isSubmittingLeave) ...[CommonWidget.fullScreenLoader()],
             ],
           );
         },
@@ -44,10 +41,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildBody({
-    required BuildContext context,
-    required AddUpdateLeaveProvider provider,
-  }) {
+  Widget _buildBody({required BuildContext context, required AddUpdateLeaveProvider provider}) {
     return SizedBox(
       height: double.infinity,
       width: double.infinity,
@@ -63,9 +57,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                   Card(
                     margin: EdgeInsets.all(0),
                     child: Padding(
-                      padding: const EdgeInsets.all(
-                        AppSize.verticalWidgetSpacing,
-                      ),
+                      padding: const EdgeInsets.all(AppSize.verticalWidgetSpacing),
                       child: Column(
                         children: [
                           /// Leave Type
@@ -84,14 +76,9 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                                     }
                                     return null;
                                   },
-                                  decoration: dropDownDecoration(),
+                                  decoration: CommonMethod.dropDownDecoration(),
                                   items: provider.leaveTypes
-                                      .map(
-                                        (e) => DropdownMenuItem(
-                                          value: e,
-                                          child: Text(e.leaveType ?? ''),
-                                        ),
-                                      )
+                                      .map((e) => DropdownMenuItem(value: e, child: Text(e.leaveType ?? '')))
                                       .toList(),
                                   onChanged: (v) {
                                     provider.selectedLeaveType = v;
@@ -105,10 +92,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                                 child: Container(
                                   padding: EdgeInsets.symmetric(horizontal: 4),
                                   decoration: BoxDecoration(
-                                    color:
-                                        context
-                                            .read<AppThemeProvider>()
-                                            .isDarkMode
+                                    color: context.read<AppThemeProvider>().isDarkMode
                                         ? AppColors.blackColor
                                         : AppColors.whiteColor,
                                   ),
@@ -116,10 +100,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                                     "Select Leave Type *",
                                     style: AppTextStyle().lableTextStyle(
                                       context: provider.context,
-                                      color:
-                                          context
-                                              .read<AppThemeProvider>()
-                                              .isDarkMode
+                                      color: context.read<AppThemeProvider>().isDarkMode
                                           ? AppColors.lightGrey
                                           : AppColors.primaryColor,
                                     ),
@@ -144,14 +125,8 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                                     await provider.selectDate(
                                       context: context,
                                       controller: provider.startDateController,
-                                      initialDate:
-                                          provider
-                                              .startDateController
-                                              .text
-                                              .isNotEmpty
-                                          ? DateTime.parse(
-                                              provider.startDateController.text,
-                                            )
+                                      initialDate: provider.startDateController.text.isNotEmpty
+                                          ? DateTime.parse(provider.startDateController.text)
                                           : DateTime.now(),
                                       firstDate: DateTime.now(),
                                       lastDate: DateTime(2035),
@@ -186,9 +161,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                             children: [
                               Text(
                                 "Leave applying for : ${provider.totalDays} days",
-                                style: AppTextStyle().lableTextStyle(
-                                  context: context,
-                                ),
+                                style: AppTextStyle().lableTextStyle(context: context),
                               ),
                             ],
                           ),
@@ -204,8 +177,7 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                           title: "Cancel",
                           onTap: () => GoRouter.of(context).pop(),
                           color: AppColors.transparantColor,
-                          titleColor:
-                              context.read<AppThemeProvider>().isDarkMode
+                          titleColor: context.read<AppThemeProvider>().isDarkMode
                               ? AppColors.whiteColor
                               : AppColors.blackColor,
                         ),
@@ -224,41 +196,6 @@ class AddUpdateLeaveScreen extends StatelessWidget {
                 ],
               ),
             ),
-    );
-  }
-
-  InputDecoration dropDownDecoration() {
-    return InputDecoration(
-      contentPadding: const EdgeInsets.symmetric(horizontal: 12),
-
-      // hide error text
-      errorStyle: const TextStyle(height: 2, fontSize: 0),
-
-      border: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
-      ),
-
-      enabledBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.borderGrey, width: 1),
-      ),
-
-      focusedBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.primaryColor, width: 1),
-      ),
-
-      // red border when validation fails
-      errorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: BorderSide(color: AppColors.errorColor, width: 1.5),
-      ),
-
-      focusedErrorBorder: OutlineInputBorder(
-        borderRadius: BorderRadius.circular(12),
-        borderSide: const BorderSide(color: AppColors.errorColor, width: 1.5),
-      ),
     );
   }
 }

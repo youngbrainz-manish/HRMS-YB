@@ -23,9 +23,11 @@ import 'package:hrms_yb/features/dashboard/hr/screens/employee/employee_list_scr
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/add_holiday/add_holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/holiday/holiday_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/home/hr_home_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/add_update_leave/add_update_leave_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/reply/reply_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_plans/all_leave_plan/leave_plan_add_edit/leave_plan_add_edit_view_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_plans/leave_plan_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/add_update_leave/add_update_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/hr_leave_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/reply/reply_leave_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/advance/edit_advance_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/payroll/hr_payroll_screen.dart';
 import 'package:hrms_yb/features/dashboard/hr/screens/profile/edit_profile_screen.dart';
@@ -35,15 +37,9 @@ import 'package:hrms_yb/shared/notification/notification_screen.dart';
 import 'package:hrms_yb/shared/screens/hierarchy/hierarchy_screen.dart';
 import 'package:provider/provider.dart';
 
-final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'root',
-);
-final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(
-  debugLabel: 'shell',
-);
-final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(
-  debugLabel: 'shell',
-);
+final GlobalKey<NavigatorState> rootNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'root');
+final GlobalKey<NavigatorState> _shellNavigatorKey = GlobalKey<NavigatorState>(debugLabel: 'shell');
+final GlobalKey<NavigatorState> _shellNavigatorKey1 = GlobalKey<NavigatorState>(debugLabel: 'shell');
 
 class AppRouter {
   static const splashRoute = '/';
@@ -81,8 +77,9 @@ class AppRouter {
   static const hierarchyScreenRoute = '/hierarchyScreen';
   static const addUpdateLeaveScreenRoute = '/addUpdateLeaveScreen';
   static const myLeaveManagementScreenRoute = '/myLeaveManagementScreen';
-  static const myTeamsLeaveManagementScreenRoute =
-      '/myTeamsLeaveManagementScreen';
+  static const myTeamsLeaveManagementScreenRoute = '/myTeamsLeaveManagementScreen';
+  static const leavePlanScreenRoute = '/leavePlanScreen';
+  static const leavePlanAddEditViewScreenRoute = '/leavePlanAddEditViewScreen';
 
   static GoRouter router = GoRouter(
     navigatorKey: rootNavigatorKey,
@@ -90,18 +87,19 @@ class AppRouter {
     initialLocation: splashRoute,
     routes: <RouteBase>[
       GoRoute(
+        name: 'Leave Plan Add Edit View Screen',
+        path: leavePlanAddEditViewScreenRoute,
+        pageBuilder: slideTransitionPageBuider(child: LeavePlanAddEditViewScreen()),
+      ),
+      GoRoute(
         name: 'My Leave Management Screen',
         path: myLeaveManagementScreenRoute,
-        pageBuilder: slideTransitionPageBuider(
-          child: MyLeaveManagementScreen(),
-        ),
+        pageBuilder: slideTransitionPageBuider(child: MyLeaveManagementScreen()),
       ),
       GoRoute(
         name: 'My Teams Leave Management Screen',
         path: myTeamsLeaveManagementScreenRoute,
-        pageBuilder: slideTransitionPageBuider(
-          child: MyTeamsLeaveManagementScreen(),
-        ),
+        pageBuilder: slideTransitionPageBuider(child: MyTeamsLeaveManagementScreen()),
       ),
       GoRoute(
         name: 'Splash Screen',
@@ -113,54 +111,18 @@ class AppRouter {
         path: loginScreenRoute,
         pageBuilder: slideTransitionPageBuider(child: LoginScreen()),
       ),
-      GoRoute(
-        path: forgotPinRoute,
-        builder: (context, state) => const ForgotPinScreen(),
-      ),
-      GoRoute(
-        path: leaveFormScreenRoute,
-        builder: (context, state) => const LeaveFormScreen(),
-      ),
-      GoRoute(
-        path: addEmployeeScreenRoute,
-        builder: (context, state) => const AddEmployeeScreen(),
-      ),
-      GoRoute(
-        path: employeeDetailsScreenRoute,
-        builder: (context, state) => const EmployeeDetailsScreen(),
-      ),
-      GoRoute(
-        path: attendanceCorrectionScreenRoute,
-        builder: (context, state) => const AttendanceCorrectionScreen(),
-      ),
-      GoRoute(
-        path: attendanceAuditLogScreenRoute,
-        builder: (context, state) => const AuditLogScreen(),
-      ),
-      GoRoute(
-        path: replyLeaveScreenRoute,
-        builder: (context, state) => const ReplyLeaveScreen(),
-      ),
-      GoRoute(
-        path: editAdvanceScreenRoute,
-        builder: (context, state) => const EditAdvanceScreen(),
-      ),
-      GoRoute(
-        path: notificationScreenRoute,
-        builder: (context, state) => const NotificationScreen(),
-      ),
-      GoRoute(
-        path: editProfileScreenRoute,
-        builder: (context, state) => EditProfileScreen(),
-      ),
-      GoRoute(
-        path: addHolidayScreenRoute,
-        builder: (context, state) => const AddHolidayScreen(),
-      ),
-      GoRoute(
-        path: hierarchyScreenRoute,
-        builder: (context, state) => const HierarchyScreen(),
-      ),
+      GoRoute(path: forgotPinRoute, builder: (context, state) => const ForgotPinScreen()),
+      GoRoute(path: leaveFormScreenRoute, builder: (context, state) => const LeaveFormScreen()),
+      GoRoute(path: addEmployeeScreenRoute, builder: (context, state) => const AddEmployeeScreen()),
+      GoRoute(path: employeeDetailsScreenRoute, builder: (context, state) => const EmployeeDetailsScreen()),
+      GoRoute(path: attendanceCorrectionScreenRoute, builder: (context, state) => const AttendanceCorrectionScreen()),
+      GoRoute(path: attendanceAuditLogScreenRoute, builder: (context, state) => const AuditLogScreen()),
+      GoRoute(path: replyLeaveScreenRoute, builder: (context, state) => const ReplyLeaveScreen()),
+      GoRoute(path: editAdvanceScreenRoute, builder: (context, state) => const EditAdvanceScreen()),
+      GoRoute(path: notificationScreenRoute, builder: (context, state) => const NotificationScreen()),
+      GoRoute(path: editProfileScreenRoute, builder: (context, state) => EditProfileScreen()),
+      GoRoute(path: addHolidayScreenRoute, builder: (context, state) => const AddHolidayScreen()),
+      GoRoute(path: hierarchyScreenRoute, builder: (context, state) => const HierarchyScreen()),
       GoRoute(
         name: 'Holiday Screen',
         path: holidayScreenRoute,
@@ -181,9 +143,7 @@ class AppRouter {
         builder: (BuildContext context, GoRouterState state, Widget? child) {
           return ChangeNotifierProvider<EmployeeDashboardProvider>(
             create: (_) => EmployeeDashboardProvider(context: context),
-            child: EmployeeDashboardScreen(
-              widget: child ?? EmployeeHomeScreen(),
-            ),
+            child: EmployeeDashboardScreen(widget: child ?? EmployeeHomeScreen()),
           );
         },
         routes: [
@@ -235,6 +195,13 @@ class AppRouter {
         },
         routes: [
           GoRoute(
+            name: 'Leave Plan Screen',
+            path: leavePlanScreenRoute,
+            builder: (BuildContext context, GoRouterState state) {
+              return LeavePlanScreen();
+            },
+          ),
+          GoRoute(
             name: 'Hr Profile Screen',
             path: hrProfileScreenRoute,
             builder: (BuildContext context, GoRouterState state) {
@@ -281,8 +248,9 @@ class AppRouter {
     ],
   );
 
-  static CustomTransitionPage Function(dynamic context, dynamic state)
-  slideTransitionPageBuider({required Widget child}) {
+  static CustomTransitionPage Function(dynamic context, dynamic state) slideTransitionPageBuider({
+    required Widget child,
+  }) {
     return (context, state) {
       return CustomTransitionPage(
         transitionDuration: Duration(milliseconds: 200),
@@ -290,10 +258,7 @@ class AppRouter {
         key: state.pageKey,
         child: child,
         transitionsBuilder: (context, animation, secondaryAnimation, child) {
-          final curvedAnimation = CurvedAnimation(
-            parent: animation,
-            curve: Curves.easeInOut,
-          );
+          final curvedAnimation = CurvedAnimation(parent: animation, curve: Curves.easeInOut);
 
           return FadeTransition(opacity: curvedAnimation, child: child);
         },

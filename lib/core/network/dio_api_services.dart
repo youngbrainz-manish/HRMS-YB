@@ -14,7 +14,6 @@ class DioApiServices {
   static String updateProfile = "employeesPersonalDets";
   static String leaveSummary = "user_leaves/leaveSummary";
   static String getMyLeavePlan = "leave/getMyLeavePlan";
-  static String getMyTeamsLeavePlan = "leave/getAllLeavePlans";
   static String userLeavesApply = "user_leaves/apply";
   static String getMyLeaveRequesta = "user_leaves/getMyLeaves";
   static String cancelLeave = "user_leaves/cancel";
@@ -35,6 +34,10 @@ class DioApiServices {
   static String updateEmployee = "employees";
   static String getMyTeamLeaveRequest = "user_leaves/requestedLeaves";
   static String getAllUsersLeaves = "user_leaves/getUserLeaves";
+  static const String getAllLeavePlans = "/leave/getAllLeavePlans";
+  static String getLeavePlanById = "leave/leavePlan";
+  static String createLeavePlan = "leave/leavePlan";
+  static String updateLeavePlan = "user_leaves/updatePlanStatus";
 
   ///EMPLOYEE
 }

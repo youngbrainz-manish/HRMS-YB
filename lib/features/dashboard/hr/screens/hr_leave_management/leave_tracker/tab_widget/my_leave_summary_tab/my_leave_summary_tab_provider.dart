@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/network/dio_api_request.dart';
 import 'package:hrms_yb/core/network/dio_api_services.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/models/leave_summary_model.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/models/leave_summary_model.dart';
 import 'package:hrms_yb/shared/common_method.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 

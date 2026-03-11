@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/hr_leave_provider.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/all_team_leaves_tab/all_team_leaves_tab_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_summary_tab/my_leave_summary_tab_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
-import 'package:hrms_yb/features/dashboard/hr/screens/leave/tab_widget/team_requests_tab/team_requests_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/hr_leave_provider.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/all_team_leaves_tab/all_team_leaves_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_summary_tab/my_leave_summary_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/my_leave_requests_tab/my_leave_requests_tab_screen.dart';
+import 'package:hrms_yb/features/dashboard/hr/screens/hr_leave_management/leave_tracker/tab_widget/team_requests_tab/team_requests_tab_screen.dart';
 import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:provider/provider.dart';

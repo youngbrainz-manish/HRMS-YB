@@ -7,6 +7,7 @@ import 'package:hrms_yb/core/theme/app_theme_provider.dart';
 import 'package:hrms_yb/core/theme/app_colors.dart';
 import 'package:hrms_yb/features/dashboard/hr/dashboard/hr_dashboard_provider.dart';
 import 'package:hrms_yb/shared/common_method.dart';
+import 'package:hrms_yb/shared/utils/app_size.dart';
 import 'package:hrms_yb/shared/utils/app_text_style.dart';
 import 'package:hrms_yb/shared/widgets/common_widget.dart';
 import 'package:provider/provider.dart';
@@ -241,10 +242,12 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                   ),
                   SizedBox(height: 4),
                   Card(
-                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                     margin: EdgeInsets.all(0),
-                    child: ListTile(
-                      contentPadding: EdgeInsets.only(left: 16, right: 8),
+                    shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+                    child: ExpansionTile(
+                      tilePadding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
+                      childrenPadding: const EdgeInsets.symmetric(horizontal: AppSize.verticalWidgetSpacing),
+                      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
                       leading: CommonWidget.buildSvgImage(
                         path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
                         height: 22,
@@ -255,13 +258,69 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         "Leave Management",
                         style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                       ),
-                      onTap: () {
-                        Navigator.pop(context);
-                        if (provider.title == "Leave Management") return;
-                        provider.changeTitle("Leave Management");
-                        GoRouter.of(context).push(AppRouter.hrLeaveScreenRoute);
-                      },
-                      trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                      children: [
+                        Card(
+                          color: context.read<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          margin: EdgeInsets.all(0),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
+                            leading: CommonWidget.buildSvgImage(
+                              path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
+                              height: 22,
+                              width: 22,
+                              color: AppColors.primaryColor,
+                            ),
+                            title: Text(
+                              "Leave Tracker",
+                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                            ),
+                            subtitle: Text(
+                              "Track leave requests, approvals, and employee leave records.",
+                              style: AppTextStyle().lableTextStyle(context: context, fontSize: 9),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              if (provider.title == "Leave Tracker") return;
+                              provider.changeTitle("Leave Tracker");
+                              GoRouter.of(context).push(AppRouter.hrLeaveScreenRoute);
+                            },
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                        Card(
+                          color: context.read<AppThemeProvider>().isDarkMode ? AppColors.darkGrey : AppColors.lightGrey,
+                          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+                          margin: EdgeInsets.all(0),
+                          child: ListTile(
+                            contentPadding: EdgeInsets.only(left: 8, right: 8, top: 0, bottom: 0),
+                            leading: CommonWidget.buildSvgImage(
+                              path: "assets/svg-icons/dashboard-icons/leave-icon.svg",
+                              height: 22,
+                              width: 22,
+                              color: AppColors.primaryColor,
+                            ),
+
+                            title: Text(
+                              "Leave Plans",
+                              style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
+                            ),
+                            subtitle: Text(
+                              "Manage company leave policies and employee leave plans.",
+                              style: AppTextStyle().lableTextStyle(context: context, fontSize: 9),
+                            ),
+                            onTap: () {
+                              Navigator.pop(context);
+                              if (provider.title == "Leave Plans") return;
+                              provider.changeTitle("Leave Plans");
+                              GoRouter.of(context).push(AppRouter.leavePlanScreenRoute);
+                            },
+                            trailing: Icon(Icons.arrow_forward_ios, size: 16),
+                          ),
+                        ),
+                        SizedBox(height: 4),
+                      ],
                     ),
                   ),
                   SizedBox(height: 4),
@@ -325,6 +384,7 @@ class _HrDashboardScreenState extends State<HrDashboardScreen> {
                         style: AppTextStyle().titleTextStyle(context: context, fontSize: 14),
                       ),
                       onTap: () async {
+                        Navigator.pop(context);
                         await GoRouter.of(context).push(AppRouter.hierarchyScreenRoute);
                       },
                       trailing: Icon(Icons.arrow_forward_ios, size: 16),
